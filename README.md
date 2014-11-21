@@ -4,7 +4,7 @@
 ##Repository für einen Schrittmotortreiber
 
 
-* TI Controller: STI L6472 - interne FETs
+* STI Controller: STI L6472 - interne FETs
 http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00047136.pdf
 Kosten: ca. $7
 
