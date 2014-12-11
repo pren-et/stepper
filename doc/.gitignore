@@ -5,3 +5,8 @@
 *.toc
 
 !src/Bilder/*.pdf
+
+*.ini
+*.gz
+*.lof
+*.lot
