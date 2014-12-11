@@ -1,0 +1,45 @@
+\documentclass[a4paper,10pt,fleqn]{article}
+
+\usepackage{layout}
+\usepackage{float}
+\usepackage{longtable}			% Tabellen 
+\usepackage{booktabs}			% Tabellen
+% Spezialpakete
+\usepackage{fp}
+\usepackage{tikz}
+\usepackage{xcolor}
+% TikZ-Bibliotheken
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\input{src/booleans}
+
+\setboolean{STANDALONE}{true}
+
+\newcommand{\BrushlessPath}{src}
+\newcommand{\BIBLIOGRAPHY}{src/BLDC_Source}
+\newcommand{\DasAndereTeam}{T27}
+\newcommand{\BLDCTeams}{T27 und T32}
+\newcommand{\BLDCcollab}{Dieses Kapitel ist eine Zusammenarbeit der Gruppen \BLDCTeams. }
+
+\begin{document}
+	\input{src/title}
+	\tableofcontents
+	\newpage
+	\input{src/Hardwarezusammenarbeit}
+	\newpage
+	\input{src/Wirkungsweise}
+	\newpage
+	\input{src/Ansteuerung}
+	\newpage
+	\input{src/L6480}
+	\newpage
+	\input{src/Ausblick}
+	\newpage
+	\input{src/quellen}
+	\listoffigures
+	\listoftables
+\end{document}
