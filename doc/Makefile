@@ -1,4 +1,4 @@
-DOCUMENT = doc
+DOCUMENT = EmbeddedDoc
 
 .PHONY: all doc single bib clean
 
