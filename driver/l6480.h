@@ -14,9 +14,9 @@ Driver for Stepper driver L6480 from ST Microelectronics
 
 #include <stdint.h>
 
-/*******************************************************************************
+/******************************************************************************
 Registers
-*******************************************************************************/
+******************************************************************************/
 /*! \typedef
  * \brief Possible access levels for registers.
  */
@@ -468,5 +468,142 @@ typedef struct {
     l6480_reg_config_t      config;
     l6480_reg_status_t      status;
 } l6480_reg_t;
+
+/*******************************************************************************
+Commands
+*******************************************************************************/
+
+/*! 
+ * \brief Command NOP
+ */
+#define L6480_CMD_NOP                       0x00
+#define L6480_CMD_NOP_LEN                   1
+#define L6480_CMD_NOP_READ                  0
+
+/*!
+ * \brief Command SetParam(PARAM, VALUE)
+ */
+#define L6480_CMD_SETPARAM(reg)             (0x00 | L6480_REG_##reg##_ADDR)
+#define L6480_CMD_SETPARAM_LEN(reg)         (1 + L6480_REG_##reg##_LEN)
+#define L6480_CMD_SETPARAM_READ(reg)        0
+
+/*!
+ * \brief Command GetParam(PARAM, VALUE)
+ */
+#define L6480_CMD_GETPARAM(reg)             (0x20 | L6480_REG_##reg##_ADDR)
+#define L6480_CMD_GETPARAM_LEN(reg)         (1 + L6480_REG_##reg##_LEN)
+#define L6480_CMD_GETPARAM_READ(reg)        1
+
+/*!
+ * \brief Command Run(DIR, SPD)
+ */
+#define L6480_CMD_RUN(dir)                  (0x50 | (dir?0x01:0x00))
+#define L6480_CMD_RUN_LEN(dir)              4
+#define L6480_CMD_RUN_READ(dir)             0
+
+/*!
+ * \brief Command StepClock(DIR)
+ */
+#define L6480_CMD_STEPCLOCK(dir)            (0x58 | (dir?0x01:0x00))
+#define L6480_CMD_STEPCLOCK_LEN(dir)        1
+#define L6480_CMD_STEPCLOCK_READ(dir)       0
+
+/*!
+ * \brief Command Move(DIR, N_STEP)
+ */
+#define L6480_CMD_MOVE(dir)                 (0x40 | (dir?0x01:0x00))
+#define L6480_CMD_MOVE_LEN(dir)             4
+#define L6480_CMD_MOVE_READ(dir)            0
+
+/*!
+ * \brief Command GoTo(ABS_POS)
+ */
+#define L6480_CMD_GOTO                      0x60
+#define L6480_CMD_GOTO_LEN                  4
+#define L6480_CMD_GOTO_READ                 0
+
+/*!
+ * \brief Command GoTo_DIR(DIR, ABS_POS)
+ */
+#define L6480_CMD_GOTO_DIR(dir)             (0x68 | (dir?0x01:0x00))
+#define L6480_CMD_GOTO_DIR_LEN(dir)         4
+#define L6480_CMD_GOTO_DIR_READ(dir)        0
+
+/*!
+ * \brief Command GoUntil(ACT, DIR, SPD)
+ */
+#define L6480_CMD_GOUNTIL(act, dir)         (0x82 | (act?0x08:0x00) | (dir?0x01:0x00))
+#define L6480_CMD_GOUNTIL_LEN(act, dir)     4
+#define L6480_CMD_GOUNTIL_READ(act, dir)    0
+
+/*!
+ * \brief Command ReleaseSW(act, dir)
+ */
+#define L6480_CMD_RELEASESW(act, dir)       (0x92 | (act?0x08:0x00) | (dir?0x01:0x00))
+#define L6480_CMD_RELEASESW_LEN(act, dir)   1
+#define L6480_CMD_RELEASESW_READ(act, dir)  0
+
+/*!
+ * \brief Command GoHome
+ */
+#define L6480_CMD_GOHOME                    0x70
+#define L6480_CMD_GOHOME_LEN                1
+#define L6480_CMD_GOHOME_READ               0
+
+/*!
+ * \brief Command GoMark
+ */
+#define L6480_CMD_GOMARK                    0x74
+#define L6480_CMD_GOMARK_LEN                1
+#define L6480_CMD_GOMARK_READ               0
+
+/*!
+ * \brief Command ResetPos
+ */
+#define L6480_CMD_RESETPOS                  0xD8
+#define L6480_CMD_RESETPOS_LEN              1
+#define L6480_CMD_RESETPOS_READ             0
+
+/*!
+ * \brief Command ResetDevice
+ */
+#define L6480_CMD_RESETDEVICE               0xC0
+#define L6480_CMD_RESETDEVICE_LEN           1
+#define L6480_CMD_RESETDevice_READ          0
+
+/*!
+ * \brief Command SoftStop
+ */
+#define L6480_CMD_SOFTSTOP                  0xB0
+#define L6480_CMD_SOFTSTOP_LEN              1
+#define L6480_CMD_SOTFSTOP_READ             0
+
+/*!
+ * \brief Command HardStop
+ */
+#define L6480_CMD_HARDSTOP                  0xB8
+#define L6480_CMD_HARDSTOP_LEN              1
+#define L6480_CMD_HARDSTOP_READ             0
+
+/*!
+ * \brief Command SoftHiZ
+ */
+#define L6480_CMD_SOFTHIZ                   0xA0
+#define L6480_CMD_SOFTHIZ_LEN               1
+#define L6480_CMD_SOFTHIZ_READ              0
+
+/*!
+ * \brief Command HardHiZ
+ */
+#define L6480_CMD_HARDHIZ                   0xA8
+#define L6480_CMD_HARDHIZ_LEN               1
+#define L6480_CMD_HARDHIZ_READ              0
+
+/*!
+ * \brief Command GetStatus
+ */
+#define L6480_CMD_GETSTATUS                 0xD0
+#define L6480_CMD_GETSTATUS_LEN             3
+#define L6480_CMD_GETSTATUS_READ            1
 
 #endif /* L6480_H */
