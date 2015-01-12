@@ -576,6 +576,39 @@ typedef struct {
     l6480_reg_status_t      status;
 } l6480_reg_t;
 
+/*! \typedef
+ *  \brief Address for L6480 Registers
+ */
+typedef enum {
+    L6480_REG_ABS_POS_ADDR_ENUM     = L6480_REG_ABS_POS_ADDR,   /*!< Address for ABS_POS */
+    L6480_REG_EL_POS_ADDR_ENUM      = L6480_REG_EL_POS_ADDR,    /*!< Address for EL_POS */
+    L6480_REG_MARK_ADDR_ENUM        = L6480_REG_MARK_ADDR,      /*!< Address for MARK */
+    L6480_REG_SPEED_ADDR_ENUM       = L6480_REG_SPEED_ADDR,     /*!< Address for SPEED */
+    L6480_REG_ACC_ADDR_ENUM         = L6480_REG_ACC_ADDR,       /*!< Address for ACC */
+    L6480_REG_DEC_ADDR_ENUM         = L6480_REG_DEC_ADDR,       /*!< Address for DEC */
+    L6480_REG_MAX_SPEED_ADDR_ENUM   = L6480_REG_MAX_SPEED_ADDR, /*!< Address for MAX_SPEED */
+    L6480_REG_MIN_SPEED_ADDR_ENUM   = L6480_REG_MIN_SPEED_ADDR, /*!< Address for MIN_SPEED */
+    L6480_REG_FS_SPD_ADDR_ENUM      = L6480_REG_FS_SPD_ADDR,    /*!< Address for FS_SPD */
+    L6480_REG_KVAL_HOLD_ADDR_ENUM   = L6480_REG_KVAL_HOLD_ADDR, /*!< Address for KVAL_HOLD */
+    L6480_REG_KVAL_RUN_ADDR_ENUM    = L6480_REG_KVAL_RUN_ADDR,  /*!< Address for KVAL_RUN */
+    L6480_REG_KVAL_ACC_ADDR_ENUM    = L6480_REG_KVAL_ACC_ADDR,  /*!< Address for KVAL_ACC */
+    L6480_REG_KVAL_DEC_ADDR_ENUM    = L6480_REG_KVAL_DEC_ADDR,  /*!< Address for KVAL_DEC */
+    L6480_REG_INT_SPEED_ADDR_ENUM   = L6480_REG_INT_SPEED_ADDR, /*!< Address for INT_SPEED */
+    L6480_REG_ST_SLP_ADDR_ENUM      = L6480_REG_ST_SLP_ADDR,    /*!< Address for ST_SLP */
+    L6480_REG_FN_SLP_ACC_ADDR_ENUM  = L6480_REG_FN_SLP_ACC_ADDR,/*!< Address for FN_SLP_ACC */
+    L6480_REG_FN_SLP_DEC_ADDR_ENUM  = L6480_REG_FN_SLP_DEC_ADDR,/*!< Address for FN_SLP_DEC */
+    L6480_REG_K_THERM_ADDR_ENUM     = L6480_REG_K_THERM_ADDR,   /*!< Address for K_THERM */
+    L6480_REG_ADC_OUT_ADDR_ENUM     = L6480_REG_ADC_OUT_ADDR,   /*!< Address for ADC_OUT */
+    L6480_REG_OCD_TH_ADDR_ENUM      = L6480_REG_OCD_TH_ADDR,    /*!< Address for OCD_TH */
+    L6480_REG_STALL_TH_ADDR_ENUM    = L6480_REG_STALL_TH_ADDR,  /*!< Address for STALL_TH */
+    L6480_REG_STEP_MODE_ADDR_ENUM   = L6480_REG_STEP_MODE_ADDR, /*!< Address for STEP_MODE */
+    L6480_REG_ALARM_EN_ADDR_ENUM    = L6480_REG_ALARM_EN_ADDR,  /*!< Address for ALARM_EN */
+    L6480_REG_GATECFG1_ADDR_ENUM    = L6480_REG_GATECFG1_ADDR,  /*!< Address for GATECFG1 */
+    L6480_REG_GATECFG2_ADDR_ENUM    = L6480_REG_GATECFG2_ADDR,  /*!< Address for GATECFG2 */
+    L6480_REG_CONFIG_ADDR_ENUM      = L6480_REG_CONFIG_ADDR,    /*!< Address for CONFIG */
+    L6480_REG_STATUS_ADDR_ENUM      = L6480_REG_STATUS_ADDR,    /*!< Address for STATUS */
+} l6480_reg_addr_t;
+
 /*******************************************************************************
 Commands
 *******************************************************************************/
