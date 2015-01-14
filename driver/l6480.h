@@ -408,6 +408,32 @@ typedef union {
         uint8_t sync_en     :  1;
     } reg;
 } l6480_reg_step_mode_t;
+/*! \typedef
+ * \brief enum for Step mode selection
+ */
+typedef enum {
+    L6480_STEP_SEL_FULL         = 0x00, /*!< Step mode Full-step */
+    L6480_STEP_SEL_HALF         = 0x01, /*!< Step mode Half-step */
+    L6480_STEP_SEL_MICRO_4      = 0x02, /*!< Step mode 1/4   Microstep */
+    L6480_STEP_SEL_MICRO_8      = 0x03, /*!< Step mode 1/8   Microstep */
+    L6480_STEP_SEL_MICRO_16     = 0x04, /*!< Step mode 1/16  Microstep */
+    L6480_STEP_SEL_MICRO_32     = 0x05, /*!< Step mode 1/32  Microstep */
+    L6480_STEP_SEL_MICRO_64     = 0x06, /*!< Step mode 1/64  Microstep */
+    L6480_STEP_SEL_MICRO_128    = 0x07, /*!< Step mode 1/128 Microstep */
+} l6480_step_sel_t;
+/*! \typedef
+ * \brief enum for SYNC signal source
+ */
+typedef enum {
+    L6480_SYNC_SEL_EL_POS_7     = 0X00, /*!< Electrical position [7] */
+    L6480_SYNC_SEL_EL_POS_6     = 0X01, /*!< Electrical position [6] */
+    L6480_SYNC_SEL_EL_POS_5     = 0X02, /*!< Electrical position [5] */
+    L6480_SYNC_SEL_EL_POS_4     = 0X03, /*!< Electrical position [4] */
+    L6480_SYNC_SEL_EL_POS_3     = 0X04, /*!< Electrical position [3] */
+    L6480_SYNC_SEL_EL_POS_2     = 0X05, /*!< Electrical position [2] */
+    L6480_SYNC_SEL_EL_POS_1     = 0X06, /*!< Electrical position [1] */
+    L6480_SYNC_SEL_EL_POS_0     = 0X07, /*!< Electrical position [0] */
+} l6480_sync_sig_src_t;
 /*! \name step_mode
  * @{
  */
@@ -434,6 +460,27 @@ typedef union {
         uint8_t cmd_error       :  1;
     } reg;
 } l6480_reg_alarm_en_t;
+/*! \typedef
+ *  \brief enum for ALARM_EN bits
+ */
+typedef enum {
+    L6480_ALARM_EN_OVERCURRENT      = 0x00, /*!< Overcurrent alarm enabled */
+    L6480_ALARM_EN_THERM_SHOTDOWN   = 0x01, /*!< Thermal shutdown alarm enabled */
+    L6480_ALARM_EN_THERM_WARNING    = 0x02, /*!< Thermal warning alarm enabled */
+    L6480_ALARM_EN_UVLO             = 0x03, /*!< UVLO alarm enabled */
+    L6480_ALARM_EN_ADC_UVLO         = 0x04, /*!< ADC UVLO alarm enabled */
+    L6480_ALARM_EN_STALL_DET        = 0x05, /*!< Stall detection alarm enabled */
+    L6480_ALARM_EN_SWITCH_ON        = 0x06, /*!< Switch turn-on event alarm enabled */
+    L6480_ALARM_EN_CMD_ERROR        = 0x07, /*!< Command error alarm enabled */
+} l6480_alarm_en_t;
+#define L6480_ALARM_EN_OVERCURRENT_MASK      = (1 << L6480_ALARM_EN_OVERCURRENT   )
+#define L6480_ALARM_EN_THERM_SHOTDOWN_MASK   = (1 << L6480_ALARM_EN_THERM_SHOTDOWN)
+#define L6480_ALARM_EN_THERM_WARNING_MASK    = (1 << L6480_ALARM_EN_THERM_WARNING )
+#define L6480_ALARM_EN_UVLO_MASK             = (1 << L6480_ALARM_EN_UVLO          )
+#define L6480_ALARM_EN_ADC_UVLO_MASK         = (1 << L6480_ALARM_EN_ADC_UVLO      )
+#define L6480_ALARM_EN_STALL_DET_MASK        = (1 << L6480_ALARM_EN_STALL_DET     )
+#define L6480_ALARM_EN_SWITCH_ON_MASK        = (1 << L6480_ALARM_EN_SWITCH_ON     )
+#define L6480_ALARM_EN_CMD_ERROR_MASK        = (1 << L6480_ALARM_EN_CMD_ERROR     )
 /*! \name alarm_en
  * @{
  */
@@ -458,6 +505,32 @@ typedef union {
         uint16_t unused :  4;
     } reg;
 } l6480_reg_gatecfg1_t;
+/*! \typedef
+ *  \brief enum for IGATE
+ */
+typedef enum {
+    L6480_GATECFG1_IGATE_4_A    = 0x00, /*!< Gate current  4 mA */
+    L6480_GATECFG1_IGATE_4_B    = 0x01, /*!< Gate current  4 mA */
+    L6480_GATECFG1_IGATE_8      = 0x02, /*!< Gate current  8 mA */
+    L6480_GATECFG1_IGATE_16     = 0x03, /*!< Gate current 16 mA */
+    L6480_GATECFG1_IGATE_24     = 0x04, /*!< Gate current 24 mA */
+    L6480_GATECFG1_IGATE_32     = 0x05, /*!< Gate current 32 mA */
+    L6480_GATECFG1_IGATE_64     = 0x06, /*!< Gate current 64 mA */
+    L6480_GATECFG1_IGATE_96     = 0x07, /*!< Gate current 96 mA */
+} l6480_gatecfg1_igate_t;
+/*! \typedef
+ *  \brief enum for TBOOST
+ */
+typedef enum {
+    L6480_GATECFG1_TBOOST_0     = 0x00, /*!< Turn-off boost time    0 ns */
+    L6480_GATECFG1_TBOOST_62    = 0x00, /*!< Turn-off boost time   62 ns */
+    L6480_GATECFG1_TBOOST_125   = 0x00, /*!< Turn-off boost time  125 ns */
+    L6480_GATECFG1_TBOOST_250   = 0x00, /*!< Turn-off boost time  250 ns */
+    L6480_GATECFG1_TBOOST_375   = 0x00, /*!< Turn-off boost time  375 ns */
+    L6480_GATECFG1_TBOOST_500   = 0x00, /*!< Turn-off boost time  500 ns */
+    L6480_GATECFG1_TBOOST_750   = 0x00, /*!< Turn-off boost time  750 ns */
+    L6480_GATECFG1_TBOOST_1000  = 0x00, /*!< Turn-off boost time 1000 ns */
+} l6480_gatecfg1_tboost_t;
 /*! \name gatecfg1
  * @{
  */
@@ -506,6 +579,88 @@ typedef union {
         uint16_t f_pwm_int  :  3;
     } reg;
 } l6480_reg_config_t;
+/*! \typedef
+ *  \brief enum for system clock source selection
+ */
+typedef enum {
+    L6480_CONFIG_OSC_SEL_INT_16_NO_OUT_A    = 0x00, /*!< Internal oscillator 16 MHz, no output */
+    L6480_CONFIG_OSC_SEL_INT_16_NO_OUT_B    = 0x01, /*!< Internal oscillator 16 MHz, no output */
+    L6480_CONFIG_OSC_SEL_INT_16_NO_OUT_C    = 0x02, /*!< Internal oscillator 16 MHz, no output */
+    L6480_CONFIG_OSC_SEL_INT_16_NO_OUT_D    = 0x03, /*!< Internal oscillator 16 MHz, no output */
+    L6480_CONFIG_OSC_SEL_INT_16_OUT_2M      = 0x08, /*!< Internal oscillator 16 MHz, output frequency  2 MHz */
+    L6480_CONFIG_OSC_SEL_INT_16_OUT_4M      = 0x09, /*!< Internal oscillator 16 MHz, output frequency  4 MHz */
+    L6480_CONFIG_OSC_SEL_INT_16_OUT_8M      = 0x0A, /*!< Internal oscillator 16 MHz, output frequency  8 MHz */
+    L6480_CONFIG_OSC_SEL_INT_16_OUT_16M     = 0x0B, /*!< Internal oscillator 16 MHz, output frequency 16 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_XTAL_8         = 0x04, /*!< External crystal or resonator  8 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_XTAL_16        = 0x05, /*!< External crystal or resonator 16 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_XTAL_24        = 0x06, /*!< External crystal or resonator 24 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_XTAL_32        = 0x07, /*!< External crystal or resonator 32 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_CLK_8          = 0x0C, /*!< External clock source  8 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_CLK_16         = 0x0D, /*!< External clock source 16 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_CLK_24         = 0x0E, /*!< External clock source 24 MHz */
+    L6480_CONFIG_OSC_SEL_EXT_CLK_32         = 0x0F, /*!< External clock source 32 MHz */
+} l6480_osc_sel_t;
+/*! \typedef
+ *  \brief enum for external switch interrupt mode
+ */
+typedef enum {
+    L6480_CONFIG_SW_MODE_HARD  = 0x00, /*!< Hard stop interrupt */ 
+    L6480_CONFIG_SW_MODE_SOFT  = 0x01, /*!< User disposal */
+} l6480_sw_mode_t;
+/*! \typedef
+ *  \brief enum for overcurrent event
+ */
+typedef enum {
+    L6480_CONFIG_OC_SD_SHUTDOWN     = 0x01, /*!< Bridges shut down */
+    L6480_CONFIG_OC_SD_NO_SHUTDOWN  = 0x00, /*!< Bridges do not shut down */
+} l6480_oc_sd_t;
+/*! \typedef
+ *  \brief enum for Programmable Vcc regulator output voltage
+ */
+typedef enum {
+    L6480_CONFIG_VCCVAL_75  = 0x00, /*!< Vcc voltage 7.5 V */
+    L6480_CONFIG_VCCVAL_15  = 0x01, /*!< Vcc voltage 15 V */
+} l6480_vccval_t;
+/*! \typedef
+ *  \brief enum for UVLO protection thresholds
+ */
+typedef enum {
+    L6480_CONFIG_UVLOVAL_LOW    = 0x00, /*!< Vcc_th_on =  6.9 V Vcc_th_off = 6.3 V Vboot_th_on =   6 V Vboot_th_off = 5.5 V */
+    L6480_CONFIG_UVLOVAL_HIGH   = 0x01, /*!< Vcc_th_on = 10.4 V Vcc_th_off =  10 V Vboot_th_on = 9.2 V Vboot_th_off = 8.8 V */
+} l6480_uvloval_t;
+/*! \typedef
+ *  \brief enum Motor supply voltage compensation
+ */ 
+typedef enum {
+    L6480_CONFIG_EN_VSCOMP_DIS  = 0x00, /*!< Motor supply voltage compensation disabled */
+    L6480_CONFIG_EN_VSCOMP_EN   = 0x01, /*!< Motor supply voltage compensation enabled */
+} l6480_en_vscomp_t;
+/*! \typedef
+ *  \brief enum for pwm frequency division factor
+ */
+typedef enum {
+    L6480_CONFIG_F_PWM_INT_1    = 0x00, /*!< Integer division factor 1 */
+    L6480_CONFIG_F_PWM_INT_2    = 0x01, /*!< Integer division factor 2 */
+    L6480_CONFIG_F_PWM_INT_3    = 0x02, /*!< Integer division factor 3 */
+    L6480_CONFIG_F_PWM_INT_4    = 0x03, /*!< Integer division factor 4 */
+    L6480_CONFIG_F_PWM_INT_5    = 0x04, /*!< Integer division factor 5 */
+    L6480_CONFIG_F_PWM_INT_6    = 0x05, /*!< Integer division factor 6 */
+    L6480_CONFIG_F_PWM_INT_7_A  = 0x06, /*!< Integer division factor 7 */
+    L6480_CONFIG_F_PWM_INT_7_B  = 0x07, /*!< Integer division factor 7 */
+} l6480_f_pwm_int_t;
+/*! \typedef
+ *  \brief enum for pwm frequency multiplication factor
+ */
+typedef enum {
+    L6480_CONFIG_F_PWM_INT_0_625    = 0x00, /*!< Multiplication factor 0.625 */
+    L6480_CONFIG_F_PWM_INT_0_75     = 0x01, /*!< Multiplication factor 0.75  */
+    L6480_CONFIG_F_PWM_INT_0_875    = 0x02, /*!< Multiplication factor 0.875 */
+    L6480_CONFIG_F_PWM_INT_1        = 0x03, /*!< Multiplication factor 1     */
+    L6480_CONFIG_F_PWM_INT_1_25     = 0x04, /*!< Multiplication factor 1.25  */
+    L6480_CONFIG_F_PWM_INT_1_5      = 0x05, /*!< Multiplication factor 1.5   */
+    L6480_CONFIG_F_PWM_INT_1_75     = 0x06, /*!< Multiplication factor 1.75  */
+    L6480_CONFIG_F_PWM_INT_2        = 0x07, /*!< Multiplication factor 2     */
+} l6480_f_pwm_dec_t;
 /*! \name config
  * @{
  */
@@ -538,6 +693,31 @@ typedef union {
         uint16_t step_loss_b    :  1;
     } reg;
 } l6480_reg_status_t;
+/*! \typedef
+ *  \brief enum for device thermal status interpretation
+ */
+typedef enum {
+    L6480_STATUS_TH_STATUS_NORMAL       = 0x00, /*!< Normal */
+    L6480_STATUS_TH_STATUS_WARNING      = 0x01, /*!< Warning */
+    L6480_STATUS_TH_STATUS_BRI_SHTDWN   = 0x02, /*!< Bridge shutdown */
+    L6480_STATUS_TH_STATUS_DEV_SHTDWN   = 0x03, /*!< Device shutdown */
+} l6480_th_status_t;
+/*! \typedef
+ *  \brief enum for direction status
+ */
+typedef enum {
+    L6480_STATUS_DIR_FWD    = 0x00, /*!< Forward */
+    L6480_STATUS_DIR_REV    = 0x01, /*!< Reverse */
+} l6480_dir_status_t;
+/*! \typedef
+ *  \brief enum for motor status interpretation
+ */
+typedef enum {
+    L6480_STATUS_MOT_STATUS_STOP    = 0x00, /*!< Stopped */
+    L6480_STATUS_MOT_STATUS_ACC     = 0x01, /*!< Acceleration */
+    L6480_STATUS_MOT_STATUS_DEC     = 0x02, /*!< Deceleration */
+    L6480_STATUS_MOT_STATUS_CONST   = 0x03, /*!< Constant speed */
+} l6480_mot_status_t;
 #define L6480_REG_STATUS_ADDR    0x1B
 #define L6480_REG_STATUS_LEN     sizeof(l6480_reg_status_t)
 #define L6480_REG_STATUS_RW      L6480_REG_RW_R
