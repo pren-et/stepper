@@ -42,7 +42,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_ABS_POS_ADDR  0x01
-#define L6480_REG_ABS_POS_LEN   sizeof(l6480_reg_abs_pos_t)
+#define L6480_REG_ABS_POS_LEN   3
 #define L6480_REG_ABS_POS_RW    L6480_REG_RW_WS
 /*! @} */
 
@@ -64,7 +64,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_EL_POS_ADDR   0x02
-#define L6480_REG_EL_POS_LEN    sizeof(l6480_reg_el_pos_t)
+#define L6480_REG_EL_POS_LEN    2
 #define L6480_REG_EL_POS_RW     L6480_REG_RW_WS
 /*! @} */
 
@@ -81,7 +81,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_MARK_ADDR 0x03
-#define L6480_REG_MARK_LEN  sizeof(l6480_reg_mark_t)
+#define L6480_REG_MARK_LEN  3
 #define L6480_REG_MARK_RW   L6480_REG_RW_WR
 /*! @} */
 
@@ -98,7 +98,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_SPEED_ADDR    0x04
-#define L6480_REG_SPEED_LEN     sizeof(l6480_reg_speed_t)
+#define L6480_REG_SPEED_LEN     3
 #define L6480_REG_SPEED_RW      L6480_REG_RW_R
 /*! @} */
 
@@ -115,7 +115,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_ACC_ADDR  0x05
-#define L6480_REG_ACC_LEN   sizeof(l6480_reg_acc_t)
+#define L6480_REG_ACC_LEN   2
 #define L6480_REG_ACC_RW    L6480_REG_RW_WS
 /*! @} */
 
@@ -132,7 +132,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_DEC_ADDR  0x06
-#define L6480_REG_DEC_LEN   sizeof(l6480_reg_dec_t)
+#define L6480_REG_DEC_LEN   2
 #define L6480_REG_DEC_RW    L6480_REG_RW_WS
 /*! @} */
 
@@ -149,7 +149,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_MAX_SPEED_ADDR    0x07
-#define L6480_REG_MAX_SPEED_LEN     sizeof(l6480_reg_max_speed_t)
+#define L6480_REG_MAX_SPEED_LEN     2
 #define L6480_REG_MAX_SPEED_RW      L6480_REG_RW_WR
 /*! @} */
 
@@ -171,7 +171,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_MIN_SPEED_ADDR    0x08
-#define L6480_REG_MIN_SPEED_LEN     sizeof(l6480_reg_min_speed_t)
+#define L6480_REG_MIN_SPEED_LEN     2
 #define L6480_REG_MIN_SPEED_RW      L6480_REG_RW_WS
 /*! @} */
 
@@ -193,7 +193,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_FS_SPD_ADDR    0x15
-#define L6480_REG_FS_SPD_LEN     sizeof(l6480_reg_fs_spd_t)
+#define L6480_REG_FS_SPD_LEN     2
 #define L6480_REG_FS_SPD_RW      L6480_REG_RW_WR
 /*! @} */
 
@@ -209,7 +209,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_KVAL_HOLD_ADDR    0x09
-#define L6480_REG_KVAL_HOLD_LEN     sizeof(l6480_reg_kval_hold_t)
+#define L6480_REG_KVAL_HOLD_LEN     1
 #define L6480_REG_KVAL_HOLD_RW      L6480_REG_RW_WR
 /*! @} */
 
@@ -225,7 +225,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_KVAL_RUN_ADDR     0x0A
-#define L6480_REG_KVAL_RUN_LEN      sizeof(l6480_reg_kval_run_t)
+#define L6480_REG_KVAL_RUN_LEN      1
 #define L6480_REG_KVAL_RUN_RW       L6480_REG_RW_WR
 /*! @} */
 
@@ -241,7 +241,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_KVAL_ACC_ADDR     0x0B
-#define L6480_REG_KVAL_ACC_LEN      sizeof(l6480_reg_kval_acc_t)
+#define L6480_REG_KVAL_ACC_LEN      1
 #define L6480_REG_KVAL_ACC_RW       L6480_REG_RW_WR
 /*! @} */
 
@@ -257,7 +257,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_KVAL_DEC_ADDR     0x0C
-#define L6480_REG_KVAL_DEC_LEN      sizeof(l6480_reg_kval_dec_t)
+#define L6480_REG_KVAL_DEC_LEN      1
 #define L6480_REG_KVAL_DEC_RW       L6480_REG_RW_WR
 /*! @} */
 
@@ -274,7 +274,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_INT_SPEED_ADDR    0x0D
-#define L6480_REG_INT_SPEED_LEN     sizeof(l6480_reg_int_speed_t)
+#define L6480_REG_INT_SPEED_LEN     2
 #define L6480_REG_INT_SPEED_RW      L6480_REG_RW_WH
 /*! @} */
 
@@ -290,7 +290,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_ST_SLP_ADDR   0x0E
-#define L6480_REG_ST_SLP_LEN    sizeof(l6480_reg_st_slp_t)
+#define L6480_REG_ST_SLP_LEN    1
 #define L6480_REG_ST_SLP_RW     L6480_REG_RW_WH
 /*! @} */
 
@@ -306,7 +306,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_FN_SLP_ACC_ADDR   0x0F
-#define L6480_REG_FN_SLP_ACC_LEN    sizeof(l6480_reg_fn_slp_acc_t)
+#define L6480_REG_FN_SLP_ACC_LEN    1
 #define L6480_REG_FN_SLP_ACC_RW     L6480_REG_RW_WH
 /*! @} */
 
@@ -322,7 +322,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_FN_SLP_DEC_ADDR   0x10
-#define L6480_REG_FN_SLP_DEC_LEN    sizeof(l6480_reg_fn_slp_dec_t)
+#define L6480_REG_FN_SLP_DEC_LEN    1
 #define L6480_REG_FN_SLP_DEC_RW     L6480_REG_RW_WH
 /*! @} */
 
@@ -339,7 +339,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_K_THERM_ADDR  0x11
-#define L6480_REG_K_THERM_LEN   sizeof(l6480_reg_k_therm_t)
+#define L6480_REG_K_THERM_LEN   1
 #define L6480_REG_K_THERM_RW    L6480_REG_RW_WR
 /*! @} */
 
@@ -356,7 +356,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_ADC_OUT_ADDR  0x12
-#define L6480_REG_ADC_OUT_LEN   sizeof(l6480_reg_adc_out_t)
+#define L6480_REG_ADC_OUT_LEN   1
 #define L6480_REG_ADC_OUT_RW    L6480_REG_RW_R
 /*! @} */
 
@@ -373,7 +373,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_OCD_TH_ADDR   0x13
-#define L6480_REG_OCD_TH_LEN    sizeof(l6480_reg_ocd_th_t)
+#define L6480_REG_OCD_TH_LEN    1
 #define L6480_REG_OCD_TH_RW     L6480_REG_RW_WR
 /*! @} */
 
@@ -390,7 +390,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_STALL_TH_ADDR 0x14
-#define L6480_REG_STALL_TH_LEN  sizeof(l6480_reg_stall_th_t)
+#define L6480_REG_STALL_TH_LEN  1
 #define L6480_REG_STALL_TH_RW   L6480_REG_RW_WR
 /*! @} */
 
@@ -438,7 +438,7 @@ typedef enum {
  * @{
  */
 #define L6480_REG_STEP_MODE_ADDR    0x16
-#define L6480_REG_STEP_MODE_LEN     sizeof(l6480_reg_step_mode_t)
+#define L6480_REG_STEP_MODE_LEN     1
 #define L6480_REG_STEP_MODE_RW      L6480_REG_RW_WH
 /*! @} */
 
@@ -485,7 +485,7 @@ typedef enum {
  * @{
  */
 #define L6480_REG_ALARM_EN_ADDR    0x17
-#define L6480_REG_ALARM_EN_LEN     sizeof(l6480_reg_alarm_en_t)
+#define L6480_REG_ALARM_EN_LEN     1
 #define L6480_REG_ALARM_EN_RW      L6480_REG_RW_WS
 /*! @} */
 
@@ -535,7 +535,7 @@ typedef enum {
  * @{
  */
 #define L6480_REG_GATECFG1_ADDR    0x18
-#define L6480_REG_GATECFG1_LEN     sizeof(l6480_reg_gatecfg1_t)
+#define L6480_REG_GATECFG1_LEN     2
 #define L6480_REG_GATECFG1_RW      L6480_REG_RW_WH
 /*! @} */
 
@@ -555,7 +555,7 @@ typedef union {
  * @{
  */
 #define L6480_REG_GATECFG2_ADDR    0x19
-#define L6480_REG_GATECFG2_LEN     sizeof(l6480_reg_gatecfg2_t)
+#define L6480_REG_GATECFG2_LEN     1
 #define L6480_REG_GATECFG2_RW      L6480_REG_RW_WH
 /*! @} */
 
@@ -665,7 +665,7 @@ typedef enum {
  * @{
  */
 #define L6480_REG_CONFIG_ADDR    0x1A
-#define L6480_REG_CONFIG_LEN     sizeof(l6480_reg_config_t)
+#define L6480_REG_CONFIG_LEN     2
 #define L6480_REG_CONFIG_RW      L6480_REG_RW_WH
 /*! @} */
 
@@ -719,7 +719,7 @@ typedef enum {
     L6480_STATUS_MOT_STATUS_CONST   = 0x03, /*!< Constant speed */
 } l6480_mot_status_t;
 #define L6480_REG_STATUS_ADDR    0x1B
-#define L6480_REG_STATUS_LEN     sizeof(l6480_reg_status_t)
+#define L6480_REG_STATUS_LEN     2
 #define L6480_REG_STATUS_RW      L6480_REG_RW_R
 /*! @} */
 
