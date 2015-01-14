@@ -29,15 +29,6 @@ typedef enum {
     L6480_REG_RW_WR  /*!< always writable */
 } l6480_reg_rw_t;
 
-/*! \typedef
- *  \brief Register ABS_POS
- */
-typedef union {
-    struct {
-    uint32_t data   : 22;
-    uint32_t unused :  2;
-    } raw;
-} l6480_reg_abs_pos_t;
 /*! \name abs_pos
  * @{
  */
@@ -45,11 +36,29 @@ typedef union {
 #define L6480_REG_ABS_POS_LEN   3
 #define L6480_REG_ABS_POS_RW    L6480_REG_RW_WS
 /*! @} */
+/*! \typedef
+ *  \brief Register ABS_POS
+ */
+typedef union {
+    uint8_t array[L6480_REG_ABS_POS_LEN];
+    struct {
+    uint32_t data   : 22;
+    uint32_t unused :  2;
+    } raw;
+} l6480_reg_abs_pos_t;
 
+/*! \name el_pos
+ * @{
+ */
+#define L6480_REG_EL_POS_ADDR   0x02
+#define L6480_REG_EL_POS_LEN    2
+#define L6480_REG_EL_POS_RW     L6480_REG_RW_WS
+/*! @} */
 /*! \typedef
  *  \brief Register EL_POS
  */
 typedef union {
+    uint8_t array[L6480_REG_EL_POS_LEN];
     struct {
         uint16_t data   : 9;
         uint16_t unused : 7;
@@ -60,23 +69,7 @@ typedef union {
         uint8_t unused      : 7;
     } reg;
 } l6480_reg_el_pos_t;
-/*! \name el_pos
- * @{
- */
-#define L6480_REG_EL_POS_ADDR   0x02
-#define L6480_REG_EL_POS_LEN    2
-#define L6480_REG_EL_POS_RW     L6480_REG_RW_WS
-/*! @} */
 
-/*! \typedef
- *  \brief Register MARK
- */
-typedef union {
-    struct {
-        uint32_t data   : 22;
-        uint32_t unused :  2;
-    } raw;
-} l6480_reg_mark_t;
 /*! \name mark
  * @{
  */
@@ -84,16 +77,17 @@ typedef union {
 #define L6480_REG_MARK_LEN  3
 #define L6480_REG_MARK_RW   L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register SPEED
+ *  \brief Register MARK
  */
 typedef union {
+    uint8_t array[L6480_REG_MARK_LEN];
     struct {
-        uint32_t data   : 20;
-        uint32_t unused :  4;
+        uint32_t data   : 22;
+        uint32_t unused :  2;
     } raw;
-} l6480_reg_speed_t;
+} l6480_reg_mark_t;
+
 /*! \name speed
  * @{
  */
@@ -101,16 +95,17 @@ typedef union {
 #define L6480_REG_SPEED_LEN     3
 #define L6480_REG_SPEED_RW      L6480_REG_RW_R
 /*! @} */
-
 /*! \typedef
- *  \brief Register ACC
+ *  \brief Register SPEED
  */
 typedef union {
+    uint8_t array[L6480_REG_SPEED_LEN];
     struct {
-        uint16_t data   : 12;
-        uint16_t unused :  4;
+        uint32_t data   : 20;
+        uint32_t unused :  4;
     } raw;
-} l6480_reg_acc_t;
+} l6480_reg_speed_t;
+
 /*! \name acc
  * @{
  */
@@ -118,16 +113,17 @@ typedef union {
 #define L6480_REG_ACC_LEN   2
 #define L6480_REG_ACC_RW    L6480_REG_RW_WS
 /*! @} */
-
 /*! \typedef
- *  \brief Register DEC
+ *  \brief Register ACC
  */
 typedef union {
+    uint8_t array[L6480_REG_ACC_LEN];
     struct {
         uint16_t data   : 12;
         uint16_t unused :  4;
     } raw;
-} l6480_reg_dec_t;
+} l6480_reg_acc_t;
+
 /*! \name dec
  * @{
  */
@@ -135,16 +131,17 @@ typedef union {
 #define L6480_REG_DEC_LEN   2
 #define L6480_REG_DEC_RW    L6480_REG_RW_WS
 /*! @} */
-
 /*! \typedef
- *  \brief Register MAX_SPEED
+ *  \brief Register DEC
  */
 typedef union {
+    uint8_t array[L6480_REG_DEC_LEN];
     struct {
-        uint16_t data   : 10;
-        uint16_t unused :  6;
+        uint16_t data   : 12;
+        uint16_t unused :  4;
     } raw;
-} l6480_reg_max_speed_t;
+} l6480_reg_dec_t;
+
 /*! \name max_speed
  * @{
  */
@@ -152,11 +149,29 @@ typedef union {
 #define L6480_REG_MAX_SPEED_LEN     2
 #define L6480_REG_MAX_SPEED_RW      L6480_REG_RW_WR
 /*! @} */
+/*! \typedef
+ *  \brief Register MAX_SPEED
+ */
+typedef union {
+    uint8_t array[L6480_REG_MAX_SPEED_LEN];
+    struct {
+        uint16_t data   : 10;
+        uint16_t unused :  6;
+    } raw;
+} l6480_reg_max_speed_t;
 
+/*! \name min_speed
+ * @{
+ */
+#define L6480_REG_MIN_SPEED_ADDR    0x08
+#define L6480_REG_MIN_SPEED_LEN     2
+#define L6480_REG_MIN_SPEED_RW      L6480_REG_RW_WS
+/*! @} */
 /*! \typedef
  *  \brief Register MIN_SPEED
  */
 typedef union {
+    uint8_t array[L6480_REG_MIN_SPEED_LEN];
     struct {
         uint16_t data   : 13;
         uint16_t unused :  3;
@@ -167,18 +182,19 @@ typedef union {
         uint16_t unused     :  3;
     } reg;
 } l6480_reg_min_speed_t;
-/*! \name min_speed
+
+/*! \name fs_spd
  * @{
  */
-#define L6480_REG_MIN_SPEED_ADDR    0x08
-#define L6480_REG_MIN_SPEED_LEN     2
-#define L6480_REG_MIN_SPEED_RW      L6480_REG_RW_WS
+#define L6480_REG_FS_SPD_ADDR    0x15
+#define L6480_REG_FS_SPD_LEN     2
+#define L6480_REG_FS_SPD_RW      L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
  *  \brief Register FS_SPD
  */
 typedef union {
+    uint8_t array[L6480_REG_FS_SPD_LEN];
     struct {
         uint16_t data   : 12;
         uint16_t unused :  4;
@@ -189,22 +205,7 @@ typedef union {
         uint16_t unused     :  4;
     } reg;
 } l6480_reg_fs_spd_t;
-/*! \name fs_spd
- * @{
- */
-#define L6480_REG_FS_SPD_ADDR    0x15
-#define L6480_REG_FS_SPD_LEN     2
-#define L6480_REG_FS_SPD_RW      L6480_REG_RW_WR
-/*! @} */
 
-/*! \typedef
- *  \brief Register KVAL_HOLD
- */
-typedef union {
-    struct {
-        uint8_t data;
-    } raw;
-} l6480_reg_kval_hold_t;
 /*! \name kval_hold
  * @{
  */
@@ -212,15 +213,16 @@ typedef union {
 #define L6480_REG_KVAL_HOLD_LEN     1
 #define L6480_REG_KVAL_HOLD_RW      L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register KVAL_RUN
+ *  \brief Register KVAL_HOLD
  */
 typedef union {
+    uint8_t array[L6480_REG_KVAL_HOLD_LEN];
     struct {
         uint8_t data;
     } raw;
-} l6480_reg_kval_run_t;
+} l6480_reg_kval_hold_t;
+
 /*! \name kval_run
  * @{
  */
@@ -228,15 +230,16 @@ typedef union {
 #define L6480_REG_KVAL_RUN_LEN      1
 #define L6480_REG_KVAL_RUN_RW       L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register KVAL_ACC
+ *  \brief Register KVAL_RUN
  */
 typedef union {
+    uint8_t array[L6480_REG_KVAL_RUN_LEN];
     struct {
         uint8_t data;
     } raw;
-} l6480_reg_kval_acc_t;
+} l6480_reg_kval_run_t;
+
 /*! \name kval_acc
  * @{
  */
@@ -244,15 +247,16 @@ typedef union {
 #define L6480_REG_KVAL_ACC_LEN      1
 #define L6480_REG_KVAL_ACC_RW       L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register KVAL_DEC
+ *  \brief Register KVAL_ACC
  */
 typedef union {
+    uint8_t array[L6480_REG_KVAL_ACC_LEN];
     struct {
         uint8_t data;
     } raw;
-} l6480_reg_kval_dec_t;
+} l6480_reg_kval_acc_t;
+
 /*! \name kval_dec
  * @{
  */
@@ -260,16 +264,16 @@ typedef union {
 #define L6480_REG_KVAL_DEC_LEN      1
 #define L6480_REG_KVAL_DEC_RW       L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register INT_SPEED
+ *  \brief Register KVAL_DEC
  */
 typedef union {
+    uint8_t array[L6480_REG_KVAL_DEC_LEN];
     struct {
-        uint16_t data   : 14;
-        uint16_t unused :  2;
+        uint8_t data;
     } raw;
-} l6480_reg_int_speed_t;
+} l6480_reg_kval_dec_t;
+
 /*! \name int_speed
  * @{
  */
@@ -277,15 +281,17 @@ typedef union {
 #define L6480_REG_INT_SPEED_LEN     2
 #define L6480_REG_INT_SPEED_RW      L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
- *  \brief Register ST_SLP
+ *  \brief Register INT_SPEED
  */
 typedef union {
+    uint8_t array[L6480_REG_INT_SPEED_LEN];
     struct {
-        uint8_t data;
+        uint16_t data   : 14;
+        uint16_t unused :  2;
     } raw;
-} l6480_reg_st_slp_t;
+} l6480_reg_int_speed_t;
+
 /*! \name st_slp
  * @{
  */
@@ -293,15 +299,16 @@ typedef union {
 #define L6480_REG_ST_SLP_LEN    1
 #define L6480_REG_ST_SLP_RW     L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
- *  \brief Register FN_SLP_ACC
+ *  \brief Register ST_SLP
  */
 typedef union {
+    uint8_t array[L6480_REG_ST_SLP_LEN];
     struct {
         uint8_t data;
     } raw;
-} l6480_reg_fn_slp_acc_t;
+} l6480_reg_st_slp_t;
+
 /*! \name fn_slp_acc
  * @{
  */
@@ -309,15 +316,16 @@ typedef union {
 #define L6480_REG_FN_SLP_ACC_LEN    1
 #define L6480_REG_FN_SLP_ACC_RW     L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
- *  \brief Register FN_SLP_DEC
+ *  \brief Register FN_SLP_ACC
  */
 typedef union {
+    uint8_t array[L6480_REG_FN_SLP_ACC_LEN];
     struct {
         uint8_t data;
     } raw;
-} l6480_reg_fn_slp_dec_t;
+} l6480_reg_fn_slp_acc_t;
+
 /*! \name fn_slp_dec
  * @{
  */
@@ -325,16 +333,16 @@ typedef union {
 #define L6480_REG_FN_SLP_DEC_LEN    1
 #define L6480_REG_FN_SLP_DEC_RW     L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
- *  \brief Register K_THERM
+ *  \brief Register FN_SLP_DEC
  */
 typedef union {
+    uint8_t array[L6480_REG_FN_SLP_DEC_LEN];
     struct {
-        uint8_t data   :  4;
-        uint8_t unused :  4;
+        uint8_t data;
     } raw;
-} l6480_reg_k_therm_t;
+} l6480_reg_fn_slp_dec_t;
+
 /*! \name k_therm
  * @{
  */
@@ -342,16 +350,17 @@ typedef union {
 #define L6480_REG_K_THERM_LEN   1
 #define L6480_REG_K_THERM_RW    L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register ADC_OUT
+ *  \brief Register K_THERM
  */
 typedef union {
+    uint8_t array[L6480_REG_K_THERM_LEN];
     struct {
-        uint8_t data   :  5;
-        uint8_t unused :  3;
+        uint8_t data   :  4;
+        uint8_t unused :  4;
     } raw;
-} l6480_reg_adc_out_t;
+} l6480_reg_k_therm_t;
+
 /*! \name adc_out
  * @{
  */
@@ -359,16 +368,17 @@ typedef union {
 #define L6480_REG_ADC_OUT_LEN   1
 #define L6480_REG_ADC_OUT_RW    L6480_REG_RW_R
 /*! @} */
-
 /*! \typedef
- *  \brief Register OCD_TH
+ *  \brief Register ADC_OUT
  */
 typedef union {
+    uint8_t array[L6480_REG_ADC_OUT_LEN];
     struct {
         uint8_t data   :  5;
         uint8_t unused :  3;
     } raw;
-} l6480_reg_ocd_th_t;
+} l6480_reg_adc_out_t;
+
 /*! \name ocd_th
  * @{
  */
@@ -376,16 +386,17 @@ typedef union {
 #define L6480_REG_OCD_TH_LEN    1
 #define L6480_REG_OCD_TH_RW     L6480_REG_RW_WR
 /*! @} */
-
 /*! \typedef
- *  \brief Register STALL_TH
+ *  \brief Register OCD_TH
  */
 typedef union {
+    uint8_t array[L6480_REG_OCD_TH_LEN];
     struct {
-        uint16_t data   :  5;
-        uint16_t unused :  3;
+        uint8_t data   :  5;
+        uint8_t unused :  3;
     } raw;
-} l6480_reg_stall_th_t;
+} l6480_reg_ocd_th_t;
+
 /*! \name stall_th
  * @{
  */
@@ -393,11 +404,29 @@ typedef union {
 #define L6480_REG_STALL_TH_LEN  1
 #define L6480_REG_STALL_TH_RW   L6480_REG_RW_WR
 /*! @} */
+/*! \typedef
+ *  \brief Register STALL_TH
+ */
+typedef union {
+    uint8_t array[L6480_REG_STALL_TH_LEN];
+    struct {
+        uint16_t data   :  5;
+        uint16_t unused :  3;
+    } raw;
+} l6480_reg_stall_th_t;
 
+/*! \name step_mode
+ * @{
+ */
+#define L6480_REG_STEP_MODE_ADDR    0x16
+#define L6480_REG_STEP_MODE_LEN     1
+#define L6480_REG_STEP_MODE_RW      L6480_REG_RW_WH
+/*! @} */
 /*! \typedef
  *  \brief Register STEP_MODE
  */
 typedef union {
+    uint8_t array[L6480_REG_STEP_MODE_LEN];
     struct {
         uint8_t data;
     } raw;
@@ -434,18 +463,19 @@ typedef enum {
     L6480_SYNC_SEL_EL_POS_1     = 0X06, /*!< Electrical position [1] */
     L6480_SYNC_SEL_EL_POS_0     = 0X07, /*!< Electrical position [0] */
 } l6480_sync_sig_src_t;
-/*! \name step_mode
+
+/*! \name alarm_en
  * @{
  */
-#define L6480_REG_STEP_MODE_ADDR    0x16
-#define L6480_REG_STEP_MODE_LEN     1
-#define L6480_REG_STEP_MODE_RW      L6480_REG_RW_WH
+#define L6480_REG_ALARM_EN_ADDR    0x17
+#define L6480_REG_ALARM_EN_LEN     1
+#define L6480_REG_ALARM_EN_RW      L6480_REG_RW_WS
 /*! @} */
-
 /*! \typedef
  *  \brief Register ALARM_EN
  */
 typedef union {
+    uint8_t array[L6480_REG_ALARM_EN_LEN];
     struct {
         uint8_t data;
     } raw;
@@ -481,18 +511,19 @@ typedef enum {
 #define L6480_ALARM_EN_STALL_DET_MASK        = (1 << L6480_ALARM_EN_STALL_DET     )
 #define L6480_ALARM_EN_SWITCH_ON_MASK        = (1 << L6480_ALARM_EN_SWITCH_ON     )
 #define L6480_ALARM_EN_CMD_ERROR_MASK        = (1 << L6480_ALARM_EN_CMD_ERROR     )
-/*! \name alarm_en
+
+/*! \name gatecfg1
  * @{
  */
-#define L6480_REG_ALARM_EN_ADDR    0x17
-#define L6480_REG_ALARM_EN_LEN     1
-#define L6480_REG_ALARM_EN_RW      L6480_REG_RW_WS
+#define L6480_REG_GATECFG1_ADDR    0x18
+#define L6480_REG_GATECFG1_LEN     2
+#define L6480_REG_GATECFG1_RW      L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
  *  \brief Register GATECFG1
  */
 typedef union {
+    uint8_t array[L6480_REG_GATECFG1_LEN];
     struct {
         uint16_t data   : 12;
         uint16_t unused :  4;
@@ -531,18 +562,19 @@ typedef enum {
     L6480_GATECFG1_TBOOST_750   = 0x00, /*!< Turn-off boost time  750 ns */
     L6480_GATECFG1_TBOOST_1000  = 0x00, /*!< Turn-off boost time 1000 ns */
 } l6480_gatecfg1_tboost_t;
-/*! \name gatecfg1
+
+/*! \name gatecfg2
  * @{
  */
-#define L6480_REG_GATECFG1_ADDR    0x18
-#define L6480_REG_GATECFG1_LEN     2
-#define L6480_REG_GATECFG1_RW      L6480_REG_RW_WH
+#define L6480_REG_GATECFG2_ADDR    0x19
+#define L6480_REG_GATECFG2_LEN     1
+#define L6480_REG_GATECFG2_RW      L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
  *  \brief Register GATECFG2
  */
 typedef union {
+    uint8_t array[L6480_REG_GATECFG2_LEN];
     struct {
         uint8_t data;
     } raw;
@@ -551,18 +583,19 @@ typedef union {
         uint8_t tblank  :  3;
     } reg;
 } l6480_reg_gatecfg2_t;
-/*! \name gatecfg2
+
+/*! \name config
  * @{
  */
-#define L6480_REG_GATECFG2_ADDR    0x19
-#define L6480_REG_GATECFG2_LEN     1
-#define L6480_REG_GATECFG2_RW      L6480_REG_RW_WH
+#define L6480_REG_CONFIG_ADDR    0x1A
+#define L6480_REG_CONFIG_LEN     2
+#define L6480_REG_CONFIG_RW      L6480_REG_RW_WH
 /*! @} */
-
 /*! \typedef
  *  \brief Register CONFIG
  */
 typedef union {
+    uint8_t array[L6480_REG_CONFIG_LEN];
     struct {
         uint16_t data;
     } raw;
@@ -652,27 +685,28 @@ typedef enum {
  *  \brief enum for pwm frequency multiplication factor
  */
 typedef enum {
-    L6480_CONFIG_F_PWM_INT_0_625    = 0x00, /*!< Multiplication factor 0.625 */
-    L6480_CONFIG_F_PWM_INT_0_75     = 0x01, /*!< Multiplication factor 0.75  */
-    L6480_CONFIG_F_PWM_INT_0_875    = 0x02, /*!< Multiplication factor 0.875 */
-    L6480_CONFIG_F_PWM_INT_1        = 0x03, /*!< Multiplication factor 1     */
-    L6480_CONFIG_F_PWM_INT_1_25     = 0x04, /*!< Multiplication factor 1.25  */
-    L6480_CONFIG_F_PWM_INT_1_5      = 0x05, /*!< Multiplication factor 1.5   */
-    L6480_CONFIG_F_PWM_INT_1_75     = 0x06, /*!< Multiplication factor 1.75  */
-    L6480_CONFIG_F_PWM_INT_2        = 0x07, /*!< Multiplication factor 2     */
+    L6480_CONFIG_F_PWM_DEC_0_625    = 0x00, /*!< Multiplication factor 0.625 */
+    L6480_CONFIG_F_PWM_DEC_0_75     = 0x01, /*!< Multiplication factor 0.75  */
+    L6480_CONFIG_F_PWM_DEC_0_875    = 0x02, /*!< Multiplication factor 0.875 */
+    L6480_CONFIG_F_PWM_DEC_1        = 0x03, /*!< Multiplication factor 1     */
+    L6480_CONFIG_F_PWM_DEC_1_25     = 0x04, /*!< Multiplication factor 1.25  */
+    L6480_CONFIG_F_PWM_DEC_1_5      = 0x05, /*!< Multiplication factor 1.5   */
+    L6480_CONFIG_F_PWM_DEC_1_75     = 0x06, /*!< Multiplication factor 1.75  */
+    L6480_CONFIG_F_PWM_DEC_2        = 0x07, /*!< Multiplication factor 2     */
 } l6480_f_pwm_dec_t;
+
 /*! \name config
  * @{
  */
-#define L6480_REG_CONFIG_ADDR    0x1A
-#define L6480_REG_CONFIG_LEN     2
-#define L6480_REG_CONFIG_RW      L6480_REG_RW_WH
+#define L6480_REG_STATUS_ADDR    0x1B
+#define L6480_REG_STATUS_LEN     2
+#define L6480_REG_STATUS_RW      L6480_REG_RW_R
 /*! @} */
-
 /*! \typedef
  *  \brief Register STATUS
  */
 typedef union {
+    uint8_t array[L6480_REG_STATUS_LEN];
     struct {
         uint16_t data;
     } raw;
@@ -718,10 +752,6 @@ typedef enum {
     L6480_STATUS_MOT_STATUS_DEC     = 0x02, /*!< Deceleration */
     L6480_STATUS_MOT_STATUS_CONST   = 0x03, /*!< Constant speed */
 } l6480_mot_status_t;
-#define L6480_REG_STATUS_ADDR    0x1B
-#define L6480_REG_STATUS_LEN     2
-#define L6480_REG_STATUS_RW      L6480_REG_RW_R
-/*! @} */
 
 /*! \typedef
  *  \brief L6480 Registers
