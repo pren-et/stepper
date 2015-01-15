@@ -19,10 +19,13 @@
 /******************************************************************************
 Test compiler dependencies
 ******************************************************************************/
+/*! \typedef
+ *  \brief Type for testing the implementation of bitfields in the current compiler
+ */
 typedef union test_bitfield_ {
     struct {
-        uint8_t low     : 4;
-        uint8_t high    : 4;
+        uint8_t low     : 4;    /*!< Low nibble */
+        uint8_t high    : 4;    /*!< High nibble */
     } bitfield;
     uint8_t     byte;
 } test_bitfield_t;
@@ -52,11 +55,11 @@ typedef enum {
  *  \brief Register ABS_POS
  */
 typedef union {
-    uint8_t array[L6480_REG_ABS_POS_LEN];
+    uint8_t array[L6480_REG_ABS_POS_LEN];   /*!< array access */
     struct {
-    uint32_t data   : 22;
-    uint32_t unused :  2;
-    } raw;
+    uint32_t data   : 22;                       /*!< data */
+    uint32_t unused :  2;                       /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_abs_pos_t;
 
 /*! \name el_pos
@@ -71,16 +74,16 @@ typedef union {
  *  \brief Register EL_POS
  */
 typedef union {
-    uint8_t array[L6480_REG_EL_POS_LEN];
+    uint8_t array[L6480_REG_EL_POS_LEN];    /*!< array access */
     struct {
-        uint16_t data   : 9;
-        uint16_t unused : 7;
-    } raw;
+        uint16_t data   : 9;                    /*!< raw data */
+        uint16_t unused : 7;                    /*!< unused bits */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint8_t microstep   : 7;
-        uint8_t step        : 2;
-        uint8_t unused      : 7;
-    } reg;
+        uint8_t microstep   : 7;                /*!< microsteps */
+        uint8_t step        : 2;                /*!< full steps */
+        uint8_t unused      : 7;                /*!< unused bits */
+    } reg;                                  /*!< register access */
 } l6480_reg_el_pos_t;
 
 /*! \name mark
@@ -95,11 +98,11 @@ typedef union {
  *  \brief Register MARK
  */
 typedef union {
-    uint8_t array[L6480_REG_MARK_LEN];
+    uint8_t array[L6480_REG_MARK_LEN];      /*!< array access */
     struct {
-        uint32_t data   : 22;
-        uint32_t unused :  2;
-    } raw;
+        uint32_t data   : 22;                   /*!< raw data */
+        uint32_t unused :  2;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_mark_t;
 
 /*! \name speed
@@ -114,11 +117,11 @@ typedef union {
  *  \brief Register SPEED
  */
 typedef union {
-    uint8_t array[L6480_REG_SPEED_LEN];
+    uint8_t array[L6480_REG_SPEED_LEN];     /*!< array access */
     struct {
-        uint32_t data   : 20;
-        uint32_t unused :  4;
-    } raw;
+        uint32_t data   : 20;                   /*!< raw data */
+        uint32_t unused :  4;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_speed_t;
 
 /*! \name acc
@@ -133,11 +136,11 @@ typedef union {
  *  \brief Register ACC
  */
 typedef union {
-    uint8_t array[L6480_REG_ACC_LEN];
+    uint8_t array[L6480_REG_ACC_LEN];       /*!< array access */
     struct {
-        uint16_t data   : 12;
-        uint16_t unused :  4;
-    } raw;
+        uint16_t data   : 12;                   /*!< raw data */
+        uint16_t unused :  4;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_acc_t;
 
 /*! \name dec
@@ -152,11 +155,11 @@ typedef union {
  *  \brief Register DEC
  */
 typedef union {
-    uint8_t array[L6480_REG_DEC_LEN];
+    uint8_t array[L6480_REG_DEC_LEN];       /*!< array access */
     struct {
-        uint16_t data   : 12;
-        uint16_t unused :  4;
-    } raw;
+        uint16_t data   : 12;                   /*!< raw data */
+        uint16_t unused :  4;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_dec_t;
 
 /*! \name max_speed
@@ -171,11 +174,11 @@ typedef union {
  *  \brief Register MAX_SPEED
  */
 typedef union {
-    uint8_t array[L6480_REG_MAX_SPEED_LEN];
+    uint8_t array[L6480_REG_MAX_SPEED_LEN]; /*!< array access */
     struct {
-        uint16_t data   : 10;
-        uint16_t unused :  6;
-    } raw;
+        uint16_t data   : 10;                   /*!< raw data */
+        uint16_t unused :  6;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_max_speed_t;
 
 /*! \name min_speed
@@ -190,16 +193,16 @@ typedef union {
  *  \brief Register MIN_SPEED
  */
 typedef union {
-    uint8_t array[L6480_REG_MIN_SPEED_LEN];
+    uint8_t array[L6480_REG_MIN_SPEED_LEN]; /*!< array access */
     struct {
-        uint16_t data   : 13;
-        uint16_t unused :  3;
-    } raw;
+        uint16_t data   : 13;                   /*!< raw data */
+        uint16_t unused :  3;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint16_t min_speed  : 12;
-        uint16_t lspd_opt   :  1;
-        uint16_t unused     :  3;
-    } reg;
+        uint16_t min_speed  : 12;               /*!< minimum speed */
+        uint16_t lspd_opt   :  1;               /*!< low speed optimization */
+        uint16_t unused     :  3;               /*!< unused bits */
+    } reg;                                  /*!< register access */
 } l6480_reg_min_speed_t;
 
 /*! \name fs_spd
@@ -214,16 +217,16 @@ typedef union {
  *  \brief Register FS_SPD
  */
 typedef union {
-    uint8_t array[L6480_REG_FS_SPD_LEN];
+    uint8_t array[L6480_REG_FS_SPD_LEN];    /*!< array access */
     struct {
-        uint16_t data   : 12;
-        uint16_t unused :  4;
-    } raw;
+        uint16_t data   : 12;                   /*!< raw data */
+        uint16_t unused :  4;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint16_t min_speed  : 11;
-        uint16_t lspd_opt   :  1;
-        uint16_t unused     :  4;
-    } reg;
+        uint16_t fs_spd     : 11;               /*!< full step speed */
+        uint16_t boost_mode :  1;               /*!< boost mode */
+        uint16_t unused     :  4;               /*!< unused bits */
+    } reg;                                  /*!< register access */
 } l6480_reg_fs_spd_t;
 
 /*! \name kval_hold
@@ -238,10 +241,10 @@ typedef union {
  *  \brief Register KVAL_HOLD
  */
 typedef union {
-    uint8_t array[L6480_REG_KVAL_HOLD_LEN];
+    uint8_t array[L6480_REG_KVAL_HOLD_LEN]; /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_kval_hold_t;
 
 /*! \name kval_run
@@ -256,10 +259,10 @@ typedef union {
  *  \brief Register KVAL_RUN
  */
 typedef union {
-    uint8_t array[L6480_REG_KVAL_RUN_LEN];
+    uint8_t array[L6480_REG_KVAL_RUN_LEN];  /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_kval_run_t;
 
 /*! \name kval_acc
@@ -274,10 +277,10 @@ typedef union {
  *  \brief Register KVAL_ACC
  */
 typedef union {
-    uint8_t array[L6480_REG_KVAL_ACC_LEN];
+    uint8_t array[L6480_REG_KVAL_ACC_LEN];  /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_kval_acc_t;
 
 /*! \name kval_dec
@@ -292,10 +295,10 @@ typedef union {
  *  \brief Register KVAL_DEC
  */
 typedef union {
-    uint8_t array[L6480_REG_KVAL_DEC_LEN];
+    uint8_t array[L6480_REG_KVAL_DEC_LEN];  /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_kval_dec_t;
 
 /*! \name int_speed
@@ -310,11 +313,11 @@ typedef union {
  *  \brief Register INT_SPEED
  */
 typedef union {
-    uint8_t array[L6480_REG_INT_SPEED_LEN];
+    uint8_t array[L6480_REG_INT_SPEED_LEN]; /*!< array access */
     struct {
-        uint16_t data   : 14;
-        uint16_t unused :  2;
-    } raw;
+        uint16_t data   : 14;                   /*!< raw data */
+        uint16_t unused :  2;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_int_speed_t;
 
 /*! \name st_slp
@@ -329,10 +332,10 @@ typedef union {
  *  \brief Register ST_SLP
  */
 typedef union {
-    uint8_t array[L6480_REG_ST_SLP_LEN];
+    uint8_t array[L6480_REG_ST_SLP_LEN];    /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_st_slp_t;
 
 /*! \name fn_slp_acc
@@ -347,10 +350,10 @@ typedef union {
  *  \brief Register FN_SLP_ACC
  */
 typedef union {
-    uint8_t array[L6480_REG_FN_SLP_ACC_LEN];
+    uint8_t array[L6480_REG_FN_SLP_ACC_LEN];/*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_fn_slp_acc_t;
 
 /*! \name fn_slp_dec
@@ -365,10 +368,10 @@ typedef union {
  *  \brief Register FN_SLP_DEC
  */
 typedef union {
-    uint8_t array[L6480_REG_FN_SLP_DEC_LEN];
+    uint8_t array[L6480_REG_FN_SLP_DEC_LEN];/*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_fn_slp_dec_t;
 
 /*! \name k_therm
@@ -383,11 +386,11 @@ typedef union {
  *  \brief Register K_THERM
  */
 typedef union {
-    uint8_t array[L6480_REG_K_THERM_LEN];
+    uint8_t array[L6480_REG_K_THERM_LEN];   /*!< array access */
     struct {
-        uint8_t data   :  4;
-        uint8_t unused :  4;
-    } raw;
+        uint8_t data   :  4;                    /*!< raw data */
+        uint8_t unused :  4;                    /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_k_therm_t;
 
 /*! \name adc_out
@@ -402,11 +405,11 @@ typedef union {
  *  \brief Register ADC_OUT
  */
 typedef union {
-    uint8_t array[L6480_REG_ADC_OUT_LEN];
+    uint8_t array[L6480_REG_ADC_OUT_LEN];   /*!< array access */
     struct {
-        uint8_t data   :  5;
-        uint8_t unused :  3;
-    } raw;
+        uint8_t data   :  5;                    /*!< raw data */
+        uint8_t unused :  3;                    /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_adc_out_t;
 
 /*! \name ocd_th
@@ -421,11 +424,11 @@ typedef union {
  *  \brief Register OCD_TH
  */
 typedef union {
-    uint8_t array[L6480_REG_OCD_TH_LEN];
+    uint8_t array[L6480_REG_OCD_TH_LEN];    /*!< array access */
     struct {
-        uint8_t data   :  5;
-        uint8_t unused :  3;
-    } raw;
+        uint8_t data   :  5;                    /*!< raw data */
+        uint8_t unused :  3;                    /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_ocd_th_t;
 
 /*! \name stall_th
@@ -440,11 +443,11 @@ typedef union {
  *  \brief Register STALL_TH
  */
 typedef union {
-    uint8_t array[L6480_REG_STALL_TH_LEN];
+    uint8_t array[L6480_REG_STALL_TH_LEN];  /*!< array access */
     struct {
-        uint16_t data   :  5;
-        uint16_t unused :  3;
-    } raw;
+        uint16_t data   :  5;                   /*!< raw data */
+        uint16_t unused :  3;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
 } l6480_reg_stall_th_t;
 
 /*! \name step_mode
@@ -459,16 +462,16 @@ typedef union {
  *  \brief Register STEP_MODE
  */
 typedef union {
-    uint8_t array[L6480_REG_STEP_MODE_LEN];
+    uint8_t array[L6480_REG_STEP_MODE_LEN]; /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint8_t step_sel    :  3;
-        uint8_t null        :  1;
-        uint8_t sync_sel    :  3;
-        uint8_t sync_en     :  1;
-    } reg;
+        uint8_t step_sel    :  3;               /*!< select step mode */
+        uint8_t null        :  1;               /*!< unused bit, must always be zero! */
+        uint8_t sync_sel    :  3;               /*!< select synchronization signal source */
+        uint8_t sync_en     :  1;               /*!< enable synchronization */
+    } reg;                                  /*!< register access */
 } l6480_reg_step_mode_t;
 /*! \typedef
  * \brief enum for Step mode selection
@@ -509,20 +512,20 @@ typedef enum {
  *  \brief Register ALARM_EN
  */
 typedef union {
-    uint8_t array[L6480_REG_ALARM_EN_LEN];
+    uint8_t array[L6480_REG_ALARM_EN_LEN];  /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint8_t overcurrent     :  1;
-        uint8_t therm_shutdown  :  1;
-        uint8_t therm_warning   :  1;
-        uint8_t uvlo            :  1;
-        uint8_t adc_uvlo        :  1;
-        uint8_t stall_det       :  1;
-        uint8_t switch_on       :  1;
-        uint8_t cmd_error       :  1;
-    } reg;
+        uint8_t overcurrent     :  1;           /*!< enable Overcurrent alarm */
+        uint8_t therm_shutdown  :  1;           /*!< enable Thermal shutdown alarm */
+        uint8_t therm_warning   :  1;           /*!< enable Thermal warning alarm */
+        uint8_t uvlo            :  1;           /*!< enable UVLO alarm */
+        uint8_t adc_uvlo        :  1;           /*!< enable ADC UVLO alarm */
+        uint8_t stall_det       :  1;           /*!< enable Stall detection alarm */
+        uint8_t switch_on       :  1;           /*!< enable Switch turn-on event alarm */
+        uint8_t cmd_error       :  1;           /*!< enable Command error alarm */
+    } reg;                                  /*!< register access */
 } l6480_reg_alarm_en_t;
 /*! \typedef
  *  \brief enum for ALARM_EN bits
@@ -558,18 +561,18 @@ typedef enum {
  *  \brief Register GATECFG1
  */
 typedef union {
-    uint8_t array[L6480_REG_GATECFG1_LEN];
+    uint8_t array[L6480_REG_GATECFG1_LEN];  /*!< array access */
     struct {
-        uint16_t data   : 12;
-        uint16_t unused :  4;
-    } raw;
+        uint16_t data   : 12;                   /*!< raw data */
+        uint16_t unused :  4;                   /*!< unused bits */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint16_t tcc    :  5;
-        uint16_t igate  :  5;
-        uint16_t tboost :  5;
-        uint16_t wd_en  :  5;
-        uint16_t unused :  4;
-    } reg;
+        uint16_t tcc    :  5;                   /*!< duration of constant current phase */
+        uint16_t igate  :  5;                   /*!< gate current */
+        uint16_t tboost :  5;                   /*!< duration of overboost phase */
+        uint16_t wd_en  :  5;                   /*!< enable clock source monitoring */
+        uint16_t unused :  4;                   /*!< unused bits */
+    } reg;                                  /*!< register access */
 } l6480_reg_gatecfg1_t;
 /*! \typedef
  *  \brief enum for IGATE
@@ -610,14 +613,14 @@ typedef enum {
  *  \brief Register GATECFG2
  */
 typedef union {
-    uint8_t array[L6480_REG_GATECFG2_LEN];
+    uint8_t array[L6480_REG_GATECFG2_LEN];  /*!< array access */
     struct {
-        uint8_t data;
-    } raw;
+        uint8_t data;                           /*!< raw data */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint8_t tdt     :  5;
-        uint8_t tblank  :  3;
-    } reg;
+        uint8_t tdt     :  5;                   /*!< deadtime between gate turn-off and gate turn-on */
+        uint8_t tblank  :  3;                   /*!< blanking of current sensing comparators */
+    } reg;                                  /*!< register access */
 } l6480_reg_gatecfg2_t;
 
 /*! \name config
@@ -632,22 +635,22 @@ typedef union {
  *  \brief Register CONFIG
  */
 typedef union {
-    uint8_t array[L6480_REG_CONFIG_LEN];
+    uint8_t array[L6480_REG_CONFIG_LEN];    /*!< array access */
     struct {
-        uint16_t data;
-    } raw;
+        uint16_t data;                          /*!< raw data */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint16_t osc_sel    :  3;
-        uint16_t ext_clk    :  1;
-        uint16_t sw_mode    :  1;
-        uint16_t en_vscomp  :  1;
-        uint16_t reserved   :  1;
-        uint16_t oc_sd      :  1;
-        uint16_t uvloval    :  1;
-        uint16_t vccval     :  1;
-        uint16_t f_pwm_dec  :  3;
-        uint16_t f_pwm_int  :  3;
-    } reg;
+        uint16_t osc_sel    :  3;               /*!< select system clock source */
+        uint16_t ext_clk    :  1;               /*!< enable external clock */
+        uint16_t sw_mode    :  1;               /*!< behaviour of external switch */
+        uint16_t en_vscomp  :  1;               /*!< motor supply voltage compensation */
+        uint16_t reserved   :  1;               /*!< bit not used */
+        uint16_t oc_sd      :  1;               /*!< behaviour in overcurrent event */
+        uint16_t uvloval    :  1;               /*!< undervoltage lockout protection threshold */
+        uint16_t vccval     :  1;               /*!< output voltage of internal Vcc regulator */
+        uint16_t f_pwm_dec  :  3;               /*!< pwm frequency division factor */
+        uint16_t f_pwm_int  :  3;               /*!< pwm frequency multiplication factor */
+    } reg;                                  /*!< register access */
 } l6480_reg_config_t;
 /*! \typedef
  *  \brief enum for system clock source selection
@@ -744,26 +747,26 @@ typedef enum {
  *  \brief Register STATUS
  */
 typedef union {
-    uint8_t array[L6480_REG_STATUS_LEN];
+    uint8_t array[L6480_REG_STATUS_LEN];    /*!< array access */
     struct {
-        uint16_t data;
-    } raw;
+        uint16_t data;                          /*!< raw data */
+    } raw;                                  /*!< raw data access */
     struct {
-        uint16_t hiz            :  1;
-        uint16_t busy           :  1;
-        uint16_t sw_f           :  1;
-        uint16_t sw_evn         :  1;
-        uint16_t dir            :  1;
-        uint16_t mot_status     :  2;
-        uint16_t cmd_error      :  1;
-        uint16_t stck_mod       :  1;
-        uint16_t uvlo           :  1;
-        uint16_t uvlo_adc       :  1;
-        uint16_t th_status      :  2;
-        uint16_t ocd            :  1;
-        uint16_t step_loss_a    :  1;
-        uint16_t step_loss_b    :  1;
-    } reg;
+        uint16_t hiz            :  1;           /*!< bridges in high impedance state */
+        uint16_t busy           :  1;           /*!< command executed */
+        uint16_t sw_f           :  1;           /*!< switch input status */
+        uint16_t sw_evn         :  1;           /*!< switch turn-on event */
+        uint16_t dir            :  1;           /*!< direction */
+        uint16_t mot_status     :  2;           /*!< current motor status */
+        uint16_t cmd_error      :  1;           /*!< spi command error */
+        uint16_t stck_mod       :  1;           /*!< device in step-clock mode */
+        uint16_t uvlo           :  1;           /*!< undervoltage lockout */
+        uint16_t uvlo_adc       :  1;           /*!< adc undervoltage lockout */
+        uint16_t th_status      :  2;           /*!< thermal status */
+        uint16_t ocd            :  1;           /*!< overcurrent detection */
+        uint16_t step_loss_a    :  1;           /*!< stall on bridge A */
+        uint16_t step_loss_b    :  1;           /*!< stall on bridge B */
+    } reg;                                  /*!< register access */
 } l6480_reg_status_t;
 /*! \typedef
  *  \brief enum for device thermal status interpretation
@@ -1016,7 +1019,7 @@ Commands
 /******************************************************************************
 Functions
 ******************************************************************************/
-/*! \function
+/*! \fn
  *  \brief Initialisation function for L6480
  *  
  *  \param  void
@@ -1024,7 +1027,7 @@ Functions
  */
 void l6480_init(void);
 
-/*! \function
+/*! \fn
  *  \brief Send a command to the L6480
  *  
  *  \param  cmd   command to be sent
