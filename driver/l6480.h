@@ -991,7 +991,21 @@ Functions
 ******************************************************************************/
 /*! \function
  *  \brief Initialisation function for L6480
+ *  
+ *  \param  void
+ *  \return void
  */
 void l6480_init(void);
+
+/*! \function
+ *  \brief Send a command to the L6480
+ *  
+ *  \param  cmd   command to be sent
+ *  \param  len   length of command to be sent
+ *  \param  read  flag to determine if data has to be read
+ *  \param  *data pointer to data to be read or sent
+ *  \return void
+ */
+void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data);
 
 #endif /* L6480_H */

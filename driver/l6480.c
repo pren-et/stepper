@@ -13,6 +13,10 @@
 
 #include "l6480.h"
 
+/* Definition of necessary functions provided by a SPI module later */
+void spi_write(uint8_t *data) { return; }
+void spi_read(uint8_t *data) { return; }
+
 void l6480_init(void) {
     /*! test orientation of bitfields */
     test_bitfield_t test_bitfield;      /*!< testvariable */
@@ -25,6 +29,23 @@ void l6480_init(void) {
             /* If you still want to use this library, */
             /* change ,if possible, the order of bitfields in */
             /* your compiler or in this library! */
+        }
+    }
+    
+    return;
+}
+
+void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
+    /*! local variables */
+    uint8_t i;          /*!< variable to count number of sent bits */
+    spi_write(&cmd);    /*!< send command */
+    if (read) {         /*!< check if reading data is needed */
+        for (i = 0; i < (len - 1); i++) {
+            spi_read(data++);   /*!< read data */
+        }
+    } else {
+        for (i = 0; i < (len - 1); i++) {
+            spi_write(data++);  /*!< write data */
         }
     }
 }
