@@ -741,7 +741,7 @@ typedef enum {
 #define L6480_REG_STATUS_ADDR       0x1B
 #define L6480_REG_STATUS_LEN        2
 #define L6480_REG_STATUS_RW         L6480_REG_RW_R
-#define L6480_REG_STATUS_DEFAULT    x0000
+#define L6480_REG_STATUS_DEFAULT    0x0000
 /*! @} */
 /*! \typedef
  *  \brief Register STATUS
