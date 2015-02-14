@@ -50,6 +50,8 @@ typedef enum {
 #define L6480_REG_ABS_POS_LEN       3
 #define L6480_REG_ABS_POS_RW        L6480_REG_RW_WS
 #define L6480_REG_ABS_POS_DEFAULT   0x000000
+#define L6480_REG_ABS_POS_MAX       2097151
+#define L6480_REG_ABS_POS_MIN       -2097152
 /*! @} */
 /*! \typedef
  *  \brief Register ABS_POS
@@ -57,8 +59,8 @@ typedef enum {
 typedef union {
     uint8_t array[L6480_REG_ABS_POS_LEN];   /*!< array access */
     struct {
-    uint32_t data   : 22;                       /*!< data */
-    uint32_t unused :  2;                       /*!< unused bits */
+        uint32_t data   : 22;                   /*!< data */
+        uint32_t unused :  2;                   /*!< unused bits */
     } raw;                                  /*!< raw data access */
 } l6480_reg_abs_pos_t;
 
@@ -1037,5 +1039,36 @@ void l6480_init(void);
  *  \return void
  */
 void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data);
+
+/*! \fn
+ *  \brief Get absolute position
+ *
+ *  \return absolute Position
+ */
+int32_t l6480_get_abs_pos(void);
+
+/*! \fn
+ *  \brief Set absolute position
+ *
+ *  \param  pos Position
+ *  \return void
+ */
+void l6480_set_abs_pos(int32_t pos);
+
+/*! \fn
+ *  \brief Get electrical position
+ *
+ *  \return electrical Position
+ */
+int16_t l6480_get_el_pos(void);
+
+/*! \fn
+ *  \brief Set electrical position
+ *
+ *  \param  fullstep    full steps
+ *  \param  microstep   micro steps
+ *  \return void
+ */
+void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep);
 
 #endif /* L6480_H */
