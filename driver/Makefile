@@ -1,4 +1,6 @@
-.PHONY: syntax doc
+.PHONY: all syntax doc clean
+
+all: syntax doc
 
 syntax: 
 	gcc -Wall -Wparentheses -c l6480.c -fsyntax-only
