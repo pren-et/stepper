@@ -19,21 +19,21 @@
 /******************************************************************************
 Test compiler dependencies
 ******************************************************************************/
-/*! \typedef
+/*! \union test_bitfield_t
  *  \brief Type for testing the implementation of bitfields in the current compiler
  */
-typedef union test_bitfield_ {
+typedef union {
     struct {
         uint8_t low     : 4;    /*!< Low nibble */
         uint8_t high    : 4;    /*!< High nibble */
-    } bitfield;
-    uint8_t     byte;
+    } bitfield;             /*!< Nibbles */
+    uint8_t     byte;       /*!< Byte */
 } test_bitfield_t;
 
 /******************************************************************************
 Registers
 ******************************************************************************/
-/*! \typedef
+/*! \enum l6480_reg_rw_t
  *  \brief Possible access levels for registers.
  */
 typedef enum {
@@ -53,7 +53,7 @@ typedef enum {
 #define L6480_REG_ABS_POS_MAX       2097151
 #define L6480_REG_ABS_POS_MIN       -2097152
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_abs_pos_t
  *  \brief Register ABS_POS
  */
 typedef union {
@@ -72,7 +72,7 @@ typedef union {
 #define L6480_REG_EL_POS_RW         L6480_REG_RW_WS
 #define L6480_REG_EL_POS_DEFAULT    0x0000
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_el_pos_t
  *  \brief Register EL_POS
  */
 typedef union {
@@ -98,7 +98,7 @@ typedef union {
 #define L6480_REG_MARK_MAX       2097151
 #define L6480_REG_MARK_MIN       -2097152
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_mark_t
  *  \brief Register MARK
  */
 typedef union {
@@ -117,7 +117,7 @@ typedef union {
 #define L6480_REG_SPEED_RW      L6480_REG_RW_R
 #define L6480_REG_SEED_DEFAULT  0x000000
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_speed_t
  *  \brief Register SPEED
  */
 typedef union {
@@ -136,7 +136,7 @@ typedef union {
 #define L6480_REG_ACC_RW        L6480_REG_RW_WS
 #define L6480_REG_ACC_DEFAULT   0x008A
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_acc_t
  *  \brief Register ACC
  */
 typedef union {
@@ -155,7 +155,7 @@ typedef union {
 #define L6480_REG_DEC_RW        L6480_REG_RW_WS
 #define L6480_REG_DEC_DEFAULT   0x008A
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_dec_t
  *  \brief Register DEC
  */
 typedef union {
@@ -174,7 +174,7 @@ typedef union {
 #define L6480_REG_MAX_SPEED_RW      L6480_REG_RW_WR
 #define L6480_REG_MAX_SPEED_DEFAULT 0x0041
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_max_speed_t
  *  \brief Register MAX_SPEED
  */
 typedef union {
@@ -193,7 +193,7 @@ typedef union {
 #define L6480_REG_MIN_SPEED_RW      L6480_REG_RW_WS
 #define L6480_REG_MIN_SPEED_DEFAULT 0x0000
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_min_speed_t
  *  \brief Register MIN_SPEED
  */
 typedef union {
@@ -217,7 +217,7 @@ typedef union {
 #define L6480_REG_FS_SPD_RW      L6480_REG_RW_WR
 #define L6480_REG_FS_SPD_DEFAULT 0x0027
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_fs_spd_t
  *  \brief Register FS_SPD
  */
 typedef union {
@@ -241,7 +241,7 @@ typedef union {
 #define L6480_REG_KVAL_HOLD_RW      L6480_REG_RW_WR
 #define L6480_REG_KVAL_HOLD_DEFAULT 0x29
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_kval_hold_t
  *  \brief Register KVAL_HOLD
  */
 typedef union {
@@ -259,7 +259,7 @@ typedef union {
 #define L6480_REG_KVAL_RUN_RW       L6480_REG_RW_WR
 #define L6480_REG_KVAL_RUN_DEFAULT  0x29
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_kval_run_t
  *  \brief Register KVAL_RUN
  */
 typedef union {
@@ -277,7 +277,7 @@ typedef union {
 #define L6480_REG_KVAL_ACC_RW       L6480_REG_RW_WR
 #define L6480_REG_KVAL_ACC_DEFAULT  0x29
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_kval_acc_t
  *  \brief Register KVAL_ACC
  */
 typedef union {
@@ -295,7 +295,7 @@ typedef union {
 #define L6480_REG_KVAL_DEC_RW       L6480_REG_RW_WR
 #define L6480_REG_KVAL_DEC_DEFAULT  0x29
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_kval_dec_t
  *  \brief Register KVAL_DEC
  */
 typedef union {
@@ -313,7 +313,7 @@ typedef union {
 #define L6480_REG_INT_SPEED_RW      L6480_REG_RW_WH
 #define L6480_REG_INT_SPEED_DEFAULT 0x0408
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_int_speed_t
  *  \brief Register INT_SPEED
  */
 typedef union {
@@ -332,7 +332,7 @@ typedef union {
 #define L6480_REG_ST_SLP_RW         L6480_REG_RW_WH
 #define L6480_REG_ST_SLP_DEFAULT    0x19
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_st_slp_t
  *  \brief Register ST_SLP
  */
 typedef union {
@@ -350,7 +350,7 @@ typedef union {
 #define L6480_REG_FN_SLP_ACC_RW         L6480_REG_RW_WH
 #define L6480_REG_FN_SLP_ACC_DEFAULT    0x29
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_fn_slp_acc_t
  *  \brief Register FN_SLP_ACC
  */
 typedef union {
@@ -368,7 +368,7 @@ typedef union {
 #define L6480_REG_FN_SLP_DEC_RW         L6480_REG_RW_WH
 #define L6480_REG_FN_SLP_DEC_DEFAULT    0x29
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_fn_slp_dec_t
  *  \brief Register FN_SLP_DEC
  */
 typedef union {
@@ -386,7 +386,7 @@ typedef union {
 #define L6480_REG_K_THERM_RW        L6480_REG_RW_WR
 #define L6480_REG_K_THERM_DEFAULT   0x00
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_k_therm_t
  *  \brief Register K_THERM
  */
 typedef union {
@@ -405,7 +405,7 @@ typedef union {
 #define L6480_REG_ADC_OUT_RW        L6480_REG_RW_R
 #define L6480_REG_ADC_OUT_DEFAULT   0x00
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_adc_out_t
  *  \brief Register ADC_OUT
  */
 typedef union {
@@ -424,7 +424,7 @@ typedef union {
 #define L6480_REG_OCD_TH_RW         L6480_REG_RW_WR
 #define L6480_REG_OCD_TH_DEFAULT    0x08
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_ocd_th_t
  *  \brief Register OCD_TH
  */
 typedef union {
@@ -443,7 +443,7 @@ typedef union {
 #define L6480_REG_STALL_TH_RW       L6480_REG_RW_WR
 #define L6480_REG_STALL_TH_DEFAULT  0x10
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_stall_th_t
  *  \brief Register STALL_TH
  */
 typedef union {
@@ -462,7 +462,7 @@ typedef union {
 #define L6480_REG_STEP_MODE_RW      L6480_REG_RW_WH
 #define L6480_REG_STEP_MODE_DEFAULT 0x07
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_step_mode_t
  *  \brief Register STEP_MODE
  */
 typedef union {
@@ -477,7 +477,7 @@ typedef union {
         uint8_t sync_en     :  1;               /*!< enable synchronization */
     } reg;                                  /*!< register access */
 } l6480_reg_step_mode_t;
-/*! \typedef
+/*! \enum l6480_step_sel_t
  * \brief enum for Step mode selection
  */
 typedef enum {
@@ -490,7 +490,7 @@ typedef enum {
     L6480_STEP_SEL_MICRO_64     = 0x06, /*!< Step mode 1/64  Microstep */
     L6480_STEP_SEL_MICRO_128    = 0x07, /*!< Step mode 1/128 Microstep */
 } l6480_step_sel_t;
-/*! \typedef
+/*! \enum l6480_sync_sig_src_t
  * \brief enum for SYNC signal source
  */
 typedef enum {
@@ -512,7 +512,7 @@ typedef enum {
 #define L6480_REG_ALARM_EN_RW       L6480_REG_RW_WS
 #define L6480_REG_ALARM_EN_DEFAULT  0xFF
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_alarm_en_t
  *  \brief Register ALARM_EN
  */
 typedef union {
@@ -531,7 +531,7 @@ typedef union {
         uint8_t cmd_error       :  1;           /*!< enable Command error alarm */
     } reg;                                  /*!< register access */
 } l6480_reg_alarm_en_t;
-/*! \typedef
+/*! \enum l6480_alarm_en_t
  *  \brief enum for ALARM_EN bits
  */
 typedef enum {
@@ -544,14 +544,14 @@ typedef enum {
     L6480_ALARM_EN_SWITCH_ON        = 0x06, /*!< Switch turn-on event alarm enabled */
     L6480_ALARM_EN_CMD_ERROR        = 0x07, /*!< Command error alarm enabled */
 } l6480_alarm_en_t;
-#define L6480_ALARM_EN_OVERCURRENT_MASK      = (1 << L6480_ALARM_EN_OVERCURRENT   )
-#define L6480_ALARM_EN_THERM_SHOTDOWN_MASK   = (1 << L6480_ALARM_EN_THERM_SHOTDOWN)
-#define L6480_ALARM_EN_THERM_WARNING_MASK    = (1 << L6480_ALARM_EN_THERM_WARNING )
-#define L6480_ALARM_EN_UVLO_MASK             = (1 << L6480_ALARM_EN_UVLO          )
-#define L6480_ALARM_EN_ADC_UVLO_MASK         = (1 << L6480_ALARM_EN_ADC_UVLO      )
-#define L6480_ALARM_EN_STALL_DET_MASK        = (1 << L6480_ALARM_EN_STALL_DET     )
-#define L6480_ALARM_EN_SWITCH_ON_MASK        = (1 << L6480_ALARM_EN_SWITCH_ON     )
-#define L6480_ALARM_EN_CMD_ERROR_MASK        = (1 << L6480_ALARM_EN_CMD_ERROR     )
+#define L6480_ALARM_EN_OVERCURRENT_MASK      = (1 << L6480_ALARM_EN_OVERCURRENT   ) /*!< Overcurrent alarm enabled */
+#define L6480_ALARM_EN_THERM_SHOTDOWN_MASK   = (1 << L6480_ALARM_EN_THERM_SHOTDOWN) /*!< Thermal shutdown alarm enabled */
+#define L6480_ALARM_EN_THERM_WARNING_MASK    = (1 << L6480_ALARM_EN_THERM_WARNING ) /*!< Thermal warning alarm enabled */
+#define L6480_ALARM_EN_UVLO_MASK             = (1 << L6480_ALARM_EN_UVLO          ) /*!< UVLO alarm enabled */
+#define L6480_ALARM_EN_ADC_UVLO_MASK         = (1 << L6480_ALARM_EN_ADC_UVLO      ) /*!< ADC UVLO alarm enabled */
+#define L6480_ALARM_EN_STALL_DET_MASK        = (1 << L6480_ALARM_EN_STALL_DET     ) /*!< Stall detection alarm enabled */
+#define L6480_ALARM_EN_SWITCH_ON_MASK        = (1 << L6480_ALARM_EN_SWITCH_ON     ) /*!< Switch turn-on event alarm enabled */
+#define L6480_ALARM_EN_CMD_ERROR_MASK        = (1 << L6480_ALARM_EN_CMD_ERROR     ) /*!< Command error alarm enabled */
 
 /*! \name gatecfg1
  * @{
@@ -561,7 +561,7 @@ typedef enum {
 #define L6480_REG_GATECFG1_RW       L6480_REG_RW_WH
 #define L6480_REG_GATECFG1_DEFAULT  0x0000
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_gatecfg1_t
  *  \brief Register GATECFG1
  */
 typedef union {
@@ -578,7 +578,7 @@ typedef union {
         uint16_t unused :  4;                   /*!< unused bits */
     } reg;                                  /*!< register access */
 } l6480_reg_gatecfg1_t;
-/*! \typedef
+/*! \enum l6480_gatecfg1_igate_t
  *  \brief enum for IGATE
  */
 typedef enum {
@@ -591,7 +591,7 @@ typedef enum {
     L6480_GATECFG1_IGATE_64     = 0x06, /*!< Gate current 64 mA */
     L6480_GATECFG1_IGATE_96     = 0x07, /*!< Gate current 96 mA */
 } l6480_gatecfg1_igate_t;
-/*! \typedef
+/*! \enum l6480_gatecfg1_tboost_t
  *  \brief enum for TBOOST
  */
 typedef enum {
@@ -613,7 +613,7 @@ typedef enum {
 #define L6480_REG_GATECFG2_RW       L6480_REG_RW_WH
 #define L6480_REG_GATECFG2_DEFAULT  0x00
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_gatecfg2_t
  *  \brief Register GATECFG2
  */
 typedef union {
@@ -635,7 +635,7 @@ typedef union {
 #define L6480_REG_CONFIG_RW         L6480_REG_RW_WH
 #define L6480_REG_CONFIG_DEFAULT    0x2C88
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_config_t
  *  \brief Register CONFIG
  */
 typedef union {
@@ -656,7 +656,7 @@ typedef union {
         uint16_t f_pwm_int  :  3;               /*!< pwm frequency multiplication factor */
     } reg;                                  /*!< register access */
 } l6480_reg_config_t;
-/*! \typedef
+/*! \enum l6480_osc_sel_t
  *  \brief enum for system clock source selection
  */
 typedef enum {
@@ -677,42 +677,42 @@ typedef enum {
     L6480_CONFIG_OSC_SEL_EXT_CLK_24         = 0x0E, /*!< External clock source 24 MHz */
     L6480_CONFIG_OSC_SEL_EXT_CLK_32         = 0x0F, /*!< External clock source 32 MHz */
 } l6480_osc_sel_t;
-/*! \typedef
+/*! \enum l6480_sw_mode_t
  *  \brief enum for external switch interrupt mode
  */
 typedef enum {
     L6480_CONFIG_SW_MODE_HARD  = 0x00, /*!< Hard stop interrupt */ 
     L6480_CONFIG_SW_MODE_SOFT  = 0x01, /*!< User disposal */
 } l6480_sw_mode_t;
-/*! \typedef
+/*! \enum l6480_oc_sd_t
  *  \brief enum for overcurrent event
  */
 typedef enum {
     L6480_CONFIG_OC_SD_SHUTDOWN     = 0x01, /*!< Bridges shut down */
     L6480_CONFIG_OC_SD_NO_SHUTDOWN  = 0x00, /*!< Bridges do not shut down */
 } l6480_oc_sd_t;
-/*! \typedef
+/*! \enum l6480_vccval_t
  *  \brief enum for Programmable Vcc regulator output voltage
  */
 typedef enum {
     L6480_CONFIG_VCCVAL_75  = 0x00, /*!< Vcc voltage 7.5 V */
     L6480_CONFIG_VCCVAL_15  = 0x01, /*!< Vcc voltage 15 V */
 } l6480_vccval_t;
-/*! \typedef
+/*! \enum l6480_uvloval_t
  *  \brief enum for UVLO protection thresholds
  */
 typedef enum {
     L6480_CONFIG_UVLOVAL_LOW    = 0x00, /*!< Vcc_th_on =  6.9 V Vcc_th_off = 6.3 V Vboot_th_on =   6 V Vboot_th_off = 5.5 V */
     L6480_CONFIG_UVLOVAL_HIGH   = 0x01, /*!< Vcc_th_on = 10.4 V Vcc_th_off =  10 V Vboot_th_on = 9.2 V Vboot_th_off = 8.8 V */
 } l6480_uvloval_t;
-/*! \typedef
+/*! \enum l6480_en_vscomp_t
  *  \brief enum Motor supply voltage compensation
  */ 
 typedef enum {
     L6480_CONFIG_EN_VSCOMP_DIS  = 0x00, /*!< Motor supply voltage compensation disabled */
     L6480_CONFIG_EN_VSCOMP_EN   = 0x01, /*!< Motor supply voltage compensation enabled */
 } l6480_en_vscomp_t;
-/*! \typedef
+/*! \enum l6480_f_pwm_int_t
  *  \brief enum for pwm frequency division factor
  */
 typedef enum {
@@ -725,7 +725,7 @@ typedef enum {
     L6480_CONFIG_F_PWM_INT_7_A  = 0x06, /*!< Integer division factor 7 */
     L6480_CONFIG_F_PWM_INT_7_B  = 0x07, /*!< Integer division factor 7 */
 } l6480_f_pwm_int_t;
-/*! \typedef
+/*! \enum l6480_f_pwm_dec_t
  *  \brief enum for pwm frequency multiplication factor
  */
 typedef enum {
@@ -747,7 +747,7 @@ typedef enum {
 #define L6480_REG_STATUS_RW         L6480_REG_RW_R
 #define L6480_REG_STATUS_DEFAULT    0x0000
 /*! @} */
-/*! \typedef
+/*! \union l6480_reg_status_t
  *  \brief Register STATUS
  */
 typedef union {
@@ -772,7 +772,7 @@ typedef union {
         uint16_t step_loss_b    :  1;           /*!< stall on bridge B */
     } reg;                                  /*!< register access */
 } l6480_reg_status_t;
-/*! \typedef
+/*! \enum l6480_th_status_t
  *  \brief enum for device thermal status interpretation
  */
 typedef enum {
@@ -781,14 +781,14 @@ typedef enum {
     L6480_STATUS_TH_STATUS_BRI_SHTDWN   = 0x02, /*!< Bridge shutdown */
     L6480_STATUS_TH_STATUS_DEV_SHTDWN   = 0x03, /*!< Device shutdown */
 } l6480_th_status_t;
-/*! \typedef
+/*! \enum l6480_dir_status_t
  *  \brief enum for direction status
  */
 typedef enum {
     L6480_STATUS_DIR_FWD    = 0x00, /*!< Forward */
     L6480_STATUS_DIR_REV    = 0x01, /*!< Reverse */
 } l6480_dir_status_t;
-/*! \typedef
+/*! \enum l6480_mot_status_t
  *  \brief enum for motor status interpretation
  */
 typedef enum {
@@ -798,40 +798,40 @@ typedef enum {
     L6480_STATUS_MOT_STATUS_CONST   = 0x03, /*!< Constant speed */
 } l6480_mot_status_t;
 
-/*! \typedef
+/*! \struct l6480_reg_t
  *  \brief L6480 Registers
  */
 typedef struct {
-    l6480_reg_abs_pos_t     abs_pos;
-    l6480_reg_el_pos_t      el_pos;
-    l6480_reg_mark_t        mark;
-    l6480_reg_speed_t       speed;
-    l6480_reg_acc_t         acc;
-    l6480_reg_dec_t         dec;
-    l6480_reg_max_speed_t   max_speed;
-    l6480_reg_min_speed_t   min_speed;
-    l6480_reg_fs_spd_t      fs_spd;
-    l6480_reg_kval_hold_t   kval_hold;
-    l6480_reg_kval_run_t    kval_run;
-    l6480_reg_kval_acc_t    kval_acc;
-    l6480_reg_kval_dec_t    kval_dec;
-    l6480_reg_int_speed_t   int_speed;
-    l6480_reg_st_slp_t      st_slp;
-    l6480_reg_fn_slp_acc_t  fn_slp_acc;
-    l6480_reg_fn_slp_dec_t  fn_slp_dec;
-    l6480_reg_k_therm_t     k_therm;
-    l6480_reg_adc_out_t     adc_out;
-    l6480_reg_ocd_th_t      ocd_th;
-    l6480_reg_stall_th_t    stall_th;
-    l6480_reg_step_mode_t   step_mode;
-    l6480_reg_alarm_en_t    alarm_en;
-    l6480_reg_gatecfg1_t    gatecfg1;
-    l6480_reg_gatecfg2_t    gatecfg2;
-    l6480_reg_config_t      config;
-    l6480_reg_status_t      status;
+    l6480_reg_abs_pos_t     abs_pos;        /*!< Register ABS_POS     */
+    l6480_reg_el_pos_t      el_pos;         /*!< Register EL_POS      */
+    l6480_reg_mark_t        mark;           /*!< Register MARK        */
+    l6480_reg_speed_t       speed;          /*!< Register SPEED       */
+    l6480_reg_acc_t         acc;            /*!< Register ACC         */
+    l6480_reg_dec_t         dec;            /*!< Register DEC         */
+    l6480_reg_max_speed_t   max_speed;      /*!< Register MAX_SPEED   */
+    l6480_reg_min_speed_t   min_speed;      /*!< Register MIN_SPEED   */
+    l6480_reg_fs_spd_t      fs_spd;         /*!< Register FS_SPD      */
+    l6480_reg_kval_hold_t   kval_hold;      /*!< Register KVAL_HOLD   */
+    l6480_reg_kval_run_t    kval_run;       /*!< Register KVAL_RUN    */
+    l6480_reg_kval_acc_t    kval_acc;       /*!< Register KVAL_ACC    */
+    l6480_reg_kval_dec_t    kval_dec;       /*!< Register KVAL_DEC    */
+    l6480_reg_int_speed_t   int_speed;      /*!< Register INT_SPEED   */
+    l6480_reg_st_slp_t      st_slp;         /*!< Register ST_SLP      */
+    l6480_reg_fn_slp_acc_t  fn_slp_acc;     /*!< Register FN_SLP_ACC  */
+    l6480_reg_fn_slp_dec_t  fn_slp_dec;     /*!< Register FN_SLP_DEC  */
+    l6480_reg_k_therm_t     k_therm;        /*!< Register K_THERM     */
+    l6480_reg_adc_out_t     adc_out;        /*!< Register ADC_OUT     */
+    l6480_reg_ocd_th_t      ocd_th;         /*!< Register OCD_TH      */
+    l6480_reg_stall_th_t    stall_th;       /*!< Register STALL_TH    */
+    l6480_reg_step_mode_t   step_mode;      /*!< Register STEP_MODE   */
+    l6480_reg_alarm_en_t    alarm_en;       /*!< Register ALARM_EN    */
+    l6480_reg_gatecfg1_t    gatecfg1;       /*!< Register GATECFG1    */
+    l6480_reg_gatecfg2_t    gatecfg2;       /*!< Register GATECFG2    */
+    l6480_reg_config_t      config;         /*!< Register CONFIG      */
+    l6480_reg_status_t      status;         /*!< Register STATUS      */
 } l6480_reg_t;
 
-/*! \typedef
+/*! \enum l6480_reg_addr_t
  *  \brief Address for L6480 Registers
  */
 typedef enum {
@@ -1023,15 +1023,14 @@ Commands
 /******************************************************************************
 Functions
 ******************************************************************************/
-/*! \fn
+/*! \fn l6480_init(void)
  *  \brief Initialisation function for L6480
  *  
- *  \param  void
  *  \return void
  */
 void l6480_init(void);
 
-/*! \fn
+/*! \fn l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data)
  *  \brief Send a command to the L6480
  *  
  *  \param  cmd   command to be sent
@@ -1042,14 +1041,14 @@ void l6480_init(void);
  */
 void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data);
 
-/*! \fn
+/*! \fn l6480_get_abs_pos(void)
  *  \brief Get absolute position
  *
  *  \return absolute Position
  */
 int32_t l6480_get_abs_pos(void);
 
-/*! \fn
+/*! \fn l6480_set_abs_pos(int32_t pos)
  *  \brief Set absolute position
  *
  *  \param  pos Position
@@ -1057,14 +1056,14 @@ int32_t l6480_get_abs_pos(void);
  */
 void l6480_set_abs_pos(int32_t pos);
 
-/*! \fn
+/*! \fn l6480_get_el_pos(void)
  *  \brief Get electrical position
  *
  *  \return electrical Position
  */
 int16_t l6480_get_el_pos(void);
 
-/*! \fn
+/*! \fn l6480_set_el_pos(uint8_t fullstep, uint8_t microstep)
  *  \brief Set electrical position
  *
  *  \param  fullstep    full steps
@@ -1073,14 +1072,14 @@ int16_t l6480_get_el_pos(void);
  */
 void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep);
 
-/*! \fn
+/*! \fn l6480_get_mark(void)
  *  \brief Get mark position
  *
  *  \return mark Position
  */
 int32_t l6480_get_mark(void);
 
-/*! \fn
+/*! \fn l6480_set_mark(int32_t mark)
  *  \brief Set mark position
  *
  *  \param  mark    mark position
@@ -1088,14 +1087,14 @@ int32_t l6480_get_mark(void);
  */
 void l6480_set_mark(int32_t mark);
 
-/*! \fn
+/*! \fn l6480_get_speed(void)
  *  \brief Get current motor speed
  *
  *  \return current speed
  */
 int32_t l6480_get_speed(void);
 
-/*! \fn
+/*! \fn l6480_get_speed_millisteps_s(void)
  *  \brief Get current motor speed in millisteps per second
  *
  *  \return current speed in millisteps per second

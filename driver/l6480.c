@@ -18,11 +18,11 @@ void spi_write(uint8_t *data) { return; }
 void spi_read(uint8_t *data) { return; }
 
 void l6480_init(void) {
-    /*! test orientation of bitfields */
-    test_bitfield_t test_bitfield;      /*!< testvariable */
-    test_bitfield.bitfield.low = 0x01;  /*!< write testvalue to lower nibble */
-    if (test_bitfield.byte != 0x01) {   /*!< test if lower nibble has been written */
-        while (1) {                     /*!< loop to stop executing if wrong order */
+    /* test orientation of bitfields */
+    test_bitfield_t test_bitfield;      /* testvariable */
+    test_bitfield.bitfield.low = 0x01;  /* write testvalue to lower nibble */
+    if (test_bitfield.byte != 0x01) {   /* test if lower nibble has been written */
+        while (1) {                     /* loop to stop executing if wrong order */
             /* Hey Programmer */
             /* It seems that your compiler uses a */
             /* different order for bitfields than mine. */
@@ -35,42 +35,40 @@ void l6480_init(void) {
     return;
 }
 
-/* Funtion for sending a command */
 void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
-    /*! local variables */
-    uint8_t i;          /*!< variable to count number of sent bits */
-    spi_write(&cmd);    /*!< send command */
-    if (read) {         /*!< check if reading data is needed */
+    /* local variables */
+    uint8_t i;          /* variable to count number of sent bits */
+    spi_write(&cmd);    /* send command */
+    if (read) {         /* check if reading data is needed */
         for (i = 0; i < (len - 1); i++) {
-            spi_read(data++);   /*!< read data */
+            spi_read(data++);   /* read data */
         }
     } else {
         for (i = 0; i < (len - 1); i++) {
-            spi_write(data++);  /*!< write data */
+            spi_write(data++);  /* write data */
         }
     }
 }
 
-/* Functions for reading and writing registers */
 int32_t l6480_get_abs_pos(void) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_abs_pos_t reg;
 
-    /*! read data from device */
+    /* read data from device */
     l6480_send_cmd( L6480_CMD_GETPARAM(ABS_POS), 
         L6480_CMD_GETPARAM_LEN(ABS_POS), 
         L6480_CMD_GETPARAM_READ(ABS_POS), 
         reg.array);
 
-    /*! return data */
+    /* return data */
     return reg.raw.data;
 }
 
 void l6480_set_abs_pos(int32_t pos) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_abs_pos_t reg;
 
-    /*! input value limitation */
+    /* input value limitation */
     if (pos >= L6480_REG_ABS_POS_MAX) {
         pos  = L6480_REG_ABS_POS_MAX;
     }
@@ -78,10 +76,10 @@ void l6480_set_abs_pos(int32_t pos) {
         pos  = L6480_REG_ABS_POS_MIN;
     }
 
-    /*! prepare data local */
+    /* prepare data local */
     reg.raw.data = pos;
 
-    /*! send data to device */
+    /* send data to device */
     l6480_send_cmd( L6480_CMD_SETPARAM(ABS_POS), 
         L6480_CMD_SETPARAM_LEN(ABS_POS), 
         L6480_CMD_SETPARAM_READ(ABS_POS), 
@@ -91,24 +89,24 @@ void l6480_set_abs_pos(int32_t pos) {
 }
 
 int16_t l6480_get_el_pos(void) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_el_pos_t reg;
 
-    /*! read data from device */
+    /* read data from device */
     l6480_send_cmd( L6480_CMD_GETPARAM(EL_POS), 
         L6480_CMD_GETPARAM_LEN(EL_POS), 
         L6480_CMD_GETPARAM_READ(EL_POS), 
         reg.array);
 
-    /*! return data */
+    /* return data */
     return reg.raw.data;
 }
 
 void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_el_pos_t reg;
 
-    /*! input value limitation */
+    /* input value limitation */
     if (fullstep >= 3) {
         fullstep  = 3;
     }
@@ -116,11 +114,11 @@ void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep) {
         microstep  = 127;
     }
 
-    /*! prepare data local */
+    /* prepare data local */
     reg.reg.step = fullstep;
     reg.reg.microstep = microstep;
 
-    /*! send data to device */
+    /* send data to device */
     l6480_send_cmd( L6480_CMD_SETPARAM(EL_POS), 
         L6480_CMD_SETPARAM_LEN(EL_POS), 
         L6480_CMD_SETPARAM_READ(EL_POS), 
@@ -129,24 +127,24 @@ void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep) {
 }
 
 int32_t l6480_get_mark(void) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_mark_t reg;
 
-    /*! read data from device */
+    /* read data from device */
     l6480_send_cmd( L6480_CMD_GETPARAM(MARK), 
         L6480_CMD_GETPARAM_LEN(MARK), 
         L6480_CMD_GETPARAM_READ(MARK), 
         reg.array);
 
-    /*! return data */
+    /* return data */
     return reg.raw.data;
 }
 
 void l6480_set_mark(int32_t mark) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_abs_pos_t reg;
 
-    /*! input value limitation */
+    /* input value limitation */
     if (mark >= L6480_REG_MARK_MAX) {
         mark  = L6480_REG_MARK_MAX;
     }
@@ -154,10 +152,10 @@ void l6480_set_mark(int32_t mark) {
         mark  = L6480_REG_MARK_MIN;
     }
 
-    /*! prepare data local */
+    /* prepare data local */
     reg.raw.data = mark;
 
-    /*! send data to device */
+    /* send data to device */
     l6480_send_cmd( L6480_CMD_SETPARAM(MARK), 
         L6480_CMD_SETPARAM_LEN(MARK), 
         L6480_CMD_SETPARAM_READ(MARK), 
@@ -167,24 +165,24 @@ void l6480_set_mark(int32_t mark) {
 }
 
 int32_t l6480_get_speed(void) {
-    /*! local variables */
+    /* local variables */
     l6480_reg_speed_t reg;
 
-    /*! read data from device */
+    /* read data from device */
     l6480_send_cmd( L6480_CMD_GETPARAM(SPEED), 
         L6480_CMD_GETPARAM_LEN(SPEED), 
         L6480_CMD_GETPARAM_READ(SPEED), 
         reg.array);
 
-    /*! return data */
+    /* return data */
     return reg.raw.data;
 }
 
 int32_t l6480_get_speed_millisteps_s(void) {
-    /*! local variables */
+    /* local variables */
     int32_t speed;
 
-    /*! read current speed from device */
+    /* read current speed from device */
     speed = l6480_get_speed();
 
     /*! calculate speed in millisteps per second
@@ -201,7 +199,7 @@ int32_t l6480_get_speed_millisteps_s(void) {
     */
     speed = speed * 149 / 10;
 
-    /*! return speed */
+    /* return speed */
     return speed;
 }
 
