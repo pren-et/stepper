@@ -95,6 +95,8 @@ typedef union {
 #define L6480_REG_MARK_LEN      3
 #define L6480_REG_MARK_RW       L6480_REG_RW_WR
 #define L6480_REG_MARK_DEFAULT  0x000000
+#define L6480_REG_MARK_MAX       2097151
+#define L6480_REG_MARK_MIN       -2097152
 /*! @} */
 /*! \typedef
  *  \brief Register MARK
@@ -1070,5 +1072,20 @@ int16_t l6480_get_el_pos(void);
  *  \return void
  */
 void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep);
+
+/*! \fn
+ *  \brief Get mark position
+ *
+ *  \return mark Position
+ */
+int32_t l6480_get_mark(void);
+
+/*! \fn
+ *  \brief Set mark position
+ *
+ *  \param  mark    mark position
+ *  \return void
+ */
+void l6480_set_mark(int32_t mark);
 
 #endif /* L6480_H */

@@ -72,14 +72,16 @@ void l6480_set_abs_pos(int32_t pos) {
 
     /*! input value limitation */
     if (pos >= L6480_REG_ABS_POS_MAX) {
-        pos = L6480_REG_ABS_POS_MAX;
+        pos  = L6480_REG_ABS_POS_MAX;
     }
     if (pos <= L6480_REG_ABS_POS_MIN) {
-        pos = L6480_REG_ABS_POS_MIN;
+        pos  = L6480_REG_ABS_POS_MIN;
     }
 
-    /*! send data to device */
+    /*! prepare data local */
     reg.raw.data = pos;
+
+    /*! send data to device */
     l6480_send_cmd( L6480_CMD_SETPARAM(ABS_POS), 
         L6480_CMD_SETPARAM_LEN(ABS_POS), 
         L6480_CMD_SETPARAM_READ(ABS_POS), 
@@ -108,18 +110,59 @@ void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep) {
 
     /*! input value limitation */
     if (fullstep >= 3) {
-        fullstep = 3;
+        fullstep  = 3;
     }
     if (microstep >= 127) {
-        microstep = 127;
+        microstep  = 127;
     }
 
-    /*! send data to device */
+    /*! prepare data local */
     reg.reg.step = fullstep;
     reg.reg.microstep = microstep;
+
+    /*! send data to device */
     l6480_send_cmd( L6480_CMD_SETPARAM(EL_POS), 
         L6480_CMD_SETPARAM_LEN(EL_POS), 
         L6480_CMD_SETPARAM_READ(EL_POS), 
         reg.array);
     return;
 }
+
+int32_t l6480_get_mark(void) {
+    /*! local variables */
+    l6480_reg_mark_t reg;
+
+    /*! read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(MARK), 
+        L6480_CMD_GETPARAM_LEN(MARK), 
+        L6480_CMD_GETPARAM_READ(MARK), 
+        reg.array);
+
+    /*! return data */
+    return reg.raw.data;
+}
+
+void l6480_set_mark(int32_t mark) {
+    /*! local variables */
+    l6480_reg_abs_pos_t reg;
+
+    /*! input value limitation */
+    if (mark >= L6480_REG_MARK_MAX) {
+        mark  = L6480_REG_MARK_MAX;
+    }
+    if (mark <= L6480_REG_MARK_MIN) {
+        mark  = L6480_REG_MARK_MIN;
+    }
+
+    /*! prepare data local */
+    reg.raw.data = mark;
+
+    /*! send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(MARK), 
+        L6480_CMD_SETPARAM_LEN(MARK), 
+        L6480_CMD_SETPARAM_READ(MARK), 
+        reg.array);
+
+    return;
+}
+
