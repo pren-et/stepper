@@ -1088,4 +1088,18 @@ int32_t l6480_get_mark(void);
  */
 void l6480_set_mark(int32_t mark);
 
+/*! \fn
+ *  \brief Get current motor speed
+ *
+ *  \return current speed
+ */
+int32_t l6480_get_speed(void);
+
+/*! \fn
+ *  \brief Get current motor speed in millisteps per second
+ *
+ *  \return current speed in millisteps per second
+ */
+int32_t l6480_get_speed_millisteps_s(void);
+
 #endif /* L6480_H */

@@ -166,3 +166,42 @@ void l6480_set_mark(int32_t mark) {
     return;
 }
 
+int32_t l6480_get_speed(void) {
+    /*! local variables */
+    l6480_reg_speed_t reg;
+
+    /*! read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(SPEED), 
+        L6480_CMD_GETPARAM_LEN(SPEED), 
+        L6480_CMD_GETPARAM_READ(SPEED), 
+        reg.array);
+
+    /*! return data */
+    return reg.raw.data;
+}
+
+int32_t l6480_get_speed_millisteps_s(void) {
+    /*! local variables */
+    int32_t speed;
+
+    /*! read current speed from device */
+    speed = l6480_get_speed();
+
+    /*! calculate speed in millisteps per second
+        \f[
+            \text{speed}~[\si{step\per\second}] 
+            = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\nano\second}]}
+        \f]
+        \f[
+            \text{speed}~[\si{\milli step\per\second}] 
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\nano\second}]} 
+            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
+            \approx 14.90
+        \f]
+    */
+    speed = speed * 149 / 10;
+
+    /*! return speed */
+    return speed;
+}
+
