@@ -135,6 +135,7 @@ typedef union {
 #define L6480_REG_ACC_LEN       2
 #define L6480_REG_ACC_RW        L6480_REG_RW_WS
 #define L6480_REG_ACC_DEFAULT   0x008A
+#define L6480_REG_ACC_MAX       4094
 /*! @} */
 /*! \union l6480_reg_acc_t
  *  \brief Register ACC
@@ -154,6 +155,7 @@ typedef union {
 #define L6480_REG_DEC_LEN       2
 #define L6480_REG_DEC_RW        L6480_REG_RW_WS
 #define L6480_REG_DEC_DEFAULT   0x008A
+#define L6480_REG_DEC_MAX       4094
 /*! @} */
 /*! \union l6480_reg_dec_t
  *  \brief Register DEC
@@ -1100,5 +1102,65 @@ int32_t l6480_get_speed(void);
  *  \return current speed in millisteps per second
  */
 int32_t l6480_get_speed_millisteps_s(void);
+
+/*! \fn l6480_get_acc(void)
+ *  \brief Get current motor acceleration
+ *
+ *  \return current acceleration
+ */
+uint16_t l6480_get_acc(void);
+
+/*! \fn l6480_get_acc_steps_ss(void)
+ *  \brief Get current motor acceleration in steps per second^2
+ *
+ *  \return current acceleration in steps per second^2
+ */
+uint16_t l6480_get_acc_steps_ss(void);
+
+/*! \fn l6480_set_acc(uint16_t acc)
+ *  \brief Set acceleration
+ *
+ *  \param  acc     acceleration
+ *  \return void
+ */
+void l6480_set_acc(uint16_t acc);
+
+/*! \fn l6480_set_acc_steps_ss(uint16_t acc)
+ *  \brief Set acceleration in steps per second^2
+ *
+ *  \param  acc     acceleration in steps per second^2
+ *  \return void
+ */
+void l6480_set_acc_steps_ss(uint16_t acc);
+
+/*! \fn l6480_get_dec(void)
+ *  \brief Get current motor deceleration
+ *
+ *  \return current deceleration
+ */
+uint16_t l6480_get_dec(void);
+
+/*! \fn l6480_get_dec_steps_ss(void)
+ *  \brief Get current motor deceleration in steps per second^2
+ *
+ *  \return current deceleration in steps per second^2
+ */
+uint16_t l6480_get_dec_steps_ss(void);
+
+/*! \fn l6480_set_dec(uint16_t dec)
+ *  \brief Set deceleration
+ *
+ *  \param  dec     deceleration
+ *  \return void
+ */
+void l6480_set_dec(uint16_t dec);
+
+/*! \fn l6480_set_dec_steps_ss(uint16_t dec)
+ *  \brief Set deceleration in steps per second^2
+ *
+ *  \param  dec     deceleration in steps per second^2
+ *  \return void
+ */
+void l6480_set_dec_steps_ss(uint16_t dec);
 
 #endif /* L6480_H */

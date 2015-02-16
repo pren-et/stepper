@@ -142,7 +142,7 @@ int32_t l6480_get_mark(void) {
 
 void l6480_set_mark(int32_t mark) {
     /* local variables */
-    l6480_reg_abs_pos_t reg;
+    l6480_reg_mark_t reg;
 
     /* input value limitation */
     if (mark >= L6480_REG_MARK_MAX) {
@@ -201,5 +201,155 @@ int32_t l6480_get_speed_millisteps_s(void) {
 
     /* return speed */
     return speed;
+}
+
+uint16_t l6480_get_acc(void) {
+    /* local variables */
+    l6480_reg_acc_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ACC), 
+        L6480_CMD_GETPARAM_LEN(ACC), 
+        L6480_CMD_GETPARAM_READ(ACC), 
+        reg.array);
+
+    /* return data */
+    return reg.raw.data;
+}
+
+uint16_t l6480_get_acc_steps_ss(void) {
+    /* local variables */
+    uint32_t acc;
+
+    /* read current acc from device */
+    acc = l6480_get_acc();
+
+    /*! calculate acc in steps per second^2
+        \f[
+            \text{acc}~[\si{step\per\second^2}]
+            = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \text{ACC} \cdot 2^{-36} \cdot 10^{12}
+            \approx 14.55
+        \f]
+    */
+    acc = acc * 1455 / 100;
+
+    /* return acc */
+    return (uint16_t) acc;
+}
+
+void l6480_set_acc(uint16_t acc) {
+    /* local variables */
+    l6480_reg_acc_t reg;
+
+    /* input value limitation */
+    if (acc >= L6480_REG_ACC_MAX) {
+        acc  = L6480_REG_ACC_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = acc;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ACC), 
+        L6480_CMD_SETPARAM_LEN(ACC), 
+        L6480_CMD_SETPARAM_READ(ACC), 
+        reg.array);
+
+    return;
+}
+
+void l6480_set_acc_steps_ss(uint16_t acc) {
+    /* local variables */
+
+    /*! Calculate acc register value
+        \f[
+            \text{acc}~[\si{step\per\second^2}]
+            = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \text{ACC} \cdot 2^{-36} \cdot 10^{12}
+            \approx 14.55
+        \f]
+    */
+    acc = (uint16_t) ((uint32_t) acc * 100 / 1455);
+
+    /* send data to device */
+    l6480_set_acc(acc);
+
+    return;
+}
+
+uint16_t l6480_get_dec(void) {
+    /* local variables */
+    l6480_reg_dec_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(DEC), 
+        L6480_CMD_GETPARAM_LEN(DEC), 
+        L6480_CMD_GETPARAM_READ(DEC), 
+        reg.array);
+
+    /* return data */
+    return reg.raw.data;
+}
+
+uint16_t l6480_get_dec_steps_ss(void) {
+    /* local variables */
+    uint32_t dec;
+
+    /* read current dec from device */
+    dec = l6480_get_dec();
+
+    /*! calculate dec in steps per second^2
+        \f[
+            \text{dec}~[\si{step\per\second^2}]
+            = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \text{DEC} \cdot 2^{-36} \cdot 10^{12}
+            \approx 14.55
+        \f]
+    */
+    dec = dec * 1455 / 100;
+
+    /* return dec */
+    return (uint16_t) dec;
+}
+
+void l6480_set_dec(uint16_t dec) {
+    /* local variables */
+    l6480_reg_dec_t reg;
+
+    /* input value limitation */
+    if (dec >= L6480_REG_DEC_MAX) {
+        dec  = L6480_REG_DEC_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = dec;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(DEC), 
+        L6480_CMD_SETPARAM_LEN(DEC), 
+        L6480_CMD_SETPARAM_READ(DEC), 
+        reg.array);
+
+    return;
+}
+
+void l6480_set_dec_steps_ss(uint16_t dec) {
+    /* local variables */
+
+    /*! Calculate dec register value
+        \f[
+            \text{dec}~[\si{step\per\second^2}]
+            = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \text{DEC} \cdot 2^{-36} \cdot 10^{12}
+            \approx 14.55
+        \f]
+    */
+    dec = (uint16_t) ((uint32_t) dec * 100 / 1455);
+
+    /* send data to device */
+    l6480_set_dec(dec);
+
+    return;
 }
 
