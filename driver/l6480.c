@@ -188,11 +188,11 @@ int32_t l6480_get_speed_millisteps_s(void) {
     /*! calculate speed in millisteps per second
         \f[
             \text{speed}~[\si{step\per\second}] 
-            = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\nano\second}]}
+            = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\second}]}
         \f]
         \f[
             \text{speed}~[\si{\milli step\per\second}] 
-            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\nano\second}]} 
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
             = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
             \approx 14.90
         \f]
@@ -227,7 +227,7 @@ uint16_t l6480_get_acc_steps_ss(void) {
     /*! calculate acc in steps per second^2
         \f[
             \text{acc}~[\si{step\per\second^2}]
-            = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{ACC} \cdot 2^{-36} \cdot 10^{12}
             \approx 14.55
         \f]
@@ -265,7 +265,7 @@ void l6480_set_acc_steps_ss(uint16_t acc) {
     /*! Calculate acc register value
         \f[
             \text{acc}~[\si{step\per\second^2}]
-            = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{ACC} \cdot 2^{-36} \cdot 10^{12}
             \approx 14.55
         \f]
@@ -302,7 +302,7 @@ uint16_t l6480_get_dec_steps_ss(void) {
     /*! calculate dec in steps per second^2
         \f[
             \text{dec}~[\si{step\per\second^2}]
-            = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{DEC} \cdot 2^{-36} \cdot 10^{12}
             \approx 14.55
         \f]
@@ -340,7 +340,7 @@ void l6480_set_dec_steps_ss(uint16_t dec) {
     /*! Calculate dec register value
         \f[
             \text{dec}~[\si{step\per\second^2}]
-            = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\nano\second}] \cdot 10^{-9}\right)^2}
+            = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{DEC} \cdot 2^{-36} \cdot 10^{12}
             \approx 14.55
         \f]
