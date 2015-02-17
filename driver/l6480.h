@@ -1202,7 +1202,7 @@ void l6480_set_max_speed_steps_ss(uint16_t max_speed);
  */
 uint16_t l6480_get_min_speed(void);
 
-/*! \fn l6480_get_min_speed_steps_ss(void)
+/*! \fn l6480_get_min_speed_millisteps_s(void)
  *  \brief Get minimum speed in milli steps per second
  *
  *  \return minimum speed in milli steps per second
@@ -1216,7 +1216,7 @@ uint32_t l6480_get_min_speed_millisteps_s(void);
  */
 uint16_t l6480_get_lspd_opt_speed(void);
 
-/*! \fn l6480_get_lspd_opt_speed_steps_ss(void)
+/*! \fn l6480_get_lspd_opt_speed_millisteps_s(void)
  *  \brief Get low speed optimization threshold in milli steps per second
  *
  *  \return low speed optimization threshold in milli steps per second
@@ -1231,7 +1231,7 @@ uint32_t l6480_get_lspd_opt_speed_millisteps_s(void);
  */
 void l6480_set_min_speed(uint16_t speed);
 
-/*! \fn l6480_set_min_speed_steps_ss(uint32_t speed)
+/*! \fn l6480_set_min_speed_millisteps_s(uint32_t speed)
  *  \brief Set minimum speed in milli steps per second
  *
  *  \param  speed   minimum speed in milli steps per second
@@ -1247,7 +1247,7 @@ void l6480_set_min_speed_millisteps_s(uint32_t speed);
  */
 void l6480_set_lspd_opt_speed(uint16_t speed);
 
-/*! \fn l6480_set_lspd_opt_speed_steps_ss(uint32_t speed)
+/*! \fn l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed)
  *  \brief Set low speed optimization threshold in milli steps per second
  *
  *  \param  speed   low speed optimization threshold in milli steps per second
