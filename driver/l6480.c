@@ -428,3 +428,173 @@ void l6480_set_max_speed_steps_s(uint16_t max_speed) {
     return;
 }
 
+uint16_t l6480_get_min_speed(void) {
+    /* local variables */
+    l6480_reg_min_speed_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(MIN_SPEED), 
+        L6480_CMD_GETPARAM_LEN(MIN_SPEED), 
+        L6480_CMD_GETPARAM_READ(MIN_SPEED), 
+        reg.array);
+
+    /* Analyze data */
+    if (reg.reg.lspd_opt == 1) {
+        reg.reg.min_speed = 0; /* minimum speed zero when low speed optimization on */
+    }
+
+    /* return data */
+    return reg.reg.min_speed;
+}
+
+uint32_t l6480_get_min_speed_millisteps_s(void) {
+    /* local variables */
+    uint32_t min_speed;
+
+    /* read min_speed from device */
+    min_speed = l6480_get_min_speed();
+
+    /*! calculate min_speed in millisteps per second
+        \f[
+            \text{min\_speed}~[\si{step\per\second}]
+            = \frac{\text{MIN\_SPEED} \cdot 2^{-24}}{250~[\si{\second}] \cdot 10^{-9}}
+        \f]
+        \f[
+            \text{min\_speed}~[\si{\milli step\per\second}]
+            = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
+            \approx 238.42
+        \f]
+    */
+    min_speed = min_speed * 2384 / 10;
+
+    /* return min_speed */
+    return min_speed;
+}
+
+uint16_t l6480_get_lspd_opt_speed(void) {
+    /* local variables */
+    l6480_reg_min_speed_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(MIN_SPEED), 
+        L6480_CMD_GETPARAM_LEN(MIN_SPEED), 
+        L6480_CMD_GETPARAM_READ(MIN_SPEED), 
+        reg.array);
+
+    /* Analyze data */
+    if (reg.reg.lspd_opt == 0) {
+        reg.reg.min_speed = 0; /* low speed optimization threshold zero when low speed optimization off */
+    }
+
+    /* return data */
+    return reg.reg.min_speed;
+}
+
+uint32_t l6480_get_lspd_opt_speed_millisteps_s(void) {
+    /* local variables */
+    uint32_t min_speed;
+
+    /* read min_speed from device */
+    min_speed = l6480_get_min_speed();
+
+    /*! calculate min_speed in millisteps per second
+        \f[
+            \text{min\_speed}~[\si{step\per\second}]
+            = \frac{\text{MIN\_SPEED} \cdot 2^{-24}}{250~[\si{\second}] \cdot 10^{-9}}
+        \f]
+        \f[
+            \text{min\_speed}~[\si{\milli step\per\second}]
+            = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
+            \approx 238.42
+        \f]
+    */
+    min_speed = min_speed * 2384 / 10;
+
+    /* return min_speed */
+    return min_speed;
+}
+
+void l6480_set_min_speed(uint16_t speed) {
+    /* local variables */
+    l6480_reg_min_speed_t reg;
+
+    /* input value limitation */
+    if (speed >= L6480_REG_MIN_SPEED_MAX) {
+        speed  = L6480_REG_MIN_SPEED_MAX;
+    }
+
+    /* prepare data local */
+    reg.reg.min_speed = speed;
+    reg.reg.lspd_opt  = 0;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
+        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+        reg.array);
+
+    return;
+}
+
+void l6480_set_min_speed_millisteps_s(uint32_t speed) {
+    /* local variables */
+
+    /*! Calculate max_speed register value
+        \f[
+            \text{min\_speed}~[\si{\milli step\per\second}]
+            = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
+            \approx 238.42
+        \f]
+    */
+    speed = (uint16_t) (speed * 10 / 2384);
+
+    /* send data to device */
+    l6480_set_min_speed(speed);
+
+    return;
+}
+
+void l6480_set_lspd_opt_speed(uint16_t speed) {
+    /* local variables */
+    l6480_reg_min_speed_t reg;
+
+    /* input value limitation */
+    if (speed >= L6480_REG_MIN_SPEED_MAX) {
+        speed  = L6480_REG_MIN_SPEED_MAX;
+    }
+
+    /* prepare data local */
+    reg.reg.min_speed = speed;
+    reg.reg.lspd_opt  = 1;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
+        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+        reg.array);
+
+    return;
+}
+
+void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed) {
+    /* local variables */
+
+    /*! Calculate max_speed register value
+        \f[
+            \text{min\_speed}~[\si{\milli step\per\second}]
+            = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
+            \approx 238.42
+        \f]
+    */
+    speed = (uint16_t) (speed * 10 / 2384);
+
+    /* send data to device */
+    l6480_set_lspd_opt_speed(speed);
+
+    return;
+}
+
