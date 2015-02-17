@@ -175,6 +175,7 @@ typedef union {
 #define L6480_REG_MAX_SPEED_LEN     2
 #define L6480_REG_MAX_SPEED_RW      L6480_REG_RW_WR
 #define L6480_REG_MAX_SPEED_DEFAULT 0x0041
+#define L6480_REG_MAX_SPEED_MAX     1023
 /*! @} */
 /*! \union l6480_reg_max_speed_t
  *  \brief Register MAX_SPEED
@@ -1162,5 +1163,35 @@ void l6480_set_dec(uint16_t dec);
  *  \return void
  */
 void l6480_set_dec_steps_ss(uint16_t dec);
+
+/*! \fn l6480_get_max_speed(void)
+ *  \brief Get maximum speed
+ *
+ *  \return maximum speed
+ */
+uint16_t l6480_get_max_speed(void);
+
+/*! \fn l6480_get_max_speed_steps_ss(void)
+ *  \brief Get maximum speed in steps per second
+ *
+ *  \return maximum speed in steps per second
+ */
+uint16_t l6480_get_max_speed_steps_ss(void);
+
+/*! \fn l6480_set_max_speed(uint16_t max_speed)
+ *  \brief Set maximum speed
+ *
+ *  \param  max_speed   maximum speed
+ *  \return void
+ */
+void l6480_set_max_speed(uint16_t max_speed);
+
+/*! \fn l6480_set_max_speed_steps_ss(uint16_t max_speed)
+ *  \brief Set maximum speed in steps per second
+ *
+ *  \param  max_speed   maximum speed in steps per second
+ *  \return void
+ */
+void l6480_set_max_speed_steps_ss(uint16_t max_speed);
 
 #endif /* L6480_H */

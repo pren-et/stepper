@@ -353,3 +353,78 @@ void l6480_set_dec_steps_ss(uint16_t dec) {
     return;
 }
 
+uint16_t l6480_get_max_speed(void) {
+    /* local variables */
+    l6480_reg_max_speed_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(MAX_SPEED), 
+        L6480_CMD_GETPARAM_LEN(MAX_SPEED), 
+        L6480_CMD_GETPARAM_READ(MAX_SPEED), 
+        reg.array);
+
+    /* return data */
+    return reg.raw.data;
+}
+
+uint16_t l6480_get_max_speed_steps_s(void) {
+    /* local variables */
+    uint32_t max_speed;
+
+    /* read max_speed from device */
+    max_speed = l6480_get_max_speed();
+
+    /*! calculate max_speed in steps per second
+        \f[
+            \text{max\_speed}~[\si{step\per\second}]
+            = \frac{\text{MAX\_SPEED} \cdot 2^{-18}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{MAX\_SPEED} \cdot 2^{-16} \cdot 10^{6}
+            \approx 15.259
+        \f]
+    */
+    max_speed = max_speed * 15259 / 1000;
+
+    /* return max_speed */
+    return (uint16_t) max_speed;
+}
+
+void l6480_set_max_speed(uint16_t max_speed) {
+    /* local variables */
+    l6480_reg_max_speed_t reg;
+
+    /* input value limitation */
+    if (max_speed >= L6480_REG_MAX_SPEED_MAX) {
+        max_speed  = L6480_REG_MAX_SPEED_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = max_speed;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(MAX_SPEED), 
+        L6480_CMD_SETPARAM_LEN(MAX_SPEED), 
+        L6480_CMD_SETPARAM_READ(MAX_SPEED), 
+        reg.array);
+
+    return;
+}
+
+void l6480_set_max_speed_steps_s(uint16_t max_speed) {
+    /* local variables */
+
+    /*! Calculate max_speed register value
+        \f[
+            \text{max\_speed}~[\si{step\per\second}]
+            = \frac{\text{MAX\_SPEED} \cdot 2^{-18}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{MAX\_SPEED} \cdot 2^{-16} \cdot 10^{6}
+            \approx 15.259
+        \f]
+    */
+    max_speed = (uint16_t) ((uint32_t) max_speed * 1000 / 15259);
+
+    /* send data to device */
+    l6480_set_max_speed(max_speed);
+
+    return;
+}
+
