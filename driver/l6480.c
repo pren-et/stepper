@@ -14,7 +14,13 @@
 #include "l6480.h"
 
 /* Definition of necessary functions provided by a SPI module later */
+/*! \fn spi_write(uint8_t *data)
+ *  \todo Define in SPI Module
+ */
 void spi_write(uint8_t *data) { return; }
+/*! \fn spi_read(uint8_t *data)
+ *  \todo Define in SPI Module
+ */
 void spi_read(uint8_t *data) { return; }
 
 void l6480_init(void) {
