@@ -200,7 +200,7 @@ int32_t l6480_get_speed_millisteps_s(void) {
             \text{speed}~[\si{\milli step\per\second}] 
             = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
             = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
-            \approx 14.90
+            \approx \text{MIN\_SPEED} \cdot 14.90
         \f]
     */
     speed = speed * 149 / 10;
@@ -235,7 +235,7 @@ uint16_t l6480_get_acc_steps_ss(void) {
             \text{acc}~[\si{step\per\second^2}]
             = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{ACC} \cdot 2^{-36} \cdot 10^{12}
-            \approx 14.55
+            \approx \text{MIN\_SPEED} \cdot 14.55
         \f]
     */
     acc = acc * 1455 / 100;
@@ -273,7 +273,7 @@ void l6480_set_acc_steps_ss(uint16_t acc) {
             \text{acc}~[\si{step\per\second^2}]
             = \frac{\text{ACC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{ACC} \cdot 2^{-36} \cdot 10^{12}
-            \approx 14.55
+            \approx \text{MIN\_SPEED} \cdot 14.55
         \f]
     */
     acc = (uint16_t) ((uint32_t) acc * 100 / 1455);
@@ -310,7 +310,7 @@ uint16_t l6480_get_dec_steps_ss(void) {
             \text{dec}~[\si{step\per\second^2}]
             = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{DEC} \cdot 2^{-36} \cdot 10^{12}
-            \approx 14.55
+            \approx \text{MIN\_SPEED} \cdot 14.55
         \f]
     */
     dec = dec * 1455 / 100;
@@ -348,7 +348,7 @@ void l6480_set_dec_steps_ss(uint16_t dec) {
             \text{dec}~[\si{step\per\second^2}]
             = \frac{\text{DEC} \cdot 2^{-40}}{\left(250~[\si{\second}] \cdot 10^{-9}\right)^2}
             = \text{DEC} \cdot 2^{-36} \cdot 10^{12}
-            \approx 14.55
+            \approx \text{MIN\_SPEED} \cdot 14.55
         \f]
     */
     dec = (uint16_t) ((uint32_t) dec * 100 / 1455);
@@ -385,7 +385,7 @@ uint16_t l6480_get_max_speed_steps_s(void) {
             \text{max\_speed}~[\si{step\per\second}]
             = \frac{\text{MAX\_SPEED} \cdot 2^{-18}}{250~[\si{\second}] \cdot 10^{-9}}
             = \text{MAX\_SPEED} \cdot 2^{-16} \cdot 10^{6}
-            \approx 15.259
+            \approx \text{MIN\_SPEED} \cdot 15.259
         \f]
     */
     max_speed = max_speed * 15259 / 1000;
@@ -423,7 +423,7 @@ void l6480_set_max_speed_steps_s(uint16_t max_speed) {
             \text{max\_speed}~[\si{step\per\second}]
             = \frac{\text{MAX\_SPEED} \cdot 2^{-18}}{250~[\si{\second}] \cdot 10^{-9}}
             = \text{MAX\_SPEED} \cdot 2^{-16} \cdot 10^{6}
-            \approx 15.259
+            \approx \text{MIN\_SPEED} \cdot 15.259
         \f]
     */
     max_speed = (uint16_t) ((uint32_t) max_speed * 1000 / 15259);
@@ -469,7 +469,7 @@ uint32_t l6480_get_min_speed_millisteps_s(void) {
             \text{min\_speed}~[\si{\milli step\per\second}]
             = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
             = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
-            \approx 238.42
+            \approx \text{MIN\_SPEED} \cdot 238.42
         \f]
     */
     min_speed = min_speed * 2384 / 10;
@@ -513,7 +513,7 @@ uint32_t l6480_get_lspd_opt_speed_millisteps_s(void) {
             \text{min\_speed}~[\si{\milli step\per\second}]
             = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
             = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
-            \approx 238.42
+            \approx \text{MIN\_SPEED} \cdot 238.42
         \f]
     */
     min_speed = min_speed * 2384 / 10;
@@ -552,7 +552,7 @@ void l6480_set_min_speed_millisteps_s(uint32_t speed) {
             \text{min\_speed}~[\si{\milli step\per\second}]
             = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
             = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
-            \approx 238.42
+            \approx \text{MIN\_SPEED} \cdot 238.42
         \f]
     */
     speed = (uint16_t) (speed * 10 / 2384);
@@ -593,7 +593,7 @@ void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed) {
             \text{min\_speed}~[\si{\milli step\per\second}]
             = \frac{\text{MIN\_SPEED} \cdot 2^{-24} \cdot 10^{3}}{250~[\si{\second}] \cdot 10^{-9}}
             = \text{MIN\_SPEED} \cdot 2^{-22} \cdot 10^{9}
-            \approx 238.42
+            \approx \text{MIN\_SPEED} \cdot 238.42
         \f]
     */
     speed = (uint16_t) (speed * 10 / 2384);
