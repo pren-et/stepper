@@ -680,3 +680,11 @@ void l6480_set_int_speed_steps_s(uint16_t speed) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_st_slp(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_st_slp(uint8_t slope) {
+    /*! \todo Implement function */
+}
+
