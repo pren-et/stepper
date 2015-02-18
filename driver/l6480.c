@@ -688,3 +688,15 @@ void l6480_set_st_slp(uint8_t slope) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_fn_slp_acc(void) {
+}
+
+void l6480_set_fn_slp_acc(uint8_t slope) {
+}
+
+uint8_t l6480_get_fn_slp_dec(void) {
+}
+
+void l6480_set_fn_slp_dec(uint8_t slope) {
+}
+
