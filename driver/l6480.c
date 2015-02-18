@@ -604,3 +604,31 @@ void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed) {
     return;
 }
 
+uint8_t l6480_get_boost_mode(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_boost_mode_on(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_boost_mode_off(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_fs_spd(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_fs_spd_steps_s(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_fs_spd(uint16_t speed) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_fs_spd_steps_s(uint16_t speed) {
+    /*! \todo Implement function */
+}
+
