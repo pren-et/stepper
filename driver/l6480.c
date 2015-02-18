@@ -689,14 +689,34 @@ void l6480_set_st_slp(uint8_t slope) {
 }
 
 uint8_t l6480_get_fn_slp_acc(void) {
+    /*! \todo Implement function */
 }
 
 void l6480_set_fn_slp_acc(uint8_t slope) {
+    /*! \todo Implement function */
 }
 
 uint8_t l6480_get_fn_slp_dec(void) {
+    /*! \todo Implement function */
 }
 
 void l6480_set_fn_slp_dec(uint8_t slope) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_k_therm(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_k_therm_milli(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_k_therm(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_k_therm_milli(uint16_t value) {
+    /*! \todo Implement function */
 }
 
