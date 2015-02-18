@@ -724,3 +724,19 @@ uint8_t l6480_get_adc_out(void) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_ocd_th(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_ocd_th_millivolt(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_ocd_th(uint8_t threshold) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_ocd_th_millivolt(uint16_t threshold) {
+    /*! \todo Implement function */
+}
+
