@@ -632,3 +632,35 @@ void l6480_set_fs_spd_steps_s(uint16_t speed) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_kval_hold(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_kval_hold(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_kval_run(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_kval_run(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_kval_acc(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_kval_acc(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_kval_dec(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_kval_dec(uint8_t value) {
+    /*! \todo Implement function */
+}
+
