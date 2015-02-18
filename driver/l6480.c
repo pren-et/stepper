@@ -664,3 +664,19 @@ void l6480_set_kval_dec(uint8_t value) {
     /*! \todo Implement function */
 }
 
+uint16_t l6480_get_int_speed(void) {
+    /*! \todo Implement function */
+}
+
+uint32_t l6480_get_int_speed_steps_s(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_int_speed(uint16_t speed) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_int_speed_steps_s(uint16_t speed) {
+    /*! \todo Implement function */
+}
+
