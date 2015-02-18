@@ -740,3 +740,103 @@ void l6480_set_ocd_th_millivolt(uint16_t threshold) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_stall_th(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_stall_th_millivolt(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_stall_th(uint8_t threshold) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_stall_th_millivolt(uint16_t threshold) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_step_mode(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_step_mode_sync_en(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_step_mode_sync_sel(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_step_mode_step_sel(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_step_mode_step_sel_steps(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_step_mode(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_step_mode_sync_en_on(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_step_mode_sync_en_off(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_step_mode_sync_sel(uint8_t sync_sel) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_step_mode_step_sel(uint8_t sel) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_step_mode_step_sel_steps(uint8_t steps) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_alarm_en(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_en(uint8_t alarm_en) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_en_overcurrent(uint8_t overcurrent) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_en_th_warning(uint8_t th_warning) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_en_uvlo(uint8_t uvlo) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_stall_detect(uint8_t stall_setect) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_switch_on(uint8_t switch_on) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_alarm_command_err(uint8_t command_err) {
+    /*! \todo Implement function */
+}
+
