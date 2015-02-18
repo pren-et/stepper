@@ -720,3 +720,7 @@ void l6480_set_k_therm_milli(uint16_t value) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_adc_out(void) {
+    /*! \todo Implement function */
+}
+
