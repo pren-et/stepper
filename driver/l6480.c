@@ -1032,3 +1032,63 @@ void l6480_set_config_osc_sel(uint8_t value){
     /*! \todo Implement function */
 }
 
+uint16_t l6480_get_status(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_step_loss_b(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_step_loss_a(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_ocd(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_th_status(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_uvlo_adc(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_uvlo(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_stck_mod(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_cmd_error(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_mot_status(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_dir(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_sw_evn(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_sw_f(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_busy(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_status_hiz(void) {
+    /*! \todo Implement function */
+}
+
