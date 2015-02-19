@@ -840,3 +840,75 @@ void l6480_set_alarm_command_err(uint8_t command_err) {
     /*! \todo Implement function */
 }
 
+uint16_t l6480_get_gatecfg1(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg1_wd_en(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg1_tboost(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_gatecfg1_tboost_nanosecond(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg1_igate(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg1_igate_milliampere(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg_tcc(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg_tcc_nanosecond(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1(uint16_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_wd_en(uint8_t wd_en) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_wd_en_on(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_wd_en_off(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_tboost(uint8_t time) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_igate(uint8_t current) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_igate_milliampere(uint8_t current) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg1_tcc(uint8_t time) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecdfg1_tcc_nanosecond(uint8_t time) {
+    /*! \todo Implement function */
+}
+
