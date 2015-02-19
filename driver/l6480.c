@@ -952,3 +952,83 @@ void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time) {
     /*! \todo Implement function */
 }
 
+uint16_t l6480_get_config(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_f_pwm_int(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_f_pwm_dec(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_vccval(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_uvloval(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_oc_sd(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_en_vscomp(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_sw_mode(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_ext_clk(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_config_osc_sel(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config(uint16_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_f_pwm_int(uint8_t factor) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_f_pwm_dec(uint8_t factor) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_vccval(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_uvloval(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_oc_sd(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_en_vscomp(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_sw_mode(uint8_t mode) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_ext_clk(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_config_osc_sel(uint8_t value){
+    /*! \todo Implement function */
+}
+
