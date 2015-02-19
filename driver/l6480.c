@@ -912,3 +912,43 @@ void l6480_set_gatecdfg1_tcc_nanosecond(uint8_t time) {
     /*! \todo Implement function */
 }
 
+uint8_t l6480_get_gatecfg2(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg2_tblank(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_gatecfg2_tblank_nanosecond(void) {
+    /*! \todo Implement function */
+}
+
+uint8_t l6480_get_gatecfg2_tdt(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_get_gatecfg2_tdt_nanosecond(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg2(uint8_t value) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg2_tblank(uint8_t time) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg2_tdt(uint8_t time) {
+    /*! \todo Implement function */
+}
+
+void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time) {
+    /*! \todo Implement function */
+}
+
