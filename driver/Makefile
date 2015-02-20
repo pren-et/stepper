@@ -1,11 +1,11 @@
-.PHONY: all syntax doc clean
+.PHONY: all syntax doxygen clean
 
-all: syntax doc
+all: syntax doxygen
 
 syntax: 
 	gcc -Wall -Wparentheses -c l6480.c -fsyntax-only
 
-doc:
+doxygen:
 	doxygen l6480.doxyfile
 
 clean:
