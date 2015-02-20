@@ -216,10 +216,11 @@ typedef union {
 /*! \name fs_spd
  * @{
  */
-#define L6480_REG_FS_SPD_ADDR    0x15
-#define L6480_REG_FS_SPD_LEN     2
-#define L6480_REG_FS_SPD_RW      L6480_REG_RW_WR
-#define L6480_REG_FS_SPD_DEFAULT 0x0027
+#define L6480_REG_FS_SPD_ADDR       0x15
+#define L6480_REG_FS_SPD_LEN        2
+#define L6480_REG_FS_SPD_RW         L6480_REG_RW_WR
+#define L6480_REG_FS_SPD_DEFAULT    0x0027
+#define L6480_REG_FS_SPD_MAX        2047
 /*! @} */
 /*! \union l6480_reg_fs_spd_t
  *  \brief Register FS_SPD
@@ -1254,5 +1255,54 @@ void l6480_set_lspd_opt_speed(uint16_t speed);
  *  \return void
  */
 void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed);
+
+/*! \fn l6480_get_boost_mode(void)
+ *  \brief Get boost mode
+ *
+ *  \return boost mode
+ */
+uint8_t l6480_get_boost_mode(void);
+
+/*! \fn l6480_set_boost_mode_on(void)
+ *  \brief Turn boost mode on
+ *
+ *  \return void
+ */
+void l6480_set_boost_mode_on(void);
+
+/*! \fn l6480_set_boost_mode_off(void)
+ *  \brief Turn boost mode off
+ *
+ *  \return void
+ */
+void l6480_set_boost_mode_off(void);
+
+/*! \fn l6480_get_fs_spd(void)
+ *  \brief Get full-step speed threshold
+ *
+ *  \return full-step speed threshold
+ */
+uint16_t l6480_get_fs_spd(void);
+
+/*! \fn l6480_get_fs_spd_steps_s(void)
+ *  \brief Get full-step speed threshold in steps per second
+ *
+ *  \return full-step speed threshold in steps per second
+ */
+uint16_t l6480_get_fs_spd_steps_s(void);
+
+/*! \fn l6480_set_fs_spd(uint16_t speed)
+ *  \brief Set full-step speed threshold
+ *
+ *  \param speed    full-step speed threshold
+ */
+void l6480_set_fs_spd(uint16_t speed);
+
+/*! \fn l6480_set_fs_spd_steps_s(uint16_t speed)
+ *  \brief Set full-step speed threshold in steps per second
+ *
+ *  \param speed    full-step speed threshold in steps per second
+ */
+void l6480_set_fs_spd_steps_s(uint16_t speed);
 
 #endif /* L6480_H */

@@ -605,31 +605,138 @@ void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed) {
 }
 
 uint8_t l6480_get_boost_mode(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fs_spd_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
+        L6480_CMD_GETPARAM_LEN(FS_SPD), 
+        L6480_CMD_GETPARAM_READ(FS_SPD), 
+        reg.array);
+
+    /* return data */
+    return reg.reg.boost_mode;
 }
 
 void l6480_set_boost_mode_on(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fs_spd_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
+        L6480_CMD_GETPARAM_LEN(FS_SPD), 
+        L6480_CMD_GETPARAM_READ(FS_SPD), 
+        reg.array);
+
+    /* Set boost mode */
+    reg.reg.boost_mode = 1;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
+        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+        reg.array);
 }
 
 void l6480_set_boost_mode_off(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fs_spd_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
+        L6480_CMD_GETPARAM_LEN(FS_SPD), 
+        L6480_CMD_GETPARAM_READ(FS_SPD), 
+        reg.array);
+
+    /* Set boost mode */
+    reg.reg.boost_mode = 0;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
+        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+        reg.array);
 }
 
 uint16_t l6480_get_fs_spd(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fs_spd_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
+        L6480_CMD_GETPARAM_LEN(FS_SPD), 
+        L6480_CMD_GETPARAM_READ(FS_SPD), 
+        reg.array);
+
+    /* return fs_spd */
+    return reg.reg.fs_spd;
 }
 
 uint16_t l6480_get_fs_spd_steps_s(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    uint32_t fs_spd;
+
+    /* read min_speed from device */
+    fs_spd = l6480_get_fs_spd();
+
+    /*! calculate fs_spd in steps per second
+        \f[
+            \text{fs\_speed}~[\si{step\per\second}]
+            = (\frac{\text{FS\_SPEED} + 0.5) \cdot 2^{-18}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{FS\_SPEED} \cdot 2^{-16} \cdot 10^{6} + 2^{-17} \cdot 10^{6}
+            \approx \text{FS\_SPEED} \cdot 15.259 + 7.629
+        \f]
+    */
+    fs_spd = ((fs_spd * 15259) + 7629) / 1000 ;
+
+    /* return fs_spd */
+    return fs_spd;
 }
 
 void l6480_set_fs_spd(uint16_t speed) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fs_spd_t reg;
+
+    /* input value limitation */
+    if (speed >= L6480_REG_FS_SPD_MAX) {
+        speed  = L6480_REG_FS_SPD_MAX;
+    }
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
+        L6480_CMD_GETPARAM_LEN(FS_SPD), 
+        L6480_CMD_GETPARAM_READ(FS_SPD), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.fs_spd = speed;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(FS_SPD), 
+        L6480_CMD_SETPARAM_LEN(FS_SPD), 
+        L6480_CMD_SETPARAM_READ(FS_SPD), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_fs_spd_steps_s(uint16_t speed) {
-    /*! \todo Implement function */
+    /* local variables */
+
+    /*! calculate fs_spd in steps per second
+        \f[
+            \text{fs\_speed}~[\si{step\per\second}]
+            = (\frac{\text{FS\_SPEED} + 0.5) \cdot 2^{-18}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{FS\_SPEED} \cdot 2^{-16} \cdot 10^{6} + 2^{-17} \cdot 10^{6}
+            \approx \text{FS\_SPEED} \cdot 15.259 + 7.629
+        \f]
+    */
+    speed = (uint16_t) ((((uint32_t) speed * 1000) - 7629) / 15259);
+
+    /* send data to device */
+    l6480_set_fs_spd(speed);
+
+    return;
 }
 
 uint8_t l6480_get_kval_hold(void) {
