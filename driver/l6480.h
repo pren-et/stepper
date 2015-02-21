@@ -1294,15 +1294,77 @@ uint16_t l6480_get_fs_spd_steps_s(void);
 /*! \fn l6480_set_fs_spd(uint16_t speed)
  *  \brief Set full-step speed threshold
  *
- *  \param speed    full-step speed threshold
+ *  \param  speed    full-step speed threshold
+ *  \return void
  */
 void l6480_set_fs_spd(uint16_t speed);
 
 /*! \fn l6480_set_fs_spd_steps_s(uint16_t speed)
  *  \brief Set full-step speed threshold in steps per second
  *
- *  \param speed    full-step speed threshold in steps per second
+ *  \param  speed    full-step speed threshold in steps per second
+ *  \return void
  */
 void l6480_set_fs_spd_steps_s(uint16_t speed);
+
+/*! \fn l6480_get_kval_hold(void)
+ *  \brief Get kval_hold
+ *
+ *  return kval_hold
+ */
+uint8_t l6480_get_kval_hold(void);
+
+/*! \fn l6480_set_kval_hold(uint8_t value)
+ *  \brief Ser kval_hold
+ *
+ *  \param  value kval_hold
+ *  \return void
+ */
+void l6480_set_kval_hold(uint8_t value);
+
+/*! \fn l6480_get_kval_run(void)
+ *  \brief Get kval_run
+ *
+ *  return kval_run
+ */
+uint8_t l6480_get_kval_run(void);
+
+/*! \fn l6480_set_kval_run(uint8_t value)
+ *  \brief Ser kval_run
+ *
+ *  \param  value kval_run
+ *  \return void
+ */
+void l6480_set_kval_run(uint8_t value);
+
+/*! \fn l6480_get_kval_acc(void)
+ *  \brief Get kval_acc
+ *
+ *  return kval_acc
+ */
+uint8_t l6480_get_kval_acc(void);
+
+/*! \fn l6480_set_kval_acc(uint8_t value)
+ *  \brief Ser kval_acc
+ *
+ *  \param  value kval_acc
+ *  \return void
+ */
+void l6480_set_kval_acc(uint8_t value);
+
+/*! \fn l6480_get_kval_dec(void)
+ *  \brief Get kval_dec
+ *
+ *  return kval_dec
+ */
+uint8_t l6480_get_kval_dec(void);
+
+/*! \fn l6480_set_kval_dec(uint8_t value)
+ *  \brief Ser kval_dec
+ *
+ *  \param  value kval_dec
+ *  \return void
+ */
+void l6480_set_kval_dec(uint8_t value);
 
 #endif /* L6480_H */

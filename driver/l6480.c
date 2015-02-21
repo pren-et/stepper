@@ -740,35 +740,123 @@ void l6480_set_fs_spd_steps_s(uint16_t speed) {
 }
 
 uint8_t l6480_get_kval_hold(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_hold_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_HOLD), 
+        L6480_CMD_GETPARAM_LEN(KVAL_HOLD), 
+        L6480_CMD_GETPARAM_READ(KVAL_HOLD), 
+        reg.array);
+
+    /* return kval_hold */
+    return reg.raw.data;
 }
 
 void l6480_set_kval_hold(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_hold_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_HOLD), 
+        L6480_CMD_SETPARAM_LEN(KVAL_HOLD), 
+        L6480_CMD_SETPARAM_READ(KVAL_HOLD), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_kval_run(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_run_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_RUN), 
+        L6480_CMD_GETPARAM_LEN(KVAL_RUN), 
+        L6480_CMD_GETPARAM_READ(KVAL_RUN), 
+        reg.array);
+
+    /* return kval_run */
+    return reg.raw.data;
 }
 
 void l6480_set_kval_run(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_run_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_RUN), 
+        L6480_CMD_SETPARAM_LEN(KVAL_RUN), 
+        L6480_CMD_SETPARAM_READ(KVAL_RUN), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_kval_acc(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_acc_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_ACC), 
+        L6480_CMD_GETPARAM_LEN(KVAL_ACC), 
+        L6480_CMD_GETPARAM_READ(KVAL_ACC), 
+        reg.array);
+
+    /* return kval_acc */
+    return reg.raw.data;
 }
 
 void l6480_set_kval_acc(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_acc_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_ACC), 
+        L6480_CMD_SETPARAM_LEN(KVAL_ACC), 
+        L6480_CMD_SETPARAM_READ(KVAL_ACC), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_kval_dec(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_dec_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_DEC), 
+        L6480_CMD_GETPARAM_LEN(KVAL_DEC), 
+        L6480_CMD_GETPARAM_READ(KVAL_DEC), 
+        reg.array);
+
+    /* return kval_dec */
+    return reg.raw.data;
 }
 
 void l6480_set_kval_dec(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_kval_dec_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_DEC), 
+        L6480_CMD_SETPARAM_LEN(KVAL_DEC), 
+        L6480_CMD_SETPARAM_READ(KVAL_DEC), 
+        reg.array);
+
+    return;
 }
 
 uint16_t l6480_get_int_speed(void) {
