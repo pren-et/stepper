@@ -860,43 +860,178 @@ void l6480_set_kval_dec(uint8_t value) {
 }
 
 uint16_t l6480_get_int_speed(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_int_speed_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(INT_SPEED), 
+        L6480_CMD_GETPARAM_LEN(INT_SPEED), 
+        L6480_CMD_GETPARAM_READ(INT_SPEED), 
+        reg.array);
+
+    /* return int_speed */
+    return reg.raw.data;
 }
 
-uint32_t l6480_get_int_speed_steps_s(void) {
-    /*! \todo Implement function */
+uint32_t l6480_get_int_speed_millisteps_s(void) {
+    /* local variables */
+    uint32_t int_speed;
+
+    /* read min_speed from device */
+    int_speed = l6480_get_int_speed();
+
+    /*! calculate fs_spd in steps per second
+        \f[
+            \text{int\_speed}~[\si{step\per\second}]
+            = \frac{\text{INT\_SPEED} \cdot 2^{-26}}{250~[\si{\second}] \cdot 10^{-9}}
+            \qquad \to \text{ Probably error in datasheet}
+        \f]
+        \f[
+            \text{int\_speed}~[\si{step\per\second}]
+            = \frac{\text{INT\_SPEED} \cdot 10^{3} \cdot 2^{-26}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{INT\_SPEED} \cdot 2^{-24} \cdot 10^{9}
+            \approx \text{INT\_SPEED} \cdot 59.6
+        \f]
+    */
+    int_speed = int_speed * 596 / 10 ;
+
+    /* return int_speed */
+    return int_speed;
 }
 
 void l6480_set_int_speed(uint16_t speed) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_int_speed_t reg;
+
+    /* input value limitation */
+    if (speed >= L6480_REG_INT_SPEED_MAX) {
+        speed  = L6480_REG_INT_SPEED_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = speed;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(INT_SPEED), 
+        L6480_CMD_SETPARAM_LEN(INT_SPEED), 
+        L6480_CMD_SETPARAM_READ(INT_SPEED), 
+        reg.array);
+
+    return;
 }
 
-void l6480_set_int_speed_steps_s(uint16_t speed) {
-    /*! \todo Implement function */
+void l6480_set_int_speed_millisteps_s(uint32_t speed) {
+    /* local variables */
+
+    /*! Calculate int_speed register value
+        \f[
+            \text{int\_speed}~[\si{step\per\second}]
+            = \frac{\text{INT\_SPEED} \cdot 2^{-26}}{250~[\si{\second}] \cdot 10^{-9}}
+            \qquad \to \text{ Probably error in datasheet}
+        \f]
+        \f[
+            \text{int\_speed}~[\si{step\per\second}]
+            = \frac{\text{INT\_SPEED} \cdot 10^{3} \cdot 2^{-26}}{250~[\si{\second}] \cdot 10^{-9}}
+            = \text{INT\_SPEED} \cdot 2^{-24} \cdot 10^{9}
+            \approx \text{INT\_SPEED} \cdot 59.6
+        \f]
+    */
+    speed = ((uint32_t) speed * 10 / 596);
+
+    /* send data to device */
+    l6480_set_int_speed(speed);
+
+    return;
 }
 
 uint8_t l6480_get_st_slp(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_st_slp_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ST_SLP), 
+        L6480_CMD_GETPARAM_LEN(ST_SLP), 
+        L6480_CMD_GETPARAM_READ(ST_SLP), 
+        reg.array);
+
+    /* return st_slp */
+    return reg.raw.data;
 }
 
 void l6480_set_st_slp(uint8_t slope) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_st_slp_t reg;
+
+    /* prepare data local */
+    reg.raw.data = slope;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ST_SLP), 
+        L6480_CMD_SETPARAM_LEN(ST_SLP), 
+        L6480_CMD_SETPARAM_READ(ST_SLP), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_fn_slp_acc(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fn_slp_acc_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FN_SLP_ACC), 
+        L6480_CMD_GETPARAM_LEN(FN_SLP_ACC), 
+        L6480_CMD_GETPARAM_READ(FN_SLP_ACC), 
+        reg.array);
+
+    /* return fn_slp_acc */
+    return reg.raw.data;
 }
 
 void l6480_set_fn_slp_acc(uint8_t slope) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fn_slp_acc_t reg;
+
+    /* prepare data local */
+    reg.raw.data = slope;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_ACC), 
+        L6480_CMD_SETPARAM_LEN(FN_SLP_ACC), 
+        L6480_CMD_SETPARAM_READ(FN_SLP_ACC), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_fn_slp_dec(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fn_slp_dec_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(FN_SLP_DEC), 
+        L6480_CMD_GETPARAM_LEN(FN_SLP_DEC), 
+        L6480_CMD_GETPARAM_READ(FN_SLP_DEC), 
+        reg.array);
+
+    /* return fn_slp_dec */
+    return reg.raw.data;
 }
 
 void l6480_set_fn_slp_dec(uint8_t slope) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_fn_slp_acc_t reg;
+
+    /* prepare data local */
+    reg.raw.data = slope;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_ACC), 
+        L6480_CMD_SETPARAM_LEN(FN_SLP_ACC), 
+        L6480_CMD_SETPARAM_READ(FN_SLP_ACC), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_k_therm(void) {

@@ -317,6 +317,7 @@ typedef union {
 #define L6480_REG_INT_SPEED_LEN     2
 #define L6480_REG_INT_SPEED_RW      L6480_REG_RW_WH
 #define L6480_REG_INT_SPEED_DEFAULT 0x0408
+#define L6480_REG_INT_SPEED_MAX     16383
 /*! @} */
 /*! \union l6480_reg_int_speed_t
  *  \brief Register INT_SPEED
@@ -1366,5 +1367,80 @@ uint8_t l6480_get_kval_dec(void);
  *  \return void
  */
 void l6480_set_kval_dec(uint8_t value);
+
+/*! \fn l6480_get_int_speed(void)
+ *  \brief Get int_speed
+ *
+ *  \return int_speed
+ */
+uint16_t l6480_get_int_speed(void);
+
+/*! \fn l6480_get_int_speed_millisteps_s(void)
+ *  \brief Get int_speed in millisteps per second
+ *
+ *  \return int_speed in millisteps per second
+ */
+uint32_t l6480_get_int_speed_millisteps_s(void);
+
+/*! \fn l6480_set_int_speed(uint16_t speed)
+ *  \brief Set int_speed
+ *
+ *  \param  speed int_speed
+ *  \return void
+ */
+void l6480_set_int_speed(uint16_t speed);
+
+/*! \fn l6480_set_int_speed_millisteps_s(uint32_t speed)
+ *  \brief Set int_speed in millisteps per second
+ *
+ *  \param  speed int_speed in millisteps per second
+ *  \return void
+ */
+void l6480_set_int_speed_millisteps_s(uint32_t speed);
+
+/*! \fn l6480_get_st_slp(void)
+ *  \brief Get st_slp
+ *
+ *  \return st_slp
+ */
+uint8_t l6480_get_st_slp(void);
+
+/*! \fn l6480_set_st_slp(uint8_t slope)
+ *  \brief Set st_slp
+ *
+ *  \param  slope st_slp
+ *  \return void
+ */
+void l6480_set_st_slp(uint8_t slope);
+
+/*! \fn l6480_get_fn_slp_acc(void)
+ *  \brief Get fn_slp_acc
+ *
+ *  \return fn_slp_acc
+ */
+uint8_t l6480_get_fn_slp_acc(void);
+
+/*! \fn l6480_set_fn_slp_acc(uint8_t slope)
+ *  \brief Set fn_slp_dec
+ *
+ *  \param  slope fn_slp_acc
+ *  \return void
+ */
+void l6480_set_fn_slp_acc(uint8_t slope);
+
+/*! \fn l6480_get_fn_slp_dec(void)
+ *  \brief Get fn_slp_dec
+ *
+ *  \return fn_slp_dec
+ */
+uint8_t l6480_get_fn_slp_dec(void);
+
+/*! \fn l6480_set_fn_slp_dec(uint8_t slope)
+ *  \brief Set fn_slp_dec
+ *
+ *  \param  slope fn_slp_dec
+ *  \return void
+ */
+void l6480_set_fn_slp_dec(uint8_t slope);
 
 #endif /* L6480_H */
