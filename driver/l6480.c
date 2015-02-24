@@ -1104,7 +1104,17 @@ void l6480_set_k_therm_milli(uint16_t value) {
 }
 
 uint8_t l6480_get_adc_out(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_k_therm_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(K_THERM), 
+        L6480_CMD_GETPARAM_LEN(K_THERM), 
+        L6480_CMD_GETPARAM_READ(K_THERM), 
+        reg.array);
+
+    /* return k_therm */
+    return reg.raw.data;
 }
 
 uint8_t l6480_get_ocd_th(void) {

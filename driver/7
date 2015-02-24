@@ -1480,7 +1480,5 @@ void l6480_set_k_therm_milli(uint16_t value);
  *  \brief Get adc_out
  *
  *  \return adc_out
- */
-uint8_t l6480_get_adc_out(void);
 
 #endif /* L6480_H */
