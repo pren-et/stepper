@@ -432,6 +432,9 @@ typedef union {
 #define L6480_REG_OCD_TH_LEN        1
 #define L6480_REG_OCD_TH_RW         L6480_REG_RW_WR
 #define L6480_REG_OCD_TH_DEFAULT    0x08
+#define L6480_REG_OCD_TH_MAX        0x1F
+#define L6480_REG_OCD_TH_MIN_MILLI  32
+#define L6480_REG_OCD_TH_MAX_MILLI  1000
 /*! @} */
 /*! \union l6480_reg_ocd_th_t
  *  \brief Register OCD_TH
@@ -1453,7 +1456,7 @@ void l6480_set_fn_slp_dec(uint8_t slope);
  */
 uint8_t l6480_get_k_therm(void);
 
-/*! \fn l6480_get_k_therm_milli
+/*! \fn l6480_get_k_therm_milli(void)
  *  \brief Get k_therm coefficient
  *
  *  \return k_therm coefficient
@@ -1482,5 +1485,35 @@ void l6480_set_k_therm_milli(uint16_t value);
  *  \return adc_out
  */
 uint8_t l6480_get_adc_out(void);
+
+/*! \fn l6480_get_ocd_th(void)
+ *  \brief Get ocd_th
+ *
+ *  \return ocd_th
+ */
+uint8_t l6480_get_ocd_th(void);
+
+/*! \fn l6480_get_ocd_th_millivolt(void)
+ *  \brief Get ocd_th in millivolts
+ *
+ *  \return ocd_th in millivolts
+ */
+uint16_t l6480_get_ocd_th_millivolt(void);
+
+/*! \fn l6480_set_ocd_th(uint8_t threshold)
+ *  \brief Set ocd_th
+ *
+ *  \param  threshold ocd_th
+ *  \return void
+ */
+void l6480_set_ocd_th(uint8_t threshold);
+
+/*! \fn l6480_set_ocd_th_millivolt(uint16_t threshold)
+ *  \brief Set ocd_th in millivolts
+ *
+ *  \param  threshold ocd_th in millivolts
+ *  \return void
+ */
+void l6480_set_ocd_th_millivolt(uint16_t threshold);
 
 #endif /* L6480_H */

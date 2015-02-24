@@ -1052,7 +1052,7 @@ uint16_t l6480_get_k_therm_milli(void) {
     /* local variables */
     uint32_t k_therm;
 
-    /* read min_speed from device */
+    /* read k_therm from device */
     k_therm = l6480_get_k_therm();
 
     /* Calculate k_therm coefficient */
@@ -1105,32 +1105,85 @@ void l6480_set_k_therm_milli(uint16_t value) {
 
 uint8_t l6480_get_adc_out(void) {
     /* local variables */
-    l6480_reg_k_therm_t reg;
+    l6480_reg_adc_out_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(K_THERM), 
-        L6480_CMD_GETPARAM_LEN(K_THERM), 
-        L6480_CMD_GETPARAM_READ(K_THERM), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ADC_OUT), 
+        L6480_CMD_GETPARAM_LEN(ADC_OUT), 
+        L6480_CMD_GETPARAM_READ(ADC_OUT), 
         reg.array);
 
-    /* return k_therm */
+    /* return adc_out */
     return reg.raw.data;
 }
 
 uint8_t l6480_get_ocd_th(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_ocd_th_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(OCD_TH), 
+        L6480_CMD_GETPARAM_LEN(OCD_TH), 
+        L6480_CMD_GETPARAM_READ(OCD_TH), 
+        reg.array);
+
+    /* return ocd_th */
+    return reg.raw.data;
 }
 
 uint16_t l6480_get_ocd_th_millivolt(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    uint32_t ocd_th;
+
+    /* read ocd_th from device */
+    ocd_th = l6480_get_ocd_th();
+
+    /* Calculate ocd_th in millivolts */
+    ocd_th = (uint16_t) ((ocd_th + 1) * 3125 / 100);
+
+    /* return ocd_th */
+    return ocd_th;
 }
 
 void l6480_set_ocd_th(uint8_t threshold) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_ocd_th_t reg;
+
+    /* input value limitation */
+    if (threshold >= L6480_REG_OCD_TH_MAX) {
+        threshold  = L6480_REG_OCD_TH_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = threshold;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(OCD_TH), 
+        L6480_CMD_SETPARAM_LEN(OCD_TH), 
+        L6480_CMD_SETPARAM_READ(OCD_TH), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_ocd_th_millivolt(uint16_t threshold) {
-    /*! \todo Implement function */
+    /* local variables */
+
+    /* input value limitation */
+    if (threshold >= L6480_REG_OCD_TH_MAX_MILLI) {
+        threshold  = L6480_REG_OCD_TH_MAX_MILLI;
+    }
+    if (threshold <= L6480_REG_OCD_TH_MIN_MILLI) {
+        threshold  = L6480_REG_OCD_TH_MIN_MILLI;
+    }
+
+    /* Calculate ocd_th register value */
+    threshold = (uint8_t) ((uint32_t) (threshold) * 100 / 3125) - 1;
+
+    /* send data to device */
+    l6480_set_ocd_th(threshold);
+
+    return;
 }
 
 uint8_t l6480_get_stall_th(void) {
