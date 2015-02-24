@@ -450,10 +450,13 @@ typedef union {
 /*! \name stall_th
  * @{
  */
-#define L6480_REG_STALL_TH_ADDR     0x14
-#define L6480_REG_STALL_TH_LEN      1
-#define L6480_REG_STALL_TH_RW       L6480_REG_RW_WR
-#define L6480_REG_STALL_TH_DEFAULT  0x10
+#define L6480_REG_STALL_TH_ADDR         0x14
+#define L6480_REG_STALL_TH_LEN          1
+#define L6480_REG_STALL_TH_RW           L6480_REG_RW_WR
+#define L6480_REG_STALL_TH_DEFAULT      0x10
+#define L6480_REG_STALL_TH_MAX          0x1F
+#define L6480_REG_STALL_TH_MIN_MILLI    32
+#define L6480_REG_STALL_TH_MAX_MILLI    1000
 /*! @} */
 /*! \union l6480_reg_stall_th_t
  *  \brief Register STALL_TH
@@ -1515,5 +1518,35 @@ void l6480_set_ocd_th(uint8_t threshold);
  *  \return void
  */
 void l6480_set_ocd_th_millivolt(uint16_t threshold);
+
+/*! \fn l6480_get_stall_th(void)
+ *  \brief Get stall_th
+ *
+ *  \return stall_th
+ */
+uint8_t l6480_get_stall_th(void);
+
+/*! \fn l6480_get_stall_th_millivolt(void)
+ *  \brief Get stall_th in millivolts
+ *
+ *  \return stall_th in millivolts
+ */
+uint16_t l6480_get_stall_th_millivolt(void);
+
+/*! \fn l6480_set_stall_th(uint8_t threshold)
+ *  \brief Set stall_th
+ *
+ *  \param  threshold stall_th
+ *  \return void
+ */
+void l6480_set_stall_th(uint8_t threshold);
+
+/*! \fn l6480_set_stall_th_millivolt(uint16_t threshold)
+ *  \brief Set stall_th in millivolts
+ *
+ *  \param  threshold stall_th in millivolts
+ *  \return void
+ */
+void l6480_set_stall_th_millivolt(uint16_t threshold);
 
 #endif /* L6480_H */

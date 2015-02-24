@@ -1187,19 +1187,72 @@ void l6480_set_ocd_th_millivolt(uint16_t threshold) {
 }
 
 uint8_t l6480_get_stall_th(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_stall_th_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STALL_TH), 
+        L6480_CMD_GETPARAM_LEN(STALL_TH), 
+        L6480_CMD_GETPARAM_READ(STALL_TH), 
+        reg.array);
+
+    /* return stall_th */
+    return reg.raw.data;
 }
 
 uint16_t l6480_get_stall_th_millivolt(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    uint32_t stall_th;
+
+    /* read stall_th from device */
+    stall_th = l6480_get_stall_th();
+
+    /* Calculate stall_th in millivolts */
+    stall_th = (uint16_t) ((stall_th + 1) * 3125 / 100);
+
+    /* return stall_th */
+    return stall_th;
 }
 
 void l6480_set_stall_th(uint8_t threshold) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_stall_th_t reg;
+
+    /* input value limitation */
+    if (threshold >= L6480_REG_STALL_TH_MAX) {
+        threshold  = L6480_REG_STALL_TH_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = threshold;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STALL_TH), 
+        L6480_CMD_SETPARAM_LEN(STALL_TH), 
+        L6480_CMD_SETPARAM_READ(STALL_TH), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_stall_th_millivolt(uint16_t threshold) {
-    /*! \todo Implement function */
+    /* local variables */
+
+    /* input value limitation */
+    if (threshold >= L6480_REG_STALL_TH_MAX_MILLI) {
+        threshold  = L6480_REG_STALL_TH_MAX_MILLI;
+    }
+    if (threshold <= L6480_REG_STALL_TH_MIN_MILLI) {
+        threshold  = L6480_REG_STALL_TH_MIN_MILLI;
+    }
+
+    /* Calculate stall_th register value */
+    threshold = (uint8_t) ((uint32_t) (threshold) * 100 / 3125) - 1;
+
+    /* send data to device */
+    l6480_set_stall_th(threshold);
+
+    return;
 }
 
 uint8_t l6480_get_step_mode(void) {
