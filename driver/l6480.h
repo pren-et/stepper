@@ -391,6 +391,9 @@ typedef union {
 #define L6480_REG_K_THERM_LEN       1
 #define L6480_REG_K_THERM_RW        L6480_REG_RW_WR
 #define L6480_REG_K_THERM_DEFAULT   0x00
+#define L6480_REG_K_THERM_MAX       0x0F
+#define L6480_REG_K_THERM_MIN_MILLI 1000
+#define L6480_REG_K_THERM_MAX_MILLI 1469
 /*! @} */
 /*! \union l6480_reg_k_therm_t
  *  \brief Register K_THERM
@@ -1442,5 +1445,35 @@ uint8_t l6480_get_fn_slp_dec(void);
  *  \return void
  */
 void l6480_set_fn_slp_dec(uint8_t slope);
+
+/*! \fn l6480_get_k_therm(void)
+ *  \brief Get k_therm
+ *
+ *  \return k_therm
+ */
+uint8_t l6480_get_k_therm(void);
+
+/*! \fn l6480_get_k_therm_milli
+ *  \brief Get k_therm coefficient
+ *
+ *  \return k_therm coefficient
+ */
+uint16_t l6480_get_k_therm_milli(void);
+
+/*! \fn l6480_set_k_therm(uint8_t value)
+ *  \brief Set k_therm
+ *
+ *  \param  value k_therm
+ *  \return void
+ */
+void l6480_set_k_therm(uint8_t value);
+
+/*! \fn l6480_set_k_therm_milli(uint16_t value)
+ *  \brief Set k_therm coefficient
+ *
+ *  \param  value k_therm coefficient
+ *  \return void
+ */
+void l6480_set_k_therm_milli(uint16_t value);
 
 #endif /* L6480_H */

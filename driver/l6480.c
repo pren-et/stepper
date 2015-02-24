@@ -936,7 +936,7 @@ void l6480_set_int_speed_millisteps_s(uint32_t speed) {
             \approx \text{INT\_SPEED} \cdot 59.6
         \f]
     */
-    speed = ((uint32_t) speed * 10 / 596);
+    speed = (uint16_t) (speed * 10 / 596);
 
     /* send data to device */
     l6480_set_int_speed(speed);
@@ -1020,34 +1020,87 @@ uint8_t l6480_get_fn_slp_dec(void) {
 
 void l6480_set_fn_slp_dec(uint8_t slope) {
     /* local variables */
-    l6480_reg_fn_slp_acc_t reg;
+    l6480_reg_fn_slp_dec_t reg;
 
     /* prepare data local */
     reg.raw.data = slope;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_ACC), 
-        L6480_CMD_SETPARAM_LEN(FN_SLP_ACC), 
-        L6480_CMD_SETPARAM_READ(FN_SLP_ACC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_DEC), 
+        L6480_CMD_SETPARAM_LEN(FN_SLP_DEC), 
+        L6480_CMD_SETPARAM_READ(FN_SLP_DEC), 
         reg.array);
 
     return;
 }
 
 uint8_t l6480_get_k_therm(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_k_therm_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(K_THERM), 
+        L6480_CMD_GETPARAM_LEN(K_THERM), 
+        L6480_CMD_GETPARAM_READ(K_THERM), 
+        reg.array);
+
+    /* return k_therm */
+    return reg.raw.data;
 }
 
 uint16_t l6480_get_k_therm_milli(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    uint32_t k_therm;
+
+    /* read min_speed from device */
+    k_therm = l6480_get_k_therm();
+
+    /* Calculate k_therm coefficient */
+    k_therm = (uint16_t) (k_therm * 3125 / 100);
+
+    /* return k_therm */
+    return k_therm;
 }
 
 void l6480_set_k_therm(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_k_therm_t reg;
+
+    /* input value limitation */
+    if (value >= L6480_REG_K_THERM_MAX) {
+        value  = L6480_REG_K_THERM_MAX;
+    }
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(K_THERM), 
+        L6480_CMD_SETPARAM_LEN(K_THERM), 
+        L6480_CMD_SETPARAM_READ(K_THERM), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_k_therm_milli(uint16_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+
+    /* input value limitation */
+    if (value >= L6480_REG_K_THERM_MAX_MILLI) {
+        value  = L6480_REG_K_THERM_MAX_MILLI;
+    }
+    if (value <= L6480_REG_K_THERM_MIN_MILLI) {
+        value  = L6480_REG_K_THERM_MIN_MILLI;
+    }
+
+    /* Calculate k_therm register value */
+    value = (uint16_t) ((uint32_t) (value - 1000) * 100 / 3125);
+
+    /* send data to device */
+    l6480_set_k_therm(value);
+
+    return;
 }
 
 uint8_t l6480_get_adc_out(void) {
