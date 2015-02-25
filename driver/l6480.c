@@ -1256,47 +1256,225 @@ void l6480_set_stall_th_millivolt(uint16_t threshold) {
 }
 
 uint8_t l6480_get_step_mode(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* return step_mode */
+    return reg.raw.data;
 }
 
 uint8_t l6480_get_step_mode_sync_en(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* return sync_en */
+    return reg.reg.sync_en;
 }
 
 uint8_t l6480_get_step_mode_sync_sel(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* return sync_sel */
+    return reg.reg.sync_sel;
 }
 
 uint8_t l6480_get_step_mode_step_sel(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* return step_sel */
+    return reg.reg.step_sel;
 }
 
 uint8_t l6480_get_step_mode_step_sel_steps(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* return step_sel */
+    return (1 << reg.reg.step_sel);
 }
 
 void l6480_set_step_mode(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
+        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_step_mode_sync_en_on(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.sync_en = 1;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
+        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_step_mode_sync_en_off(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.sync_en = 0;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
+        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_step_mode_sync_sel(uint8_t sync_sel) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.sync_sel = sync_sel;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
+        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_step_mode_step_sel(uint8_t sel) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.step_sel = sel;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
+        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_step_mode_step_sel_steps(uint8_t steps) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_step_mode_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
+        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    /* prepare data local */
+    if (steps <=      (1 << L6480_STEP_SEL_FULL)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_FULL;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_HALF)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_HALF;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_MICRO_4)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_4;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_MICRO_8)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_8;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_MICRO_16)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_16;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_MICRO_32)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_32;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_MICRO_64)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_64;
+    }
+    else if (steps <= (1 << L6480_STEP_SEL_MICRO_128)) {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_128;
+    }
+    else {
+        reg.reg.sync_sel  = L6480_STEP_SEL_MICRO_128;
+    }
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
+        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
+        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+        reg.array);
+
+    return;
 }
 
 uint8_t l6480_get_alarm_en(void) {

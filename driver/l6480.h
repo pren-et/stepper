@@ -1549,4 +1549,85 @@ void l6480_set_stall_th(uint8_t threshold);
  */
 void l6480_set_stall_th_millivolt(uint16_t threshold);
 
+/*! \fn l6480_get_step_mode(void)
+ *  \brief Get step_mode
+ *
+ *  \return step_mode
+ */
+uint8_t l6480_get_step_mode(void);
+
+/*! \fn l6480_get_step_mode_sync_en(void)
+ *  \brief Get sync_en from step_mode
+ *
+ *  \return sync_en from step_mode
+ */
+uint8_t l6480_get_step_mode_sync_en(void);
+
+/*! \fn l6480_get_step_mode_sync_sel(void)
+ *  \brief Get sync_sel from step_mode
+ *
+ *  \return sync_sel from step_mode
+ */
+uint8_t l6480_get_step_mode_sync_sel(void);
+
+/*! \fn l6480_get_step_mode_step_sel(void)
+ *  \brief Get step_sel from step_mode
+ *
+ *  \return step_sel from step_mode
+ */
+uint8_t l6480_get_step_mode_step_sel(void);
+
+/*! \fn l6480_get_step_mode_step_sel_steps(void)
+ *  \brief Get step_sel from step_mode in steps
+ *
+ *  \return step_sel from step_mode in steps
+ */
+uint8_t l6480_get_step_mode_step_sel_steps(void);
+
+/*! \fn l6480_set_step_mode(uint8_t value)
+ *  \brief Set step_mode
+ *
+ *  \param  value step_mode
+ *  \return void
+ */
+void l6480_set_step_mode(uint8_t value);
+
+/*! \fn l6480_set_step_mode_sync_en_on(void)
+ *  \brief Set sync_en from step_mode on
+ *
+ *  \return void
+ */
+void l6480_set_step_mode_sync_en_on(void);
+
+/*! \fn l6480_set_step_mode_sync_en_off(void)
+ *  \brief Set sync_en from step_mode off
+ *
+ *  \return void
+ */
+void l6480_set_step_mode_sync_en_off(void);
+
+/*! \fn l6480_set_step_mode_sync_sel(uint8_t sync_sel)
+ *  \brief Set sync_sel from step_mode
+ *
+ *  \param  sync_sel sync_sel
+ *  \return void
+ */
+void l6480_set_step_mode_sync_sel(uint8_t sync_sel);
+
+/*! \fn l6480_set_step_mode_step_sel(uint8_t sel)
+ *  \brief Set step_sel from step_mode
+ *
+ *  \param  sel step_sel
+ *  \return void
+ */
+void l6480_set_step_mode_step_sel(uint8_t sel);
+
+/*! \fn l6480_set_step_mode_step_sel_steps(uint8_t steps)
+ *  \brief Set step_sel from step_mode in steps
+ *
+ *  \param  steps step_sel in steps
+ *  \return void
+ */
+void l6480_set_step_mode_step_sel_steps(uint8_t steps);
+
 #endif /* L6480_H */
