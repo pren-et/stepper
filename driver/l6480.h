@@ -571,10 +571,11 @@ typedef enum {
 /*! \name gatecfg1
  * @{
  */
-#define L6480_REG_GATECFG1_ADDR     0x18
-#define L6480_REG_GATECFG1_LEN      2
-#define L6480_REG_GATECFG1_RW       L6480_REG_RW_WH
-#define L6480_REG_GATECFG1_DEFAULT  0x0000
+#define L6480_REG_GATECFG1_ADDR         0x18
+#define L6480_REG_GATECFG1_LEN          2
+#define L6480_REG_GATECFG1_RW           L6480_REG_RW_WH
+#define L6480_REG_GATECFG1_DEFAULT      0x0000
+#define L6480_REG_GATECFG1_TCC_NANO_MAX 3750
 /*! @} */
 /*! \union l6480_reg_gatecfg1_t
  *  \brief Register GATECFG1
@@ -611,13 +612,13 @@ typedef enum {
  */
 typedef enum {
     L6480_GATECFG1_TBOOST_0     = 0x00, /*!< Turn-off boost time    0 ns */
-    L6480_GATECFG1_TBOOST_62    = 0x00, /*!< Turn-off boost time   62 ns */
-    L6480_GATECFG1_TBOOST_125   = 0x00, /*!< Turn-off boost time  125 ns */
-    L6480_GATECFG1_TBOOST_250   = 0x00, /*!< Turn-off boost time  250 ns */
-    L6480_GATECFG1_TBOOST_375   = 0x00, /*!< Turn-off boost time  375 ns */
-    L6480_GATECFG1_TBOOST_500   = 0x00, /*!< Turn-off boost time  500 ns */
-    L6480_GATECFG1_TBOOST_750   = 0x00, /*!< Turn-off boost time  750 ns */
-    L6480_GATECFG1_TBOOST_1000  = 0x00, /*!< Turn-off boost time 1000 ns */
+    L6480_GATECFG1_TBOOST_62    = 0x01, /*!< Turn-off boost time   62 ns */
+    L6480_GATECFG1_TBOOST_125   = 0x02, /*!< Turn-off boost time  125 ns */
+    L6480_GATECFG1_TBOOST_250   = 0x03, /*!< Turn-off boost time  250 ns */
+    L6480_GATECFG1_TBOOST_375   = 0x04, /*!< Turn-off boost time  375 ns */
+    L6480_GATECFG1_TBOOST_500   = 0x05, /*!< Turn-off boost time  500 ns */
+    L6480_GATECFG1_TBOOST_750   = 0x06, /*!< Turn-off boost time  750 ns */
+    L6480_GATECFG1_TBOOST_1000  = 0x07, /*!< Turn-off boost time 1000 ns */
 } l6480_gatecfg1_tboost_t;
 
 /*! \name gatecfg2
@@ -1708,5 +1709,139 @@ void l6480_set_alarm_en_switch_on(uint8_t switch_on);
  *  \return void
  */
 void l6480_set_alarm_en_command_err(uint8_t cmd_err);
+
+/*! \fn l6480_get_gatecfg1(void)
+ *  \brief Get gatecfg1
+ *
+ *  \return gatecfg1
+ */
+uint16_t l6480_get_gatecfg1(void);
+
+/*! \fn l6480_get_gatecfg1_wd_en(void)
+ *  \brief Get wd_en from gatecfg1
+ *
+ *  \return wd_en
+ */
+uint8_t l6480_get_gatecfg1_wd_en(void);
+
+/*! \fn l6480_get_gatecfg1_tboost(void)
+ *  \brief Get tboost from gatecfg1
+ *
+ *  \return tboost
+ */
+uint8_t l6480_get_gatecfg1_tboost(void);
+
+/*! \fn l6480_get_gatecfg1_tboost_nanosecond(void)
+ *  \brief Get tboost from gatecfg1 in nanoseconds
+ *
+ *  \return tboost in nanoseconds
+ */
+uint16_t l6480_get_gatecfg1_tboost_nanosecond(void);
+
+/*! \fn l6480_get_gatecfg1_igate(void)
+ *  \brief Get igate from gatecfg1
+ *
+ *  \return igate
+ */
+uint8_t l6480_get_gatecfg1_igate(void);
+
+/*! \fn l6480_get_gatecfg1_igate_milliampere(void)
+ *  \brief Get igate from gatecfg1 in milliamperes
+ *
+ *  \return igate in milliamperes
+ */
+uint8_t l6480_get_gatecfg1_igate_milliampere(void);
+
+/*! \fn l6480_get_gatecfg1_tcc(void)
+ *  \brief Get tcc from gatecfg1
+ *
+ *  \return tcc
+ */
+uint8_t l6480_get_gatecfg1_tcc(void);
+
+/*! \fn l6480_get_gatecfg1_tcc_nanosecond(void)
+ *  \brief Get tcc from gatecfg1 in nanoseconds
+ *
+ *  \return tcc in nanoseconds
+ */
+uint16_t l6480_get_gatecfg1_tcc_nanosecond(void);
+
+/*! \fn l6480_set_gatecfg1(uint16_t value)
+ *  \brief Set gatecfg1
+ *
+ *  \param  value gatecfg1
+ *  \return void
+ */
+void l6480_set_gatecfg1(uint16_t value);
+
+/*! \fn l6480_set_gatecfg1_wd_en(uint8_t wd_en)
+ *  \brief Set wd_en from gatecfg1
+ *
+ *  \param  wd_en wd_en
+ *  \return vaoid
+ */
+void l6480_set_gatecfg1_wd_en(uint8_t wd_en);
+
+/*! \fn l6480_set_gatecfg1_wd_en_on(void)
+ *  \brief Set wd_en from gatecfg1 on
+ *
+ *  \return void
+ */
+void l6480_set_gatecfg1_wd_en_on(void);
+
+/*! \fn l6480_set_gatecfg1_wd_en_off(void)
+ *  \brief Set wd_en from gatecfg1 off
+ *
+ *  \return void
+ */
+void l6480_set_gatecfg1_wd_en_off(void);
+
+/*! \fn l6480_set_gatecfg1_tboost(uint8_t time)
+ *  \brief Set tboost from gatecfg1
+ *
+ *  \param  time tboost
+ *  \return void
+ */
+void l6480_set_gatecfg1_tboost(uint8_t time);
+
+/*! \fn l6480_set_gatecfg1_tboost_nanosecond(uint16_t time)
+ *  \brief Set tboost from gatecfg1 in nanoseconds
+ *
+ *  \param  time tboost in nanoseconds
+ *  \return void
+ */
+void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time);
+
+/*! \fn l6480_set_gatecfg1_igate(uint8_t current)
+ *  \brief Set igate from gatecfg1
+ *
+ *  \param  current igate
+ *  \return void
+ */
+void l6480_set_gatecfg1_igate(uint8_t current);
+
+/*! \fn l6480_set_gatecfg1_igate_milliampere(uint8_t current)
+ *  \brief Set igate from gatecfg1 in milliamperes
+ *
+ *  \param  current igate in milliamperes
+ *  \return void
+ */
+void l6480_set_gatecfg1_igate_milliampere(uint8_t current);
+
+/*! \fn l6480_set_gatecfg1_tcc(uint8_t time)
+ *  \brief Set tcc from gatecfg1
+ *
+ *  \param  time tcc
+ *  \return void
+ */
+void l6480_set_gatecfg1_tcc(uint8_t time);
+
+/*! \fn l6480_set_gatecfg1_tcc_nanosecond(uint16_t time)
+ *  \brief Set tcc from gatecfg1 in nanoseconds
+ *
+ *  \param  time tcc in nanoseconds
+ *  \return void
+ */
+void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time);
 
 #endif /* L6480_H */
