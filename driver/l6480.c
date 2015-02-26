@@ -1478,43 +1478,209 @@ void l6480_set_step_mode_step_sel_steps(uint8_t steps) {
 }
 
 uint8_t l6480_get_alarm_en(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* return step_sel */
+    return reg.raw.data;
 }
 
 void l6480_set_alarm_en(uint8_t alarm_en) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* prepare data local */
+    reg.raw.data = alarm_en;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_alarm_en_overcurrent(uint8_t overcurrent) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.overcurrent = overcurrent;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.th_shutdown = th_shutdown;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_alarm_en_th_warning(uint8_t th_warning) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.th_warning = th_warning;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_alarm_en_uvlo(uint8_t uvlo) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.uvlo = uvlo;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.adc_uvlo = adc_uvlo;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
-void l6480_set_alarm_stall_detect(uint8_t stall_setect) {
-    /*! \todo Implement function */
+void l6480_set_alarm_en_stall_detect(uint8_t stall_det) {
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.stall_det = stall_det;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
-void l6480_set_alarm_switch_on(uint8_t switch_on) {
-    /*! \todo Implement function */
+void l6480_set_alarm_en_switch_on(uint8_t switch_on) {
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.switch_on = switch_on;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
-void l6480_set_alarm_command_err(uint8_t command_err) {
-    /*! \todo Implement function */
+void l6480_set_alarm_en_command_err(uint8_t cmd_err) {
+    /* local variables */
+    l6480_reg_alarm_en_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
+        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.cmd_error = cmd_err;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
+        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
+        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+        reg.array);
+
+    return;
 }
 
 uint16_t l6480_get_gatecfg1(void) {

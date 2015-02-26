@@ -537,8 +537,8 @@ typedef union {
     } raw;                                  /*!< raw data access */
     struct {
         uint8_t overcurrent     :  1;           /*!< enable Overcurrent alarm */
-        uint8_t therm_shutdown  :  1;           /*!< enable Thermal shutdown alarm */
-        uint8_t therm_warning   :  1;           /*!< enable Thermal warning alarm */
+        uint8_t th_shutdown     :  1;           /*!< enable Thermal shutdown alarm */
+        uint8_t th_warning      :  1;           /*!< enable Thermal warning alarm */
         uint8_t uvlo            :  1;           /*!< enable UVLO alarm */
         uint8_t adc_uvlo        :  1;           /*!< enable ADC UVLO alarm */
         uint8_t stall_det       :  1;           /*!< enable Stall detection alarm */
@@ -551,8 +551,8 @@ typedef union {
  */
 typedef enum {
     L6480_ALARM_EN_OVERCURRENT      = 0x00, /*!< Overcurrent alarm enabled */
-    L6480_ALARM_EN_THERM_SHOTDOWN   = 0x01, /*!< Thermal shutdown alarm enabled */
-    L6480_ALARM_EN_THERM_WARNING    = 0x02, /*!< Thermal warning alarm enabled */
+    L6480_ALARM_EN_TH_SHUTDOWN      = 0x01, /*!< Thermal shutdown alarm enabled */
+    L6480_ALARM_EN_TH_WARNING       = 0x02, /*!< Thermal warning alarm enabled */
     L6480_ALARM_EN_UVLO             = 0x03, /*!< UVLO alarm enabled */
     L6480_ALARM_EN_ADC_UVLO         = 0x04, /*!< ADC UVLO alarm enabled */
     L6480_ALARM_EN_STALL_DET        = 0x05, /*!< Stall detection alarm enabled */
@@ -560,8 +560,8 @@ typedef enum {
     L6480_ALARM_EN_CMD_ERROR        = 0x07, /*!< Command error alarm enabled */
 } l6480_alarm_en_t;
 #define L6480_ALARM_EN_OVERCURRENT_MASK      = (1 << L6480_ALARM_EN_OVERCURRENT   ) /*!< Overcurrent alarm enabled */
-#define L6480_ALARM_EN_THERM_SHOTDOWN_MASK   = (1 << L6480_ALARM_EN_THERM_SHOTDOWN) /*!< Thermal shutdown alarm enabled */
-#define L6480_ALARM_EN_THERM_WARNING_MASK    = (1 << L6480_ALARM_EN_THERM_WARNING ) /*!< Thermal warning alarm enabled */
+#define L6480_ALARM_EN_TH_SHUTDOWN_MASK      = (1 << L6480_ALARM_EN_TH_SHUTDOWN   ) /*!< Thermal shutdown alarm enabled */
+#define L6480_ALARM_EN_TH_WARNING_MASK       = (1 << L6480_ALARM_EN_TH_WARNING    ) /*!< Thermal warning alarm enabled */
 #define L6480_ALARM_EN_UVLO_MASK             = (1 << L6480_ALARM_EN_UVLO          ) /*!< UVLO alarm enabled */
 #define L6480_ALARM_EN_ADC_UVLO_MASK         = (1 << L6480_ALARM_EN_ADC_UVLO      ) /*!< ADC UVLO alarm enabled */
 #define L6480_ALARM_EN_STALL_DET_MASK        = (1 << L6480_ALARM_EN_STALL_DET     ) /*!< Stall detection alarm enabled */
@@ -1629,5 +1629,84 @@ void l6480_set_step_mode_step_sel(uint8_t sel);
  *  \return void
  */
 void l6480_set_step_mode_step_sel_steps(uint8_t steps);
+
+/*! \fn l6480_get_alarm_en(void)
+ *  \brief Get alarm_en
+ *
+ *  \return alarm_en
+ */
+uint8_t l6480_get_alarm_en(void);
+
+/*! \fn l6480_set_alarm_en(uint8_t alarm_en)
+ *  \brief Set alarm_en
+ *
+ *  \param  alarm_en alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en(uint8_t alarm_en);
+
+/*! \fn l6480_set_alarm_en_overcurrent(uint8_t overcurrent)
+ *  \brief Set overcurrent alarm_en
+ *
+ *  \param  overcurrent overcurrent alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_overcurrent(uint8_t overcurrent);
+
+/*! \fn l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown)
+ *  \brief Set th_shutdown alarm_en
+ *
+ *  \param  th_shutdown th_shutdown alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown);
+
+/*! \fn l6480_set_alarm_en_th_warning(uint8_t th_warning)
+ *  \brief Set th_warning alarm_en
+ *
+ *  \param  th_warning th_warning alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_th_warning(uint8_t th_warning);
+
+/*! \fn l6480_set_alarm_en_uvlo(uint8_t uvlo)
+ *  \brief Set uvlo alarm_en
+ *
+ *  \param  uvlo uvlo alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_uvlo(uint8_t uvlo);
+
+/*! \fn l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo)
+ *  \brief Set adc_uvlo alarm_en
+ *
+ *  \param  adc_uvlo adc_uvlo alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo);
+
+/*! \fn l6480_set_alarm_en_stall_detect(uint8_t stall_det)
+ *  \brief Set stall_detect alarm_en
+ *
+ *  \param  stall_det stall_detect alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_stall_detect(uint8_t stall_det);
+
+/*! \fn l6480_set_alarm_en_switch_on(uint8_t switch_on)
+ *  \brief Set switch_on alarm_en
+ *
+ *  \param  switch_on switch_on alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_switch_on(uint8_t switch_on);
+
+/*! \fn l6480_set_alarm_en_command_err(uint8_t cmd_err)
+ *  \brief Set command_err alarm_en
+ *
+ *  \param  cmd_err command_err alarm_en
+ *  \return void
+ */
+void l6480_set_alarm_en_command_err(uint8_t cmd_err);
 
 #endif /* L6480_H */
