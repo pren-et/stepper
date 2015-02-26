@@ -1693,7 +1693,7 @@ uint16_t l6480_get_gatecfg1(void) {
         L6480_CMD_GETPARAM_READ(GATECFG1), 
         reg.array);
 
-    /* return step_sel */
+    /* return gatecfg1 */
     return reg.raw.data;
 }
 
@@ -2113,7 +2113,7 @@ void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time) {
     /* local variables */
     l6480_reg_gatecfg1_t reg;
 
-    /* Limit  */
+    /* input value limitation */
     if (time >= L6480_REG_GATECFG1_TCC_NANO_MAX) {
         time  = L6480_REG_GATECFG1_TCC_NANO_MAX;
     }
@@ -2137,43 +2137,193 @@ void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time) {
 }
 
 uint8_t l6480_get_gatecfg2(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* return gatecfg2 */
+    return reg.raw.data;
 }
 
 uint8_t l6480_get_gatecfg2_tblank(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* return tblank */
+    return reg.reg.tblank;
 }
 
 uint16_t l6480_get_gatecfg2_tblank_nanosecond(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* return tblank in nanoseconds */
+    return ((uint16_t) reg.reg.tblank + 1) * 125;
 }
 
 uint8_t l6480_get_gatecfg2_tdt(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* return tdt */
+    return reg.reg.tdt;
 }
 
 uint16_t l6480_get_gatecfg2_tdt_nanosecond(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* return tdt in nanoseconds */
+    return ((uint16_t) reg.reg.tdt + 1) * 125;
 }
 
 void l6480_set_gatecfg2(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
+        L6480_CMD_SETPARAM_LEN(GATECFG2), 
+        L6480_CMD_SETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_gatecfg2_tblank(uint8_t time) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.tblank = time;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
+        L6480_CMD_SETPARAM_LEN(GATECFG2), 
+        L6480_CMD_SETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* input value limitation */
+    if (time <= L6480_REG_GATECFG2_TBLANK_NANO_MIN) {
+        time  = L6480_REG_GATECFG2_TBLANK_NANO_MIN;
+    }
+    if (time >= L6480_REG_GATECFG2_TBLANK_NANO_MAX) {
+        time  = L6480_REG_GATECFG2_TBLANK_NANO_MAX;
+    }
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.tblank = (time / 125) - 1;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
+        L6480_CMD_SETPARAM_LEN(GATECFG2), 
+        L6480_CMD_SETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_gatecfg2_tdt(uint8_t time) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.tdt = time;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
+        L6480_CMD_SETPARAM_LEN(GATECFG2), 
+        L6480_CMD_SETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_gatecfg2_t reg;
+
+    /* input value limitation */
+    if (time <= L6480_REG_GATECFG2_TDT_NANO_MIN) {
+        time  = L6480_REG_GATECFG2_TDT_NANO_MIN;
+    }
+    if (time >= L6480_REG_GATECFG2_TDT_NANO_MAX) {
+        time  = L6480_REG_GATECFG2_TDT_NANO_MAX;
+    }
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
+        L6480_CMD_GETPARAM_LEN(GATECFG2), 
+        L6480_CMD_GETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.tdt = (time / 125) - 1;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
+        L6480_CMD_SETPARAM_LEN(GATECFG2), 
+        L6480_CMD_SETPARAM_READ(GATECFG2), 
+        reg.array);
+
+    return;
 }
 
 uint16_t l6480_get_config(void) {

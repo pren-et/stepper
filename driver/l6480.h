@@ -624,10 +624,14 @@ typedef enum {
 /*! \name gatecfg2
  * @{
  */
-#define L6480_REG_GATECFG2_ADDR     0x19
-#define L6480_REG_GATECFG2_LEN      1
-#define L6480_REG_GATECFG2_RW       L6480_REG_RW_WH
-#define L6480_REG_GATECFG2_DEFAULT  0x00
+#define L6480_REG_GATECFG2_ADDR             0x19
+#define L6480_REG_GATECFG2_LEN              1
+#define L6480_REG_GATECFG2_RW               L6480_REG_RW_WH
+#define L6480_REG_GATECFG2_DEFAULT          0x00
+#define L6480_REG_GATECFG2_TDT_NANO_MIN     125
+#define L6480_REG_GATECFG2_TDT_NANO_MAX     4000
+#define L6480_REG_GATECFG2_TBLANK_NANO_MIN  125
+#define L6480_REG_GATECFG2_TBLANK_NANO_MAX  1000
 /*! @} */
 /*! \union l6480_reg_gatecfg2_t
  *  \brief Register GATECFG2
@@ -1843,5 +1847,80 @@ void l6480_set_gatecfg1_tcc(uint8_t time);
  *  \return void
  */
 void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time);
+
+/*! \fn l6480_get_gatecfg2(void)
+ *  \brief Get gatecfg2
+ *
+ *  \return gatecfg2
+ */
+uint8_t l6480_get_gatecfg2(void);
+
+/*! \fn l6480_get_gatecfg2_tblank(void)
+ *  \brief Get tblank from gatecfg2
+ *
+ *  \return tblank
+ */
+uint8_t l6480_get_gatecfg2_tblank(void);
+
+/*! \fn l6480_get_gatecfg2_tblank_nanosecond(void)
+ *  \brief Get tblank from gatecfg2 in nanoseconds
+ *
+ *  \return tblank in nanoseconds
+ */
+uint16_t l6480_get_gatecfg2_tblank_nanosecond(void);
+
+/*! \fn l6480_get_gatecfg2_tdt(void)
+ *  \brief Get tdt from gatecfg2
+ *
+ *  \return tdt
+ */
+uint8_t l6480_get_gatecfg2_tdt(void);
+
+/*! \fn l6480_get_gatecfg2_tdt_nanosecond(void)
+ *  \brief Get tdt from gatecfg2 in nanoseconds
+ *
+ *  \return tdt in nanoseconds
+ */
+uint16_t l6480_get_gatecfg2_tdt_nanosecond(void);
+
+/*! \fn l6480_set_gatecfg2(uint8_t value)
+ *  \brief Set gatecfg2
+ *
+ *  \param  value gatecfg2
+ *  \return void
+ */
+void l6480_set_gatecfg2(uint8_t value);
+
+/*! \fn l6480_set_gatecfg2_tblank(uint8_t time)
+ *  \brief Set tblank from gatecfg2
+ *
+ *  \param  time tblank
+ *  \return void
+ */
+void l6480_set_gatecfg2_tblank(uint8_t time);
+
+/*! \fn l6480_set_gatecfg2_tblank_nanosecond(uint16_t time)
+ *  \brief Set tblank from gatecfg2 in nanoseconds
+ *
+ *  \param  time tblank in nanoseconds
+ *  \return void
+ */
+void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time);
+
+/*! \fn l6480_set_gatecfg2_tdt(uint8_t time)
+ *  \brief Set tdt from gatecfg2
+ *
+ *  \param  time tdt
+ *  \return void
+ */
+void l6480_set_gatecfg2_tdt(uint8_t time);
+
+/*! \fn l6480_set_gatecfg2_tdt_nanosecond(uint16_t time)
+ *  \brief Set tdt from gatecfg2 in nanoseconds
+ *
+ *  \param  time tdt in nanoseconds
+ *  \return void
+ */
+void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time);
 
 #endif /* L6480_H */
