@@ -2080,4 +2080,109 @@ void l6480_set_config_ext_clk(uint8_t value);
  */
 void l6480_set_config_osc_sel(uint8_t value);
 
+/*! \fn l6480_get_status(void)
+ *  \brief Get status
+ *
+ *  \return status
+ */
+uint16_t l6480_get_status(void);
+
+/*! \fn l6480_get_status_step_loss_b(void)
+ *  \brief Get step_loss_b from status
+ *
+ *  \return step_loss_b
+ */
+uint8_t l6480_get_status_step_loss_b(void);
+
+/*! \fn l6480_get_status_step_loss_a(void)
+ *  \brief Get step_loss_a from status
+ *
+ *  \return step_loss_a
+ */
+uint8_t l6480_get_status_step_loss_a(void);
+
+/*! \fn l6480_get_status_ocd(void)
+ *  \brief Get ocd from status
+ *
+ *  \return ocd
+ */
+uint8_t l6480_get_status_ocd(void);
+
+/*! \fn l6480_get_status_th_status(void)
+ *  \brief Get th_status from status
+ *
+ *  \return th_status
+ */
+uint8_t l6480_get_status_th_status(void);
+
+/*! \fn l6480_get_status_uvlo_adc(void)
+ *  \brief Get uvlo_adc from status
+ *
+ *  \return uvlo_adc
+ */
+uint8_t l6480_get_status_uvlo_adc(void);
+
+/*! \fn l6480_get_status_uvlo(void)
+ *  \brief Get uvlo from status
+ *
+ *  \return uvlo
+ */
+uint8_t l6480_get_status_uvlo(void);
+
+/*! \fn l6480_get_status_stck_mod(void)
+ *  \brief Get stck_mod from status
+ *
+ *  \return stck_mod
+ */
+uint8_t l6480_get_status_stck_mod(void);
+
+/*! \fn l6480_get_status_cmd_error(void)
+ *  \brief Get cmd_error from status
+ *
+ *  \return cmd_error
+ */
+uint8_t l6480_get_status_cmd_error(void);
+
+/*! \fn l6480_get_status_mot_status(void)
+ *  \brief Get mot_status from status
+ *
+ *  \return mot_status
+ */
+uint8_t l6480_get_status_mot_status(void);
+
+/*! \fn l6480_get_status_dir(void)
+ *  \brief Get dir from status
+ *
+ *  \return dir
+ */
+uint8_t l6480_get_status_dir(void);
+
+/*! \fn l6480_get_status_sw_evn(void)
+ *  \brief Get sw_evn from status
+ *
+ *  \return sw_evn
+ */
+uint8_t l6480_get_status_sw_evn(void);
+
+/*! \fn l6480_get_status_sw_f(void)
+ *  \brief Get sw_f from status
+ *
+ *  \return sw_f
+ */
+uint8_t l6480_get_status_sw_f(void);
+
+/*! \fn l6480_get_status_busy(void)
+ *  \brief Get busy from status
+ *
+ *  \return busy
+ */
+uint8_t l6480_get_status_busy(void);
+
+/*! \fn l6480_get_status_hiz(void)
+ *  \brief Get hiz from status
+ *
+ *  \return hiz
+ */
+uint8_t l6480_get_status_hiz(void);
+
 #endif /* L6480_H */

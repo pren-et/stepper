@@ -2681,62 +2681,212 @@ void l6480_set_config_osc_sel(uint8_t value){
 }
 
 uint16_t l6480_get_status(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.raw.data;
 }
 
 uint8_t l6480_get_status_step_loss_b(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.step_loss_b;
 }
 
 uint8_t l6480_get_status_step_loss_a(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.step_loss_a;
 }
 
 uint8_t l6480_get_status_ocd(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.ocd;
 }
 
 uint8_t l6480_get_status_th_status(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.th_status;
 }
 
 uint8_t l6480_get_status_uvlo_adc(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.uvlo_adc;
 }
 
 uint8_t l6480_get_status_uvlo(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.uvlo;
 }
 
 uint8_t l6480_get_status_stck_mod(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.stck_mod;
 }
 
 uint8_t l6480_get_status_cmd_error(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.cmd_error;
 }
 
 uint8_t l6480_get_status_mot_status(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.mot_status;
 }
 
 uint8_t l6480_get_status_dir(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.dir;
 }
 
 uint8_t l6480_get_status_sw_evn(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.sw_evn;
 }
 
 uint8_t l6480_get_status_sw_f(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.sw_f;
 }
 
 uint8_t l6480_get_status_busy(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.busy;
 }
 
 uint8_t l6480_get_status_hiz(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
+        L6480_CMD_GETPARAM_LEN(STATUS), 
+        L6480_CMD_GETPARAM_READ(STATUS), 
+        reg.array);
+
+    /* return status */
+    return reg.reg.hiz;
 }
 
