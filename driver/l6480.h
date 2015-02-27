@@ -1923,4 +1923,161 @@ void l6480_set_gatecfg2_tdt(uint8_t time);
  */
 void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time);
 
+/*! \fn l6480_get_config(void)
+ *  \brief Get config
+ *
+ *  \return config
+ */
+uint16_t l6480_get_config(void);
+
+/*! \fn l6480_get_config_f_pwm_int(void)
+ *  \brief Get f_pwm_int from config
+ *
+ *  \return f_pwm_int
+ */
+uint8_t l6480_get_config_f_pwm_int(void);
+
+/*! \fn l6480_get_config_f_pwm_dec(void)
+ *  \brief Get f_pwm_dec from config
+ *
+ *  \return f_pwm_dec
+ */
+uint8_t l6480_get_config_f_pwm_dec(void);
+
+/*! \fn l6480_get_config_vccval(void)
+ *  \brief Get vccval from config
+ *
+ *  \return vccval
+ */
+uint8_t l6480_get_config_vccval(void);
+
+/*! \fn l6480_get_config_uvloval(void)
+ *  \brief Get uvloval from config
+ *
+ *  \return uvloval
+ */
+uint8_t l6480_get_config_uvloval(void);
+
+/*! \fn l6480_get_config_oc_sd(void)
+ *  \brief Get oc_sd from config
+ *
+ *  \return oc_sd
+ */
+uint8_t l6480_get_config_oc_sd(void);
+
+/*! \fn l6480_get_config_en_vscomp(void)
+ *  \brief Get en_vscomp from config
+ *
+ *  \return en_vscomp
+ */
+uint8_t l6480_get_config_en_vscomp(void);
+
+/*! \fn l6480_get_config_sw_mode(void)
+ *  \brief Get sw_mode from config
+ *
+ *  \return sw_mode
+ */
+uint8_t l6480_get_config_sw_mode(void);
+
+/*! \fn l6480_get_config_ext_clk(void)
+ *  \brief Get ext_clk from config
+ *
+ *  \return ext_clk
+ */
+uint8_t l6480_get_config_ext_clk(void);
+
+/*! \fn l6480_get_config_osc_sel(void)
+ *  \brief Get osc_sel from config
+ *
+ *  \return osc_sel
+ */
+uint8_t l6480_get_config_osc_sel(void);
+
+/*! \fn l6480_get_config_f_pwm_int(void)
+ *  \brief Get f_pwm_int from config
+ *
+ *  \return f_pwm_int
+ */
+uint8_t l6480_get_config_f_pwm_int(void);
+
+/*! \fn l6480_set_config(uint16_t value)
+ *  \brief Set config
+ *
+ *  \param  value config
+ *  \return void
+ */
+void l6480_set_config(uint16_t value);
+
+/*! \fn l6480_set_config_f_pwm_int(uint8_t factor)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  factor f_pwm_int
+ *  \return void
+ */
+void l6480_set_config_f_pwm_int(uint8_t factor);
+
+/*! \fn l6480_set_config_f_pwm_dec(uint8_t factor)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  factor f_pwm_dec
+ *  \return void
+ */
+void l6480_set_config_f_pwm_dec(uint8_t factor);
+
+/*! \fn l6480_set_config_vccval(uint8_t value)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  value vccval
+ *  \return void
+ */
+void l6480_set_config_vccval(uint8_t value);
+
+/*! \fn l6480_set_config_uvloval(uint8_t value)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  value uvloval
+ *  \return void
+ */
+void l6480_set_config_uvloval(uint8_t value);
+
+/*! \fn l6480_set_config_oc_sd(uint8_t value)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  value oc_sd
+ *  \return void
+ */
+void l6480_set_config_oc_sd(uint8_t value);
+
+/*! \fn l6480_set_config_en_vscomp(uint8_t value)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  value en_vscomp
+ *  \return void
+ */
+void l6480_set_config_en_vscomp(uint8_t value);
+
+/*! \fn l6480_set_config_sw_mode(uint8_t mode)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  mode sw_mode
+ *  \return void
+ */
+void l6480_set_config_sw_mode(uint8_t mode);
+
+/*! \fn l6480_set_config_ext_clk(uint8_t value)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  value ext_clk
+ *  \return void
+ */
+void l6480_set_config_ext_clk(uint8_t value);
+
+/*! \fn l6480_set_config_osc_sel(uint8_t value)
+ *  \brief Set f_pwm from config
+ *
+ *  \param  value osc_sel
+ *  \return void
+ */
+void l6480_set_config_osc_sel(uint8_t value);
+
 #endif /* L6480_H */

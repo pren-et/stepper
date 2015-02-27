@@ -2327,83 +2327,357 @@ void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time) {
 }
 
 uint16_t l6480_get_config(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.raw.data;
 }
 
 uint8_t l6480_get_config_f_pwm_int(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.f_pwm_int;
 }
 
 uint8_t l6480_get_config_f_pwm_dec(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.f_pwm_dec;
 }
 
 uint8_t l6480_get_config_vccval(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.vccval;
 }
 
 uint8_t l6480_get_config_uvloval(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.uvloval;
 }
 
 uint8_t l6480_get_config_oc_sd(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.oc_sd;
 }
 
 uint8_t l6480_get_config_en_vscomp(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.en_vscomp;
 }
 
 uint8_t l6480_get_config_sw_mode(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.sw_mode;
 }
 
 uint8_t l6480_get_config_ext_clk(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.ext_clk;
 }
 
 uint8_t l6480_get_config_osc_sel(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* return config */
+    return reg.reg.osc_sel;
 }
 
 void l6480_set_config(uint16_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* prepare data local */
+    reg.raw.data = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_f_pwm_int(uint8_t factor) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.f_pwm_int = factor;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_f_pwm_dec(uint8_t factor) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.f_pwm_dec = factor;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_vccval(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.vccval = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_uvloval(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.uvloval = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_oc_sd(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.oc_sd = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_en_vscomp(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.en_vscomp = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_sw_mode(uint8_t mode) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.sw_mode = mode;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_ext_clk(uint8_t value) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.ext_clk = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 void l6480_set_config_osc_sel(uint8_t value){
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_config_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
+        L6480_CMD_GETPARAM_LEN(CONFIG), 
+        L6480_CMD_GETPARAM_READ(CONFIG), 
+        reg.array);
+
+    /* prepare data local */
+    reg.reg.osc_sel = value;
+
+    /* send data to device */
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
+        L6480_CMD_SETPARAM_LEN(CONFIG), 
+        L6480_CMD_SETPARAM_READ(CONFIG), 
+        reg.array);
+
+    return;
 }
 
 uint16_t l6480_get_status(void) {
