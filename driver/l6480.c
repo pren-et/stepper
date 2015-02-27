@@ -29,12 +29,12 @@ void l6480_init(void) {
     test_bitfield.bitfield.low = 0x01;  /* write testvalue to lower nibble */
     if (test_bitfield.byte != 0x01) {   /* test if lower nibble has been written */
         while (1) {                     /* loop to stop executing if wrong order */
-            /* Hey Programmer */
-            /* It seems that your compiler uses a */
-            /* different order for bitfields than mine. */
-            /* If you still want to use this library, */
-            /* change ,if possible, the order of bitfields in */
-            /* your compiler or in this library! */
+            /* Hey Programmer
+                It seems that your compiler uses a
+                different order for bitfields than mine.
+                If you still want to use this library,
+                change ,if possible, the order of bitfields in
+                your compiler or in this library! */
         }
     }
     
@@ -45,6 +45,7 @@ void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
     /* local variables */
     uint8_t i;          /* variable to count number of sent bits */
     spi_write(&cmd);    /* send command */
+    /*! \todo Check if byte order for sending a command is correct */
     if (read) {         /* check if reading data is needed */
         for (i = 0; i < (len - 1); i++) {
             spi_read(data++);   /* read data */
