@@ -2185,4 +2185,11 @@ uint8_t l6480_get_status_busy(void);
  */
 uint8_t l6480_get_status_hiz(void);
 
+/*! \fn l6480_cmd_nop(void)
+ *  \brief Send command nop
+ *
+ *  \return void
+ */
+void l6480_cmd_nop(void);
+
 #endif /* L6480_H */

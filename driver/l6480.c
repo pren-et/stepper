@@ -2891,3 +2891,9 @@ uint8_t l6480_get_status_hiz(void) {
     return reg.reg.hiz;
 }
 
+void l6480_cmd_nop(void) {
+    l6480_send_cmd( L6480_CMD_NOP, 
+        L6480_CMD_NOP,
+        L6480_CMD_NOP,
+        0);
+}
