@@ -1043,14 +1043,14 @@ Commands
 /******************************************************************************
 Functions
 ******************************************************************************/
-/*! \fn l6480_init(void)
+/*! \fn void l6480_init(void)
  *  \brief Initialisation function for L6480
  *  
  *  \return void
  */
 void l6480_init(void);
 
-/*! \fn l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data)
+/*! \fn void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data)
  *  \brief Send a command to the L6480
  *  
  *  \param  cmd   command to be sent
@@ -1061,14 +1061,14 @@ void l6480_init(void);
  */
 void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data);
 
-/*! \fn l6480_get_abs_pos(void)
+/*! \fn int32_t l6480_get_abs_pos(void)
  *  \brief Get absolute position
  *
  *  \return absolute Position
  */
 int32_t l6480_get_abs_pos(void);
 
-/*! \fn l6480_set_abs_pos(int32_t pos)
+/*! \fn void l6480_set_abs_pos(int32_t pos)
  *  \brief Set absolute position
  *
  *  \param  pos Position
@@ -1076,14 +1076,14 @@ int32_t l6480_get_abs_pos(void);
  */
 void l6480_set_abs_pos(int32_t pos);
 
-/*! \fn l6480_get_el_pos(void)
+/*! \fn int16_t l6480_get_el_pos(void)
  *  \brief Get electrical position
  *
  *  \return electrical Position
  */
 int16_t l6480_get_el_pos(void);
 
-/*! \fn l6480_set_el_pos(uint8_t fullstep, uint8_t microstep)
+/*! \fn void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep)
  *  \brief Set electrical position
  *
  *  \param  fullstep    full steps
@@ -1092,14 +1092,14 @@ int16_t l6480_get_el_pos(void);
  */
 void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep);
 
-/*! \fn l6480_get_mark(void)
+/*! \fn int32_t l6480_get_mark(void)
  *  \brief Get mark position
  *
  *  \return mark Position
  */
 int32_t l6480_get_mark(void);
 
-/*! \fn l6480_set_mark(int32_t mark)
+/*! \fn void l6480_set_mark(int32_t mark)
  *  \brief Set mark position
  *
  *  \param  mark    mark position
@@ -1107,35 +1107,35 @@ int32_t l6480_get_mark(void);
  */
 void l6480_set_mark(int32_t mark);
 
-/*! \fn l6480_get_speed(void)
+/*! \fn int32_t l6480_get_speed(void)
  *  \brief Get current motor speed
  *
  *  \return current speed
  */
 int32_t l6480_get_speed(void);
 
-/*! \fn l6480_get_speed_millisteps_s(void)
+/*! \fn int32_t l6480_get_speed_millisteps_s(void)
  *  \brief Get current motor speed in millisteps per second
  *
  *  \return current speed in millisteps per second
  */
 int32_t l6480_get_speed_millisteps_s(void);
 
-/*! \fn l6480_get_acc(void)
+/*! \fn uint16_t l6480_get_acc(void)
  *  \brief Get current motor acceleration
  *
  *  \return current acceleration
  */
 uint16_t l6480_get_acc(void);
 
-/*! \fn l6480_get_acc_steps_ss(void)
+/*! \fn uint16_t l6480_get_acc_steps_ss(void)
  *  \brief Get current motor acceleration in steps per second^2
  *
  *  \return current acceleration in steps per second^2
  */
 uint16_t l6480_get_acc_steps_ss(void);
 
-/*! \fn l6480_set_acc(uint16_t acc)
+/*! \fn void l6480_set_acc(uint16_t acc)
  *  \brief Set acceleration
  *
  *  \param  acc     acceleration
@@ -1143,7 +1143,7 @@ uint16_t l6480_get_acc_steps_ss(void);
  */
 void l6480_set_acc(uint16_t acc);
 
-/*! \fn l6480_set_acc_steps_ss(uint16_t acc)
+/*! \fn void l6480_set_acc_steps_ss(uint16_t acc)
  *  \brief Set acceleration in steps per second^2
  *
  *  \param  acc     acceleration in steps per second^2
@@ -1151,21 +1151,21 @@ void l6480_set_acc(uint16_t acc);
  */
 void l6480_set_acc_steps_ss(uint16_t acc);
 
-/*! \fn l6480_get_dec(void)
+/*! \fn uint16_t l6480_get_dec(void)
  *  \brief Get current motor deceleration
  *
  *  \return current deceleration
  */
 uint16_t l6480_get_dec(void);
 
-/*! \fn l6480_get_dec_steps_ss(void)
+/*! \fn uint16_t l6480_get_dec_steps_ss(void)
  *  \brief Get current motor deceleration in steps per second^2
  *
  *  \return current deceleration in steps per second^2
  */
 uint16_t l6480_get_dec_steps_ss(void);
 
-/*! \fn l6480_set_dec(uint16_t dec)
+/*! \fn void l6480_set_dec(uint16_t dec)
  *  \brief Set deceleration
  *
  *  \param  dec     deceleration
@@ -1173,7 +1173,7 @@ uint16_t l6480_get_dec_steps_ss(void);
  */
 void l6480_set_dec(uint16_t dec);
 
-/*! \fn l6480_set_dec_steps_ss(uint16_t dec)
+/*! \fn void l6480_set_dec_steps_ss(uint16_t dec)
  *  \brief Set deceleration in steps per second^2
  *
  *  \param  dec     deceleration in steps per second^2
@@ -1181,21 +1181,21 @@ void l6480_set_dec(uint16_t dec);
  */
 void l6480_set_dec_steps_ss(uint16_t dec);
 
-/*! \fn l6480_get_max_speed(void)
+/*! \fn uint16_t l6480_get_max_speed(void)
  *  \brief Get maximum speed
  *
  *  \return maximum speed
  */
 uint16_t l6480_get_max_speed(void);
 
-/*! \fn l6480_get_max_speed_steps_ss(void)
+/*! \fn uint16_t l6480_get_max_speed_steps_ss(void)
  *  \brief Get maximum speed in steps per second
  *
  *  \return maximum speed in steps per second
  */
 uint16_t l6480_get_max_speed_steps_ss(void);
 
-/*! \fn l6480_set_max_speed(uint16_t max_speed)
+/*! \fn void l6480_set_max_speed(uint16_t max_speed)
  *  \brief Set maximum speed
  *
  *  \param  max_speed   maximum speed
@@ -1203,7 +1203,7 @@ uint16_t l6480_get_max_speed_steps_ss(void);
  */
 void l6480_set_max_speed(uint16_t max_speed);
 
-/*! \fn l6480_set_max_speed_steps_ss(uint16_t max_speed)
+/*! \fn void l6480_set_max_speed_steps_ss(uint16_t max_speed)
  *  \brief Set maximum speed in steps per second
  *
  *  \param  max_speed   maximum speed in steps per second
@@ -1211,35 +1211,35 @@ void l6480_set_max_speed(uint16_t max_speed);
  */
 void l6480_set_max_speed_steps_ss(uint16_t max_speed);
 
-/*! \fn l6480_get_min_speed(void)
+/*! \fn uint16_t l6480_get_min_speed(void)
  *  \brief Get minimum speed
  *
  *  \return minimum speed
  */
 uint16_t l6480_get_min_speed(void);
 
-/*! \fn l6480_get_min_speed_millisteps_s(void)
+/*! \fn uint32_t l6480_get_min_speed_millisteps_s(void)
  *  \brief Get minimum speed in milli steps per second
  *
  *  \return minimum speed in milli steps per second
  */
 uint32_t l6480_get_min_speed_millisteps_s(void);
 
-/*! \fn l6480_get_lspd_opt_speed(void)
+/*! \fn uint16_t l6480_get_lspd_opt_speed(void)
  *  \brief Get low speed optimization threshold
  *
  *  \return low speed optimization threshold
  */
 uint16_t l6480_get_lspd_opt_speed(void);
 
-/*! \fn l6480_get_lspd_opt_speed_millisteps_s(void)
+/*! \fn uint32_t l6480_get_lspd_opt_speed_millisteps_s(void)
  *  \brief Get low speed optimization threshold in milli steps per second
  *
  *  \return low speed optimization threshold in milli steps per second
  */
 uint32_t l6480_get_lspd_opt_speed_millisteps_s(void);
 
-/*! \fn l6480_set_min_speed(uint16_t speed)
+/*! \fn void l6480_set_min_speed(uint16_t speed)
  *  \brief Set minimum speed
  *
  *  \param  speed   minimum speed
@@ -1247,7 +1247,7 @@ uint32_t l6480_get_lspd_opt_speed_millisteps_s(void);
  */
 void l6480_set_min_speed(uint16_t speed);
 
-/*! \fn l6480_set_min_speed_millisteps_s(uint32_t speed)
+/*! \fn void l6480_set_min_speed_millisteps_s(uint32_t speed)
  *  \brief Set minimum speed in milli steps per second
  *
  *  \param  speed   minimum speed in milli steps per second
@@ -1255,7 +1255,7 @@ void l6480_set_min_speed(uint16_t speed);
  */
 void l6480_set_min_speed_millisteps_s(uint32_t speed);
 
-/*! \fn l6480_set_lspd_opt_speed(uint16_t speed)
+/*! \fn void l6480_set_lspd_opt_speed(uint16_t speed)
  *  \brief Set low speed optimization threshold
  *
  *  \param  speed   low speed optimization threshold
@@ -1263,7 +1263,7 @@ void l6480_set_min_speed_millisteps_s(uint32_t speed);
  */
 void l6480_set_lspd_opt_speed(uint16_t speed);
 
-/*! \fn l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed)
+/*! \fn void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed)
  *  \brief Set low speed optimization threshold in milli steps per second
  *
  *  \param  speed   low speed optimization threshold in milli steps per second
@@ -1271,42 +1271,42 @@ void l6480_set_lspd_opt_speed(uint16_t speed);
  */
 void l6480_set_lspd_opt_speed_millisteps_s(uint32_t speed);
 
-/*! \fn l6480_get_boost_mode(void)
+/*! \fn uint8_t l6480_get_boost_mode(void)
  *  \brief Get boost mode
  *
  *  \return boost mode
  */
 uint8_t l6480_get_boost_mode(void);
 
-/*! \fn l6480_set_boost_mode_on(void)
+/*! \fn void l6480_set_boost_mode_on(void)
  *  \brief Turn boost mode on
  *
  *  \return void
  */
 void l6480_set_boost_mode_on(void);
 
-/*! \fn l6480_set_boost_mode_off(void)
+/*! \fn void l6480_set_boost_mode_off(void)
  *  \brief Turn boost mode off
  *
  *  \return void
  */
 void l6480_set_boost_mode_off(void);
 
-/*! \fn l6480_get_fs_spd(void)
+/*! \fn uint16_t l6480_get_fs_spd(void)
  *  \brief Get full-step speed threshold
  *
  *  \return full-step speed threshold
  */
 uint16_t l6480_get_fs_spd(void);
 
-/*! \fn l6480_get_fs_spd_steps_s(void)
+/*! \fn uint16_t l6480_get_fs_spd_steps_s(void)
  *  \brief Get full-step speed threshold in steps per second
  *
  *  \return full-step speed threshold in steps per second
  */
 uint16_t l6480_get_fs_spd_steps_s(void);
 
-/*! \fn l6480_set_fs_spd(uint16_t speed)
+/*! \fn void l6480_set_fs_spd(uint16_t speed)
  *  \brief Set full-step speed threshold
  *
  *  \param  speed    full-step speed threshold
@@ -1314,7 +1314,7 @@ uint16_t l6480_get_fs_spd_steps_s(void);
  */
 void l6480_set_fs_spd(uint16_t speed);
 
-/*! \fn l6480_set_fs_spd_steps_s(uint16_t speed)
+/*! \fn void l6480_set_fs_spd_steps_s(uint16_t speed)
  *  \brief Set full-step speed threshold in steps per second
  *
  *  \param  speed    full-step speed threshold in steps per second
@@ -1322,14 +1322,14 @@ void l6480_set_fs_spd(uint16_t speed);
  */
 void l6480_set_fs_spd_steps_s(uint16_t speed);
 
-/*! \fn l6480_get_kval_hold(void)
+/*! \fn uint8_t l6480_get_kval_hold(void)
  *  \brief Get kval_hold
  *
  *  return kval_hold
  */
 uint8_t l6480_get_kval_hold(void);
 
-/*! \fn l6480_set_kval_hold(uint8_t value)
+/*! \fn void l6480_set_kval_hold(uint8_t value)
  *  \brief Ser kval_hold
  *
  *  \param  value kval_hold
@@ -1337,14 +1337,14 @@ uint8_t l6480_get_kval_hold(void);
  */
 void l6480_set_kval_hold(uint8_t value);
 
-/*! \fn l6480_get_kval_run(void)
+/*! \fn uint8_t l6480_get_kval_run(void)
  *  \brief Get kval_run
  *
  *  return kval_run
  */
 uint8_t l6480_get_kval_run(void);
 
-/*! \fn l6480_set_kval_run(uint8_t value)
+/*! \fn void l6480_set_kval_run(uint8_t value)
  *  \brief Ser kval_run
  *
  *  \param  value kval_run
@@ -1352,14 +1352,14 @@ uint8_t l6480_get_kval_run(void);
  */
 void l6480_set_kval_run(uint8_t value);
 
-/*! \fn l6480_get_kval_acc(void)
+/*! \fn uint8_t l6480_get_kval_acc(void)
  *  \brief Get kval_acc
  *
  *  return kval_acc
  */
 uint8_t l6480_get_kval_acc(void);
 
-/*! \fn l6480_set_kval_acc(uint8_t value)
+/*! \fn void l6480_set_kval_acc(uint8_t value)
  *  \brief Ser kval_acc
  *
  *  \param  value kval_acc
@@ -1367,14 +1367,14 @@ uint8_t l6480_get_kval_acc(void);
  */
 void l6480_set_kval_acc(uint8_t value);
 
-/*! \fn l6480_get_kval_dec(void)
+/*! \fn uint8_t l6480_get_kval_dec(void)
  *  \brief Get kval_dec
  *
  *  return kval_dec
  */
 uint8_t l6480_get_kval_dec(void);
 
-/*! \fn l6480_set_kval_dec(uint8_t value)
+/*! \fn void l6480_set_kval_dec(uint8_t value)
  *  \brief Ser kval_dec
  *
  *  \param  value kval_dec
@@ -1382,21 +1382,21 @@ uint8_t l6480_get_kval_dec(void);
  */
 void l6480_set_kval_dec(uint8_t value);
 
-/*! \fn l6480_get_int_speed(void)
+/*! \fn uint16_t l6480_get_int_speed(void)
  *  \brief Get int_speed
  *
  *  \return int_speed
  */
 uint16_t l6480_get_int_speed(void);
 
-/*! \fn l6480_get_int_speed_millisteps_s(void)
+/*! \fn uint32_t l6480_get_int_speed_millisteps_s(void)
  *  \brief Get int_speed in millisteps per second
  *
  *  \return int_speed in millisteps per second
  */
 uint32_t l6480_get_int_speed_millisteps_s(void);
 
-/*! \fn l6480_set_int_speed(uint16_t speed)
+/*! \fn void l6480_set_int_speed(uint16_t speed)
  *  \brief Set int_speed
  *
  *  \param  speed int_speed
@@ -1404,7 +1404,7 @@ uint32_t l6480_get_int_speed_millisteps_s(void);
  */
 void l6480_set_int_speed(uint16_t speed);
 
-/*! \fn l6480_set_int_speed_millisteps_s(uint32_t speed)
+/*! \fn void l6480_set_int_speed_millisteps_s(uint32_t speed)
  *  \brief Set int_speed in millisteps per second
  *
  *  \param  speed int_speed in millisteps per second
@@ -1412,14 +1412,14 @@ void l6480_set_int_speed(uint16_t speed);
  */
 void l6480_set_int_speed_millisteps_s(uint32_t speed);
 
-/*! \fn l6480_get_st_slp(void)
+/*! \fn uint8_t l6480_get_st_slp(void)
  *  \brief Get st_slp
  *
  *  \return st_slp
  */
 uint8_t l6480_get_st_slp(void);
 
-/*! \fn l6480_set_st_slp(uint8_t slope)
+/*! \fn void l6480_set_st_slp(uint8_t slope)
  *  \brief Set st_slp
  *
  *  \param  slope st_slp
@@ -1427,14 +1427,14 @@ uint8_t l6480_get_st_slp(void);
  */
 void l6480_set_st_slp(uint8_t slope);
 
-/*! \fn l6480_get_fn_slp_acc(void)
+/*! \fn uint8_t l6480_get_fn_slp_acc(void)
  *  \brief Get fn_slp_acc
  *
  *  \return fn_slp_acc
  */
 uint8_t l6480_get_fn_slp_acc(void);
 
-/*! \fn l6480_set_fn_slp_acc(uint8_t slope)
+/*! \fn void l6480_set_fn_slp_acc(uint8_t slope)
  *  \brief Set fn_slp_dec
  *
  *  \param  slope fn_slp_acc
@@ -1442,14 +1442,14 @@ uint8_t l6480_get_fn_slp_acc(void);
  */
 void l6480_set_fn_slp_acc(uint8_t slope);
 
-/*! \fn l6480_get_fn_slp_dec(void)
+/*! \fn uint8_t l6480_get_fn_slp_dec(void)
  *  \brief Get fn_slp_dec
  *
  *  \return fn_slp_dec
  */
 uint8_t l6480_get_fn_slp_dec(void);
 
-/*! \fn l6480_set_fn_slp_dec(uint8_t slope)
+/*! \fn void l6480_set_fn_slp_dec(uint8_t slope)
  *  \brief Set fn_slp_dec
  *
  *  \param  slope fn_slp_dec
@@ -1457,21 +1457,21 @@ uint8_t l6480_get_fn_slp_dec(void);
  */
 void l6480_set_fn_slp_dec(uint8_t slope);
 
-/*! \fn l6480_get_k_therm(void)
+/*! \fn uint8_t l6480_get_k_therm(void)
  *  \brief Get k_therm
  *
  *  \return k_therm
  */
 uint8_t l6480_get_k_therm(void);
 
-/*! \fn l6480_get_k_therm_milli(void)
+/*! \fn uint16_t l6480_get_k_therm_milli(void)
  *  \brief Get k_therm coefficient
  *
  *  \return k_therm coefficient
  */
 uint16_t l6480_get_k_therm_milli(void);
 
-/*! \fn l6480_set_k_therm(uint8_t value)
+/*! \fn void l6480_set_k_therm(uint8_t value)
  *  \brief Set k_therm
  *
  *  \param  value k_therm
@@ -1479,7 +1479,7 @@ uint16_t l6480_get_k_therm_milli(void);
  */
 void l6480_set_k_therm(uint8_t value);
 
-/*! \fn l6480_set_k_therm_milli(uint16_t value)
+/*! \fn void l6480_set_k_therm_milli(uint16_t value)
  *  \brief Set k_therm coefficient
  *
  *  \param  value k_therm coefficient
@@ -1487,28 +1487,28 @@ void l6480_set_k_therm(uint8_t value);
  */
 void l6480_set_k_therm_milli(uint16_t value);
 
-/*! \fn l6480_get_adc_out(void)
+/*! \fn uint8_t l6480_get_adc_out(void)
  *  \brief Get adc_out
  *
  *  \return adc_out
  */
 uint8_t l6480_get_adc_out(void);
 
-/*! \fn l6480_get_ocd_th(void)
+/*! \fn uint8_t l6480_get_ocd_th(void)
  *  \brief Get ocd_th
  *
  *  \return ocd_th
  */
 uint8_t l6480_get_ocd_th(void);
 
-/*! \fn l6480_get_ocd_th_millivolt(void)
+/*! \fn uint16_t l6480_get_ocd_th_millivolt(void)
  *  \brief Get ocd_th in millivolts
  *
  *  \return ocd_th in millivolts
  */
 uint16_t l6480_get_ocd_th_millivolt(void);
 
-/*! \fn l6480_set_ocd_th(uint8_t threshold)
+/*! \fn void l6480_set_ocd_th(uint8_t threshold)
  *  \brief Set ocd_th
  *
  *  \param  threshold ocd_th
@@ -1516,7 +1516,7 @@ uint16_t l6480_get_ocd_th_millivolt(void);
  */
 void l6480_set_ocd_th(uint8_t threshold);
 
-/*! \fn l6480_set_ocd_th_millivolt(uint16_t threshold)
+/*! \fn void l6480_set_ocd_th_millivolt(uint16_t threshold)
  *  \brief Set ocd_th in millivolts
  *
  *  \param  threshold ocd_th in millivolts
@@ -1524,21 +1524,21 @@ void l6480_set_ocd_th(uint8_t threshold);
  */
 void l6480_set_ocd_th_millivolt(uint16_t threshold);
 
-/*! \fn l6480_get_stall_th(void)
+/*! \fn uint8_t l6480_get_stall_th(void)
  *  \brief Get stall_th
  *
  *  \return stall_th
  */
 uint8_t l6480_get_stall_th(void);
 
-/*! \fn l6480_get_stall_th_millivolt(void)
+/*! \fn uint16_t l6480_get_stall_th_millivolt(void)
  *  \brief Get stall_th in millivolts
  *
  *  \return stall_th in millivolts
  */
 uint16_t l6480_get_stall_th_millivolt(void);
 
-/*! \fn l6480_set_stall_th(uint8_t threshold)
+/*! \fn void l6480_set_stall_th(uint8_t threshold)
  *  \brief Set stall_th
  *
  *  \param  threshold stall_th
@@ -1546,7 +1546,7 @@ uint16_t l6480_get_stall_th_millivolt(void);
  */
 void l6480_set_stall_th(uint8_t threshold);
 
-/*! \fn l6480_set_stall_th_millivolt(uint16_t threshold)
+/*! \fn void l6480_set_stall_th_millivolt(uint16_t threshold)
  *  \brief Set stall_th in millivolts
  *
  *  \param  threshold stall_th in millivolts
@@ -1554,42 +1554,42 @@ void l6480_set_stall_th(uint8_t threshold);
  */
 void l6480_set_stall_th_millivolt(uint16_t threshold);
 
-/*! \fn l6480_get_step_mode(void)
+/*! \fn uint8_t l6480_get_step_mode(void)
  *  \brief Get step_mode
  *
  *  \return step_mode
  */
 uint8_t l6480_get_step_mode(void);
 
-/*! \fn l6480_get_step_mode_sync_en(void)
+/*! \fn uint8_t l6480_get_step_mode_sync_en(void)
  *  \brief Get sync_en from step_mode
  *
  *  \return sync_en from step_mode
  */
 uint8_t l6480_get_step_mode_sync_en(void);
 
-/*! \fn l6480_get_step_mode_sync_sel(void)
+/*! \fn uint8_t l6480_get_step_mode_sync_sel(void)
  *  \brief Get sync_sel from step_mode
  *
  *  \return sync_sel from step_mode
  */
 uint8_t l6480_get_step_mode_sync_sel(void);
 
-/*! \fn l6480_get_step_mode_step_sel(void)
+/*! \fn uint8_t l6480_get_step_mode_step_sel(void)
  *  \brief Get step_sel from step_mode
  *
  *  \return step_sel from step_mode
  */
 uint8_t l6480_get_step_mode_step_sel(void);
 
-/*! \fn l6480_get_step_mode_step_sel_steps(void)
+/*! \fn uint8_t l6480_get_step_mode_step_sel_steps(void)
  *  \brief Get step_sel from step_mode in steps
  *
  *  \return step_sel from step_mode in steps
  */
 uint8_t l6480_get_step_mode_step_sel_steps(void);
 
-/*! \fn l6480_set_step_mode(uint8_t value)
+/*! \fn void l6480_set_step_mode(uint8_t value)
  *  \brief Set step_mode
  *
  *  \param  value step_mode
@@ -1597,21 +1597,21 @@ uint8_t l6480_get_step_mode_step_sel_steps(void);
  */
 void l6480_set_step_mode(uint8_t value);
 
-/*! \fn l6480_set_step_mode_sync_en_on(void)
+/*! \fn void l6480_set_step_mode_sync_en_on(void)
  *  \brief Set sync_en from step_mode on
  *
  *  \return void
  */
 void l6480_set_step_mode_sync_en_on(void);
 
-/*! \fn l6480_set_step_mode_sync_en_off(void)
+/*! \fn void l6480_set_step_mode_sync_en_off(void)
  *  \brief Set sync_en from step_mode off
  *
  *  \return void
  */
 void l6480_set_step_mode_sync_en_off(void);
 
-/*! \fn l6480_set_step_mode_sync_sel(uint8_t sync_sel)
+/*! \fn void l6480_set_step_mode_sync_sel(uint8_t sync_sel)
  *  \brief Set sync_sel from step_mode
  *
  *  \param  sync_sel sync_sel
@@ -1619,7 +1619,7 @@ void l6480_set_step_mode_sync_en_off(void);
  */
 void l6480_set_step_mode_sync_sel(uint8_t sync_sel);
 
-/*! \fn l6480_set_step_mode_step_sel(uint8_t sel)
+/*! \fn void l6480_set_step_mode_step_sel(uint8_t sel)
  *  \brief Set step_sel from step_mode
  *
  *  \param  sel step_sel
@@ -1627,7 +1627,7 @@ void l6480_set_step_mode_sync_sel(uint8_t sync_sel);
  */
 void l6480_set_step_mode_step_sel(uint8_t sel);
 
-/*! \fn l6480_set_step_mode_step_sel_steps(uint8_t steps)
+/*! \fn void l6480_set_step_mode_step_sel_steps(uint8_t steps)
  *  \brief Set step_sel from step_mode in steps
  *
  *  \param  steps step_sel in steps
@@ -1635,14 +1635,14 @@ void l6480_set_step_mode_step_sel(uint8_t sel);
  */
 void l6480_set_step_mode_step_sel_steps(uint8_t steps);
 
-/*! \fn l6480_get_alarm_en(void)
+/*! \fn uint8_t l6480_get_alarm_en(void)
  *  \brief Get alarm_en
  *
  *  \return alarm_en
  */
 uint8_t l6480_get_alarm_en(void);
 
-/*! \fn l6480_set_alarm_en(uint8_t alarm_en)
+/*! \fn void l6480_set_alarm_en(uint8_t alarm_en)
  *  \brief Set alarm_en
  *
  *  \param  alarm_en alarm_en
@@ -1650,7 +1650,7 @@ uint8_t l6480_get_alarm_en(void);
  */
 void l6480_set_alarm_en(uint8_t alarm_en);
 
-/*! \fn l6480_set_alarm_en_overcurrent(uint8_t overcurrent)
+/*! \fn void l6480_set_alarm_en_overcurrent(uint8_t overcurrent)
  *  \brief Set overcurrent alarm_en
  *
  *  \param  overcurrent overcurrent alarm_en
@@ -1658,7 +1658,7 @@ void l6480_set_alarm_en(uint8_t alarm_en);
  */
 void l6480_set_alarm_en_overcurrent(uint8_t overcurrent);
 
-/*! \fn l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown)
+/*! \fn void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown)
  *  \brief Set th_shutdown alarm_en
  *
  *  \param  th_shutdown th_shutdown alarm_en
@@ -1666,7 +1666,7 @@ void l6480_set_alarm_en_overcurrent(uint8_t overcurrent);
  */
 void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown);
 
-/*! \fn l6480_set_alarm_en_th_warning(uint8_t th_warning)
+/*! \fn void l6480_set_alarm_en_th_warning(uint8_t th_warning)
  *  \brief Set th_warning alarm_en
  *
  *  \param  th_warning th_warning alarm_en
@@ -1674,7 +1674,7 @@ void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown);
  */
 void l6480_set_alarm_en_th_warning(uint8_t th_warning);
 
-/*! \fn l6480_set_alarm_en_uvlo(uint8_t uvlo)
+/*! \fn void l6480_set_alarm_en_uvlo(uint8_t uvlo)
  *  \brief Set uvlo alarm_en
  *
  *  \param  uvlo uvlo alarm_en
@@ -1682,7 +1682,7 @@ void l6480_set_alarm_en_th_warning(uint8_t th_warning);
  */
 void l6480_set_alarm_en_uvlo(uint8_t uvlo);
 
-/*! \fn l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo)
+/*! \fn void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo)
  *  \brief Set adc_uvlo alarm_en
  *
  *  \param  adc_uvlo adc_uvlo alarm_en
@@ -1690,7 +1690,7 @@ void l6480_set_alarm_en_uvlo(uint8_t uvlo);
  */
 void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo);
 
-/*! \fn l6480_set_alarm_en_stall_detect(uint8_t stall_det)
+/*! \fn void l6480_set_alarm_en_stall_detect(uint8_t stall_det)
  *  \brief Set stall_detect alarm_en
  *
  *  \param  stall_det stall_detect alarm_en
@@ -1698,7 +1698,7 @@ void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo);
  */
 void l6480_set_alarm_en_stall_detect(uint8_t stall_det);
 
-/*! \fn l6480_set_alarm_en_switch_on(uint8_t switch_on)
+/*! \fn void l6480_set_alarm_en_switch_on(uint8_t switch_on)
  *  \brief Set switch_on alarm_en
  *
  *  \param  switch_on switch_on alarm_en
@@ -1706,7 +1706,7 @@ void l6480_set_alarm_en_stall_detect(uint8_t stall_det);
  */
 void l6480_set_alarm_en_switch_on(uint8_t switch_on);
 
-/*! \fn l6480_set_alarm_en_command_err(uint8_t cmd_err)
+/*! \fn void l6480_set_alarm_en_command_err(uint8_t cmd_err)
  *  \brief Set command_err alarm_en
  *
  *  \param  cmd_err command_err alarm_en
@@ -1714,63 +1714,63 @@ void l6480_set_alarm_en_switch_on(uint8_t switch_on);
  */
 void l6480_set_alarm_en_command_err(uint8_t cmd_err);
 
-/*! \fn l6480_get_gatecfg1(void)
+/*! \fn uint16_t l6480_get_gatecfg1(void)
  *  \brief Get gatecfg1
  *
  *  \return gatecfg1
  */
 uint16_t l6480_get_gatecfg1(void);
 
-/*! \fn l6480_get_gatecfg1_wd_en(void)
+/*! \fn uint8_t l6480_get_gatecfg1_wd_en(void)
  *  \brief Get wd_en from gatecfg1
  *
  *  \return wd_en
  */
 uint8_t l6480_get_gatecfg1_wd_en(void);
 
-/*! \fn l6480_get_gatecfg1_tboost(void)
+/*! \fn uint8_t l6480_get_gatecfg1_tboost(void)
  *  \brief Get tboost from gatecfg1
  *
  *  \return tboost
  */
 uint8_t l6480_get_gatecfg1_tboost(void);
 
-/*! \fn l6480_get_gatecfg1_tboost_nanosecond(void)
+/*! \fn uint16_t l6480_get_gatecfg1_tboost_nanosecond(void)
  *  \brief Get tboost from gatecfg1 in nanoseconds
  *
  *  \return tboost in nanoseconds
  */
 uint16_t l6480_get_gatecfg1_tboost_nanosecond(void);
 
-/*! \fn l6480_get_gatecfg1_igate(void)
+/*! \fn uint8_t l6480_get_gatecfg1_igate(void)
  *  \brief Get igate from gatecfg1
  *
  *  \return igate
  */
 uint8_t l6480_get_gatecfg1_igate(void);
 
-/*! \fn l6480_get_gatecfg1_igate_milliampere(void)
+/*! \fn uint8_t l6480_get_gatecfg1_igate_milliampere(void)
  *  \brief Get igate from gatecfg1 in milliamperes
  *
  *  \return igate in milliamperes
  */
 uint8_t l6480_get_gatecfg1_igate_milliampere(void);
 
-/*! \fn l6480_get_gatecfg1_tcc(void)
+/*! \fn uint8_t l6480_get_gatecfg1_tcc(void)
  *  \brief Get tcc from gatecfg1
  *
  *  \return tcc
  */
 uint8_t l6480_get_gatecfg1_tcc(void);
 
-/*! \fn l6480_get_gatecfg1_tcc_nanosecond(void)
+/*! \fn uint16_t l6480_get_gatecfg1_tcc_nanosecond(void)
  *  \brief Get tcc from gatecfg1 in nanoseconds
  *
  *  \return tcc in nanoseconds
  */
 uint16_t l6480_get_gatecfg1_tcc_nanosecond(void);
 
-/*! \fn l6480_set_gatecfg1(uint16_t value)
+/*! \fn void l6480_set_gatecfg1(uint16_t value)
  *  \brief Set gatecfg1
  *
  *  \param  value gatecfg1
@@ -1778,7 +1778,7 @@ uint16_t l6480_get_gatecfg1_tcc_nanosecond(void);
  */
 void l6480_set_gatecfg1(uint16_t value);
 
-/*! \fn l6480_set_gatecfg1_wd_en(uint8_t wd_en)
+/*! \fn void l6480_set_gatecfg1_wd_en(uint8_t wd_en)
  *  \brief Set wd_en from gatecfg1
  *
  *  \param  wd_en wd_en
@@ -1786,21 +1786,21 @@ void l6480_set_gatecfg1(uint16_t value);
  */
 void l6480_set_gatecfg1_wd_en(uint8_t wd_en);
 
-/*! \fn l6480_set_gatecfg1_wd_en_on(void)
+/*! \fn void l6480_set_gatecfg1_wd_en_on(void)
  *  \brief Set wd_en from gatecfg1 on
  *
  *  \return void
  */
 void l6480_set_gatecfg1_wd_en_on(void);
 
-/*! \fn l6480_set_gatecfg1_wd_en_off(void)
+/*! \fn void l6480_set_gatecfg1_wd_en_off(void)
  *  \brief Set wd_en from gatecfg1 off
  *
  *  \return void
  */
 void l6480_set_gatecfg1_wd_en_off(void);
 
-/*! \fn l6480_set_gatecfg1_tboost(uint8_t time)
+/*! \fn void l6480_set_gatecfg1_tboost(uint8_t time)
  *  \brief Set tboost from gatecfg1
  *
  *  \param  time tboost
@@ -1808,7 +1808,7 @@ void l6480_set_gatecfg1_wd_en_off(void);
  */
 void l6480_set_gatecfg1_tboost(uint8_t time);
 
-/*! \fn l6480_set_gatecfg1_tboost_nanosecond(uint16_t time)
+/*! \fn void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time)
  *  \brief Set tboost from gatecfg1 in nanoseconds
  *
  *  \param  time tboost in nanoseconds
@@ -1816,7 +1816,7 @@ void l6480_set_gatecfg1_tboost(uint8_t time);
  */
 void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time);
 
-/*! \fn l6480_set_gatecfg1_igate(uint8_t current)
+/*! \fn void l6480_set_gatecfg1_igate(uint8_t current)
  *  \brief Set igate from gatecfg1
  *
  *  \param  current igate
@@ -1824,7 +1824,7 @@ void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time);
  */
 void l6480_set_gatecfg1_igate(uint8_t current);
 
-/*! \fn l6480_set_gatecfg1_igate_milliampere(uint8_t current)
+/*! \fn void l6480_set_gatecfg1_igate_milliampere(uint8_t current)
  *  \brief Set igate from gatecfg1 in milliamperes
  *
  *  \param  current igate in milliamperes
@@ -1832,7 +1832,7 @@ void l6480_set_gatecfg1_igate(uint8_t current);
  */
 void l6480_set_gatecfg1_igate_milliampere(uint8_t current);
 
-/*! \fn l6480_set_gatecfg1_tcc(uint8_t time)
+/*! \fn void l6480_set_gatecfg1_tcc(uint8_t time)
  *  \brief Set tcc from gatecfg1
  *
  *  \param  time tcc
@@ -1840,7 +1840,7 @@ void l6480_set_gatecfg1_igate_milliampere(uint8_t current);
  */
 void l6480_set_gatecfg1_tcc(uint8_t time);
 
-/*! \fn l6480_set_gatecfg1_tcc_nanosecond(uint16_t time)
+/*! \fn void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time)
  *  \brief Set tcc from gatecfg1 in nanoseconds
  *
  *  \param  time tcc in nanoseconds
@@ -1848,42 +1848,42 @@ void l6480_set_gatecfg1_tcc(uint8_t time);
  */
 void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time);
 
-/*! \fn l6480_get_gatecfg2(void)
+/*! \fn uint8_t l6480_get_gatecfg2(void)
  *  \brief Get gatecfg2
  *
  *  \return gatecfg2
  */
 uint8_t l6480_get_gatecfg2(void);
 
-/*! \fn l6480_get_gatecfg2_tblank(void)
+/*! \fn uint8_t l6480_get_gatecfg2_tblank(void)
  *  \brief Get tblank from gatecfg2
  *
  *  \return tblank
  */
 uint8_t l6480_get_gatecfg2_tblank(void);
 
-/*! \fn l6480_get_gatecfg2_tblank_nanosecond(void)
+/*! \fn uint16_t l6480_get_gatecfg2_tblank_nanosecond(void)
  *  \brief Get tblank from gatecfg2 in nanoseconds
  *
  *  \return tblank in nanoseconds
  */
 uint16_t l6480_get_gatecfg2_tblank_nanosecond(void);
 
-/*! \fn l6480_get_gatecfg2_tdt(void)
+/*! \fn uint8_t l6480_get_gatecfg2_tdt(void)
  *  \brief Get tdt from gatecfg2
  *
  *  \return tdt
  */
 uint8_t l6480_get_gatecfg2_tdt(void);
 
-/*! \fn l6480_get_gatecfg2_tdt_nanosecond(void)
+/*! \fn uint16_t l6480_get_gatecfg2_tdt_nanosecond(void)
  *  \brief Get tdt from gatecfg2 in nanoseconds
  *
  *  \return tdt in nanoseconds
  */
 uint16_t l6480_get_gatecfg2_tdt_nanosecond(void);
 
-/*! \fn l6480_set_gatecfg2(uint8_t value)
+/*! \fn void l6480_set_gatecfg2(uint8_t value)
  *  \brief Set gatecfg2
  *
  *  \param  value gatecfg2
@@ -1891,7 +1891,7 @@ uint16_t l6480_get_gatecfg2_tdt_nanosecond(void);
  */
 void l6480_set_gatecfg2(uint8_t value);
 
-/*! \fn l6480_set_gatecfg2_tblank(uint8_t time)
+/*! \fn void l6480_set_gatecfg2_tblank(uint8_t time)
  *  \brief Set tblank from gatecfg2
  *
  *  \param  time tblank
@@ -1899,7 +1899,7 @@ void l6480_set_gatecfg2(uint8_t value);
  */
 void l6480_set_gatecfg2_tblank(uint8_t time);
 
-/*! \fn l6480_set_gatecfg2_tblank_nanosecond(uint16_t time)
+/*! \fn void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time)
  *  \brief Set tblank from gatecfg2 in nanoseconds
  *
  *  \param  time tblank in nanoseconds
@@ -1907,7 +1907,7 @@ void l6480_set_gatecfg2_tblank(uint8_t time);
  */
 void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time);
 
-/*! \fn l6480_set_gatecfg2_tdt(uint8_t time)
+/*! \fn void l6480_set_gatecfg2_tdt(uint8_t time)
  *  \brief Set tdt from gatecfg2
  *
  *  \param  time tdt
@@ -1915,7 +1915,7 @@ void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time);
  */
 void l6480_set_gatecfg2_tdt(uint8_t time);
 
-/*! \fn l6480_set_gatecfg2_tdt_nanosecond(uint16_t time)
+/*! \fn void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time)
  *  \brief Set tdt from gatecfg2 in nanoseconds
  *
  *  \param  time tdt in nanoseconds
@@ -1923,84 +1923,84 @@ void l6480_set_gatecfg2_tdt(uint8_t time);
  */
 void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time);
 
-/*! \fn l6480_get_config(void)
+/*! \fn uint16_t l6480_get_config(void)
  *  \brief Get config
  *
  *  \return config
  */
 uint16_t l6480_get_config(void);
 
-/*! \fn l6480_get_config_f_pwm_int(void)
+/*! \fn uint8_t l6480_get_config_f_pwm_int(void)
  *  \brief Get f_pwm_int from config
  *
  *  \return f_pwm_int
  */
 uint8_t l6480_get_config_f_pwm_int(void);
 
-/*! \fn l6480_get_config_f_pwm_dec(void)
+/*! \fn uint8_t l6480_get_config_f_pwm_dec(void)
  *  \brief Get f_pwm_dec from config
  *
  *  \return f_pwm_dec
  */
 uint8_t l6480_get_config_f_pwm_dec(void);
 
-/*! \fn l6480_get_config_vccval(void)
+/*! \fn uint8_t l6480_get_config_vccval(void)
  *  \brief Get vccval from config
  *
  *  \return vccval
  */
 uint8_t l6480_get_config_vccval(void);
 
-/*! \fn l6480_get_config_uvloval(void)
+/*! \fn uint8_t l6480_get_config_uvloval(void)
  *  \brief Get uvloval from config
  *
  *  \return uvloval
  */
 uint8_t l6480_get_config_uvloval(void);
 
-/*! \fn l6480_get_config_oc_sd(void)
+/*! \fn uint8_t l6480_get_config_oc_sd(void)
  *  \brief Get oc_sd from config
  *
  *  \return oc_sd
  */
 uint8_t l6480_get_config_oc_sd(void);
 
-/*! \fn l6480_get_config_en_vscomp(void)
+/*! \fn uint8_t l6480_get_config_en_vscomp(void)
  *  \brief Get en_vscomp from config
  *
  *  \return en_vscomp
  */
 uint8_t l6480_get_config_en_vscomp(void);
 
-/*! \fn l6480_get_config_sw_mode(void)
+/*! \fn uint8_t l6480_get_config_sw_mode(void)
  *  \brief Get sw_mode from config
  *
  *  \return sw_mode
  */
 uint8_t l6480_get_config_sw_mode(void);
 
-/*! \fn l6480_get_config_ext_clk(void)
+/*! \fn uint8_t l6480_get_config_ext_clk(void)
  *  \brief Get ext_clk from config
  *
  *  \return ext_clk
  */
 uint8_t l6480_get_config_ext_clk(void);
 
-/*! \fn l6480_get_config_osc_sel(void)
+/*! \fn uint8_t l6480_get_config_osc_sel(void)
  *  \brief Get osc_sel from config
  *
  *  \return osc_sel
  */
 uint8_t l6480_get_config_osc_sel(void);
 
-/*! \fn l6480_get_config_f_pwm_int(void)
+/*! \fn uint8_t l6480_get_config_f_pwm_int(void)
  *  \brief Get f_pwm_int from config
  *
  *  \return f_pwm_int
  */
 uint8_t l6480_get_config_f_pwm_int(void);
 
-/*! \fn l6480_set_config(uint16_t value)
+/*! \fn void l6480_set_config(uint16_t value)
  *  \brief Set config
  *
  *  \param  value config
@@ -2008,7 +2008,7 @@ uint8_t l6480_get_config_f_pwm_int(void);
  */
 void l6480_set_config(uint16_t value);
 
-/*! \fn l6480_set_config_f_pwm_int(uint8_t factor)
+/*! \fn void l6480_set_config_f_pwm_int(uint8_t factor)
  *  \brief Set f_pwm from config
  *
  *  \param  factor f_pwm_int
@@ -2016,7 +2016,7 @@ void l6480_set_config(uint16_t value);
  */
 void l6480_set_config_f_pwm_int(uint8_t factor);
 
-/*! \fn l6480_set_config_f_pwm_dec(uint8_t factor)
+/*! \fn void l6480_set_config_f_pwm_dec(uint8_t factor)
  *  \brief Set f_pwm from config
  *
  *  \param  factor f_pwm_dec
@@ -2024,7 +2024,7 @@ void l6480_set_config_f_pwm_int(uint8_t factor);
  */
 void l6480_set_config_f_pwm_dec(uint8_t factor);
 
-/*! \fn l6480_set_config_vccval(uint8_t value)
+/*! \fn void l6480_set_config_vccval(uint8_t value)
  *  \brief Set f_pwm from config
  *
  *  \param  value vccval
@@ -2032,7 +2032,7 @@ void l6480_set_config_f_pwm_dec(uint8_t factor);
  */
 void l6480_set_config_vccval(uint8_t value);
 
-/*! \fn l6480_set_config_uvloval(uint8_t value)
+/*! \fn void l6480_set_config_uvloval(uint8_t value)
  *  \brief Set f_pwm from config
  *
  *  \param  value uvloval
@@ -2040,7 +2040,7 @@ void l6480_set_config_vccval(uint8_t value);
  */
 void l6480_set_config_uvloval(uint8_t value);
 
-/*! \fn l6480_set_config_oc_sd(uint8_t value)
+/*! \fn void l6480_set_config_oc_sd(uint8_t value)
  *  \brief Set f_pwm from config
  *
  *  \param  value oc_sd
@@ -2048,7 +2048,7 @@ void l6480_set_config_uvloval(uint8_t value);
  */
 void l6480_set_config_oc_sd(uint8_t value);
 
-/*! \fn l6480_set_config_en_vscomp(uint8_t value)
+/*! \fn void l6480_set_config_en_vscomp(uint8_t value)
  *  \brief Set f_pwm from config
  *
  *  \param  value en_vscomp
@@ -2056,7 +2056,7 @@ void l6480_set_config_oc_sd(uint8_t value);
  */
 void l6480_set_config_en_vscomp(uint8_t value);
 
-/*! \fn l6480_set_config_sw_mode(uint8_t mode)
+/*! \fn void l6480_set_config_sw_mode(uint8_t mode)
  *  \brief Set f_pwm from config
  *
  *  \param  mode sw_mode
@@ -2064,7 +2064,7 @@ void l6480_set_config_en_vscomp(uint8_t value);
  */
 void l6480_set_config_sw_mode(uint8_t mode);
 
-/*! \fn l6480_set_config_ext_clk(uint8_t value)
+/*! \fn void l6480_set_config_ext_clk(uint8_t value)
  *  \brief Set f_pwm from config
  *
  *  \param  value ext_clk
@@ -2072,7 +2072,7 @@ void l6480_set_config_sw_mode(uint8_t mode);
  */
 void l6480_set_config_ext_clk(uint8_t value);
 
-/*! \fn l6480_set_config_osc_sel(uint8_t value)
+/*! \fn void l6480_set_config_osc_sel(uint8_t value)
  *  \brief Set f_pwm from config
  *
  *  \param  value osc_sel
@@ -2080,112 +2080,112 @@ void l6480_set_config_ext_clk(uint8_t value);
  */
 void l6480_set_config_osc_sel(uint8_t value);
 
-/*! \fn l6480_get_status(void)
+/*! \fn uint16_t l6480_get_status(void)
  *  \brief Get status
  *
  *  \return status
  */
 uint16_t l6480_get_status(void);
 
-/*! \fn l6480_get_status_step_loss_b(void)
+/*! \fn uint8_t l6480_get_status_step_loss_b(void)
  *  \brief Get step_loss_b from status
  *
  *  \return step_loss_b
  */
 uint8_t l6480_get_status_step_loss_b(void);
 
-/*! \fn l6480_get_status_step_loss_a(void)
+/*! \fn uint8_t l6480_get_status_step_loss_a(void)
  *  \brief Get step_loss_a from status
  *
  *  \return step_loss_a
  */
 uint8_t l6480_get_status_step_loss_a(void);
 
-/*! \fn l6480_get_status_ocd(void)
+/*! \fn uint8_t l6480_get_status_ocd(void)
  *  \brief Get ocd from status
  *
  *  \return ocd
  */
 uint8_t l6480_get_status_ocd(void);
 
-/*! \fn l6480_get_status_th_status(void)
+/*! \fn uint8_t l6480_get_status_th_status(void)
  *  \brief Get th_status from status
  *
  *  \return th_status
  */
 uint8_t l6480_get_status_th_status(void);
 
-/*! \fn l6480_get_status_uvlo_adc(void)
+/*! \fn uint8_t l6480_get_status_uvlo_adc(void)
  *  \brief Get uvlo_adc from status
  *
  *  \return uvlo_adc
  */
 uint8_t l6480_get_status_uvlo_adc(void);
 
-/*! \fn l6480_get_status_uvlo(void)
+/*! \fn uint8_t l6480_get_status_uvlo(void)
  *  \brief Get uvlo from status
  *
  *  \return uvlo
  */
 uint8_t l6480_get_status_uvlo(void);
 
-/*! \fn l6480_get_status_stck_mod(void)
+/*! \fn uint8_t l6480_get_status_stck_mod(void)
  *  \brief Get stck_mod from status
  *
  *  \return stck_mod
  */
 uint8_t l6480_get_status_stck_mod(void);
 
-/*! \fn l6480_get_status_cmd_error(void)
+/*! \fn uint8_t l6480_get_status_cmd_error(void)
  *  \brief Get cmd_error from status
  *
  *  \return cmd_error
  */
 uint8_t l6480_get_status_cmd_error(void);
 
-/*! \fn l6480_get_status_mot_status(void)
+/*! \fn uint8_t l6480_get_status_mot_status(void)
  *  \brief Get mot_status from status
  *
  *  \return mot_status
  */
 uint8_t l6480_get_status_mot_status(void);
 
-/*! \fn l6480_get_status_dir(void)
+/*! \fn uint8_t l6480_get_status_dir(void)
  *  \brief Get dir from status
  *
  *  \return dir
  */
 uint8_t l6480_get_status_dir(void);
 
-/*! \fn l6480_get_status_sw_evn(void)
+/*! \fn uint8_t l6480_get_status_sw_evn(void)
  *  \brief Get sw_evn from status
  *
  *  \return sw_evn
  */
 uint8_t l6480_get_status_sw_evn(void);
 
-/*! \fn l6480_get_status_sw_f(void)
+/*! \fn uint8_t l6480_get_status_sw_f(void)
  *  \brief Get sw_f from status
  *
  *  \return sw_f
  */
 uint8_t l6480_get_status_sw_f(void);
 
-/*! \fn l6480_get_status_busy(void)
+/*! \fn uint8_t l6480_get_status_busy(void)
  *  \brief Get busy from status
  *
  *  \return busy
  */
 uint8_t l6480_get_status_busy(void);
 
-/*! \fn l6480_get_status_hiz(void)
+/*! \fn uint8_t l6480_get_status_hiz(void)
  *  \brief Get hiz from status
  *
  *  \return hiz
  */
 uint8_t l6480_get_status_hiz(void);
 
-/*! \fn l6480_cmd_nop(void)
+/*! \fn void l6480_cmd_nop(void)
  *  \brief Send command nop
  *
  *  \return void
