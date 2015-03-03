@@ -1040,6 +1040,14 @@ Commands
 #define L6480_CMD_GETSTATUS_READ            1
 /*! @} */
 
+/*! \enum l6480_dir_t
+ *  \brief Type to determine the direction of movement
+ */
+typedef enum {
+    L6480_DIR_REV   = 0x00,     /*!< Reverse */
+    L6480_DIR_FWD   = 0x01,     /*!< Forward */
+} l6480_dir_t;
+
 /******************************************************************************
 Functions
 ******************************************************************************/

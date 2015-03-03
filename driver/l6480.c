@@ -2897,3 +2897,75 @@ void l6480_cmd_nop(void) {
         L6480_CMD_NOP,
         0);
 }
+
+void l6480_cmd_run(l6480_dir_t dir, uint32_t speed){
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_stepclock(l6480_dir_t dir) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_goto(uint32_t abs_pos) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_goto_dir(l6480_dir_t dir, uint32_t abs_pos) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_gountil(uint8_t act, l6480_dir_t dir, uint32_t speed) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_gountil_millisteps_s(uint8_t act, l6480_dir_t dir, uint32_t speed) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_releasesw(uint8_t act, l6480_dir_t dir) {
+    /*! \todo Implement function */
+}
+void l6480_cmd_gohome(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_gomark(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_resetpos(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_resetdevice(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_softstop(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_hardstop(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_softhiz(void) {
+    /*! \todo Implement function */
+}
+
+void l6480_cmd_hardhiz(void) {
+    /*! \todo Implement function */
+}
+
+uint16_t l6480_cmd_getstatus(void) {
+    /*! \todo Implement function */
+}
+
