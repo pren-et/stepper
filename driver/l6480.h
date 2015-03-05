@@ -936,6 +936,7 @@ Commands
 #define L6480_CMD_MOVE(dir)                 (0x40 | (dir?0x01:0x00))
 #define L6480_CMD_MOVE_LEN(dir)             4
 #define L6480_CMD_MOVE_READ(dir)            0
+#define L6480_CMD_MOVE_STEP_MAX             4194303
 /*! @} */
 
 /*! \name Command
@@ -2245,5 +2246,14 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed);
  *  \return void
  */
 void l6480_cmd_stepclock(l6480_dir_t dir);
+
+/*! \fn void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step)
+ *  \brief Send command run
+ *
+ *  \param  dir     Direction of movement
+ *  \param  n_step  Number of steps
+ *  \return void
+ */
+void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step);
 
 #endif /* L6480_H */

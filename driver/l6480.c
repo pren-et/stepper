@@ -2962,7 +2962,24 @@ void l6480_cmd_stepclock(l6480_dir_t dir) {
 }
 
 void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_cmd_val_t value;
+
+    /* input value limitation */
+    if (n_step >= L6480_CMD_MOVE_STEP_MAX) {
+        n_step  = L6480_CMD_MOVE_STEP_MAX;
+    }
+
+    /* Prepare data local */
+    value.speed.data = n_step;
+
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_RUN(dir), 
+        L6480_CMD_RUN(dir),
+        L6480_CMD_RUN(dir),
+        value.array);
+
+    return;
 }
 
 void l6480_cmd_goto(uint32_t abs_pos) {
