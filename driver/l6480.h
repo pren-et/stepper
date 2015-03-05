@@ -2238,4 +2238,12 @@ void l6480_cmd_run(l6480_dir_t dir, uint32_t speed);
  */
 void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed);
 
+/*! \fn void l6480_cmd_stepclock(l6480_dir_t dir)
+ *  \brief Send command stepclock
+ *
+ *  \param  dir     Direction of movement
+ *  \return void
+ */
+void l6480_cmd_stepclock(l6480_dir_t dir);
+
 #endif /* L6480_H */

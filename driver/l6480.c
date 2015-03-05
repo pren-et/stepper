@@ -2955,7 +2955,10 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
 }
 
 void l6480_cmd_stepclock(l6480_dir_t dir) {
-    /*! \todo Implement function */
+    l6480_send_cmd( L6480_CMD_STEPCLOCK(dir), 
+        L6480_CMD_STEPCLOCK(dir),
+        L6480_CMD_STEPCLOCK(dir),
+        0);
 }
 
 void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step) {
