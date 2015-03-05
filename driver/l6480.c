@@ -2899,11 +2899,59 @@ void l6480_cmd_nop(void) {
 }
 
 void l6480_cmd_run(l6480_dir_t dir, uint32_t speed){
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_cmd_val_t value;
+
+    /* input value limitation */
+    if (speed >= L6480_CMD_RUN_SPEED_MAX) {
+        speed  = L6480_CMD_RUN_SPEED_MAX;
+    }
+
+    /* Prepare data local */
+    value.speed.data = speed;
+
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_RUN(dir), 
+        L6480_CMD_RUN(dir),
+        L6480_CMD_RUN(dir),
+        value.array);
+
+    return;
 }
 
 void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_cmd_val_t value;
+
+    /* input value limitation */
+    if (speed >= L6480_CMD_RUN_SPEED_MILLI_MAX) {
+        speed  = L6480_CMD_RUN_SPEED_MILLI_MAX;
+    }
+
+    /*! calculate speed in millisteps per second
+        \f[
+            \text{speed}~[\si{step\per\second}] 
+            = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\second}]}
+        \f]
+        \f[
+            \text{speed}~[\si{\milli step\per\second}] 
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
+            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
+            \approx \text{MIN\_SPEED} \cdot 14.90
+        \f]
+    */
+    speed = speed * 10 / 149;
+
+    /* Prepare data local */
+    value.speed.data = speed;
+
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_RUN(dir), 
+        L6480_CMD_RUN(dir),
+        L6480_CMD_RUN(dir),
+        value.array);
+
+    return;
 }
 
 void l6480_cmd_stepclock(l6480_dir_t dir) {

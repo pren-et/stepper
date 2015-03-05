@@ -918,6 +918,8 @@ Commands
 #define L6480_CMD_RUN(dir)                  (0x50 | (dir?0x01:0x00))
 #define L6480_CMD_RUN_LEN(dir)              4
 #define L6480_CMD_RUN_READ(dir)             0
+#define L6480_CMD_RUN_SPEED_MAX             1048575
+#define L6480_CMD_RUN_SPEED_MILLI_MAX       15624985
 /*! @} */
 
 /*! \name Command
@@ -1047,6 +1049,24 @@ typedef enum {
     L6480_DIR_REV   = 0x00,     /*!< Reverse */
     L6480_DIR_FWD   = 0x01,     /*!< Forward */
 } l6480_dir_t;
+
+/*! \union l6480_cmd_val_t
+ *  \brief Type for values sent by commands. 
+ */
+typedef union {
+    uint8_t array[4];           /*!< array access */
+    struct {
+        uint32_t data;              /*!< raw data */
+    } raw;                      /*!< raw data access */
+    struct {
+        uint32_t data;              /*!< raw data */
+        uint32_t unused;            /*!< unused */
+    } speed;                    /*!< speed data access */
+    struct {
+        uint32_t data;              /*!< step data */
+        uint32_t unused;            /*!< unused */
+    } step;                     /*!< step data access */
+} l6480_cmd_val_t;
 
 /******************************************************************************
 Functions
@@ -2199,5 +2219,23 @@ uint8_t l6480_get_status_hiz(void);
  *  \return void
  */
 void l6480_cmd_nop(void);
+
+/*! \fn void l6480_cmd_run(l6480_dir_t dir, uint32_t speed)
+ *  \brief Send command run
+ *
+ *  \param  dir     Direction of movement
+ *  \param  speed   Speed of movement
+ *  \return void
+ */
+void l6480_cmd_run(l6480_dir_t dir, uint32_t speed);
+
+/*! \fn void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed)
+ *  \brief Send command run with speed in millisteps per second
+ *
+ *  \param  dir     Direction of movement
+ *  \param  speed   Speed of movement in millisteps per second
+ *  \return void
+ */
+void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed);
 
 #endif /* L6480_H */
