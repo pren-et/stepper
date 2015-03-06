@@ -1004,7 +1004,7 @@ Commands
  */
 #define L6480_CMD_RESETDEVICE               0xC0
 #define L6480_CMD_RESETDEVICE_LEN           1
-#define L6480_CMD_RESETDevice_READ          0
+#define L6480_CMD_RESETDEVICE_READ          0
 /*! @} */
 
 /*! \name Command SoftStop
@@ -1012,7 +1012,7 @@ Commands
  */
 #define L6480_CMD_SOFTSTOP                  0xB0
 #define L6480_CMD_SOFTSTOP_LEN              1
-#define L6480_CMD_SOTFSTOP_READ             0
+#define L6480_CMD_SOFTSTOP_READ             0
 /*! @} */
 
 /*! \name Command HardStop
@@ -2317,5 +2317,61 @@ void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t s
  *  \return void
  */
 void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir);
+
+/*! \fn void l6480_cmd_gohome(void)
+ *  \brief Send command gohome
+ *
+ *  \return void
+ */
+void l6480_cmd_gohome(void);
+
+/*! \fn void l6480_cmd_gomark(void)
+ *  \brief Send command gomark
+ *
+ *  \return void
+ */
+void l6480_cmd_gomark(void);
+
+/*! \fn void l6480_cmd_resetpos(void)
+ *  \brief Send command resetpos
+ *
+ *  \return void
+ */
+void l6480_cmd_resetpos(void);
+
+/*! \fn void l6480_cmd_resetdevice(void)
+ *  \brief Send command resetdevice
+ *
+ *  \return void
+ */
+void l6480_cmd_resetdevice(void);
+
+/*! \fn void l6480_cmd_softstop(void)
+ *  \brief Send command softstop
+ *
+ *  \return void
+ */
+void l6480_cmd_softstop(void);
+
+/*! \fn void l6480_cmd_hardstop(void)
+ *  \brief Send command hardstop
+ *
+ *  \return void
+ */
+void l6480_cmd_hardstop(void);
+
+/*! \fn void l6480_cmd_softhiz(void)
+ *  \brief Send command softhiz
+ *
+ *  \return void
+ */
+void l6480_cmd_softhiz(void);
+
+/*! \fn void l6480_cmd_hardhiz(void)
+ *  \brief Send command hardhiz
+ *
+ *  \return void
+ */
+void l6480_cmd_hardhiz(void);
 
 #endif /* L6480_H */

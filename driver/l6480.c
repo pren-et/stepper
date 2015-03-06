@@ -3096,35 +3096,83 @@ void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir) {
     return;
 }
 void l6480_cmd_gohome(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_GOHOME, 
+        L6480_CMD_GOHOME_LEN,
+        L6480_CMD_GOHOME_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_gomark(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_GOMARK, 
+        L6480_CMD_GOMARK_LEN,
+        L6480_CMD_GOMARK_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_resetpos(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_RESETPOS, 
+        L6480_CMD_RESETPOS_LEN,
+        L6480_CMD_RESETPOS_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_resetdevice(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_RESETDEVICE, 
+        L6480_CMD_RESETDEVICE_LEN,
+        L6480_CMD_RESETDEVICE_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_softstop(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_SOFTSTOP, 
+        L6480_CMD_SOFTSTOP_LEN,
+        L6480_CMD_SOFTSTOP_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_hardstop(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_HARDSTOP, 
+        L6480_CMD_HARDSTOP_LEN,
+        L6480_CMD_HARDSTOP_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_softhiz(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_SOFTHIZ, 
+        L6480_CMD_SOFTHIZ_LEN,
+        L6480_CMD_SOFTHIZ_READ,
+        0);
+
+    return;
 }
 
 void l6480_cmd_hardhiz(void) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_HARDHIZ, 
+        L6480_CMD_HARDHIZ_LEN,
+        L6480_CMD_HARDHIZ_READ,
+        0);
+
+    return;
 }
 
 uint16_t l6480_cmd_getstatus(void) {
