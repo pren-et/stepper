@@ -3087,7 +3087,13 @@ void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t s
 }
 
 void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir) {
-    /*! \todo Implement function */
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_RELEASESW(act, dir), 
+        L6480_CMD_RELEASESW_LEN(act, dir),
+        L6480_CMD_RELEASESW_READ(act, dir),
+        0);
+
+    return;
 }
 void l6480_cmd_gohome(void) {
     /*! \todo Implement function */

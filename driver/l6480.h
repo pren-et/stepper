@@ -2309,4 +2309,13 @@ void l6480_cmd_gountil(l6480_act_t act, l6480_dir_t dir, uint32_t speed);
  */
 void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t speed);
 
+/*! \fn void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir)
+ *  \brief Send command releasesw
+ *
+ *  \param  act     Action after reaching switch
+ *  \param  dir     Direction of movement
+ *  \return void
+ */
+void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir);
+
 #endif /* L6480_H */
