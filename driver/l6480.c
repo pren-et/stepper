@@ -2893,8 +2893,8 @@ uint8_t l6480_get_status_hiz(void) {
 
 void l6480_cmd_nop(void) {
     l6480_send_cmd( L6480_CMD_NOP, 
-        L6480_CMD_NOP,
-        L6480_CMD_NOP,
+        L6480_CMD_NOP_LEN,
+        L6480_CMD_NOP_READ,
         0);
 }
 
@@ -2912,8 +2912,8 @@ void l6480_cmd_run(l6480_dir_t dir, uint32_t speed){
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_RUN(dir), 
-        L6480_CMD_RUN(dir),
-        L6480_CMD_RUN(dir),
+        L6480_CMD_RUN_LEN(dir),
+        L6480_CMD_RUN_READ(dir),
         value.array);
 
     return;
@@ -2947,8 +2947,8 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_RUN(dir), 
-        L6480_CMD_RUN(dir),
-        L6480_CMD_RUN(dir),
+        L6480_CMD_RUN_LEN(dir),
+        L6480_CMD_RUN_READ(dir),
         value.array);
 
     return;
@@ -2956,8 +2956,8 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
 
 void l6480_cmd_stepclock(l6480_dir_t dir) {
     l6480_send_cmd( L6480_CMD_STEPCLOCK(dir), 
-        L6480_CMD_STEPCLOCK(dir),
-        L6480_CMD_STEPCLOCK(dir),
+        L6480_CMD_STEPCLOCK_LEN(dir),
+        L6480_CMD_STEPCLOCK_READ(dir),
         0);
 }
 
@@ -2975,8 +2975,8 @@ void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step) {
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_MOVE(dir), 
-        L6480_CMD_MOVE(dir),
-        L6480_CMD_MOVE(dir),
+        L6480_CMD_MOVE_LEN(dir),
+        L6480_CMD_MOVE_READ(dir),
         value.array);
 
     return;
@@ -2999,8 +2999,8 @@ void l6480_cmd_goto(int32_t abs_pos) {
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_GOTO, 
-        L6480_CMD_GOTO,
-        L6480_CMD_GOTO,
+        L6480_CMD_GOTO_LEN,
+        L6480_CMD_GOTO_READ,
         value.array);
 
     return;
@@ -3023,8 +3023,8 @@ void l6480_cmd_goto_dir(l6480_dir_t dir, int32_t abs_pos) {
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_GOTO_DIR(dir), 
-        L6480_CMD_GOTO_DIR(dir),
-        L6480_CMD_GOTO_DIR(dir),
+        L6480_CMD_GOTO_DIR_LEN(dir),
+        L6480_CMD_GOTO_DIR_READ(dir),
         value.array);
 
     return;
@@ -3044,8 +3044,8 @@ void l6480_cmd_gountil(l6480_act_t act, l6480_dir_t dir, uint32_t speed) {
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir), 
-        L6480_CMD_GOUNTIL(act, dir),
-        L6480_CMD_GOUNTIL(act, dir),
+        L6480_CMD_GOUNTIL_LEN(act, dir),
+        L6480_CMD_GOUNTIL_READ(act, dir),
         value.array);
 
     return;
@@ -3079,8 +3079,8 @@ void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t s
 
     /* Send command to device */
     l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir), 
-        L6480_CMD_GOUNTIL(act, dir),
-        L6480_CMD_GOUNTIL(act, dir),
+        L6480_CMD_GOUNTIL_LEN(act, dir),
+        L6480_CMD_GOUNTIL_READ(act, dir),
         value.array);
 
     return;
