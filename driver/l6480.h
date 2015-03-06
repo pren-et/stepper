@@ -963,6 +963,8 @@ Commands
 #define L6480_CMD_GOUNTIL(act, dir)         (0x82 | (act?0x08:0x00) | (dir?0x01:0x00))
 #define L6480_CMD_GOUNTIL_LEN(act, dir)     4
 #define L6480_CMD_GOUNTIL_READ(act, dir)    0
+#define L6480_CMD_GOUNTIL_SPEED_MAX         1048575
+#define L6480_CMD_GOUNTIL_SPEED_MILLI_MAX   15624985
 /*! @} */
 
 /*! \name Command
@@ -1052,6 +1054,14 @@ typedef enum {
     L6480_DIR_REV   = 0x00,     /*!< Reverse */
     L6480_DIR_FWD   = 0x01,     /*!< Forward */
 } l6480_dir_t;
+
+/*! \enum l6480_act_t
+ *  \brief Type to determine the action after reaching or releasing switch
+ */
+typedef enum {
+    L6480_ACT_RESET = 0x00,     /*!< Reset ABS_POS_register */
+    L6480_ACT_COPY  = 0x01,     /*!< Copy ABS_POS register to MARK register */
+} l6480_act_t;
 
 /*! \union l6480_cmd_val_t
  *  \brief Type for values sent by commands. 
@@ -2278,5 +2288,25 @@ void l6480_cmd_goto(int32_t abs_pos);
  *  \return void
  */
 void l6480_cmd_goto_dir(l6480_dir_t dir, int32_t abs_pos);
+
+/*! \fn void l6480_cmd_gountil(l6480_act_t act, l6480_dir_t dir, uint32_t speed)
+ *  \brief Send command gountil
+ *
+ *  \param  act     Action after reaching switch
+ *  \param  dir     Direction of movement
+ *  \param  speed   Speed of movement
+ *  \return void
+ */
+void l6480_cmd_gountil(l6480_act_t act, l6480_dir_t dir, uint32_t speed);
+
+/*! \fn void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t speed)
+ *  \brief Send command gountil with speed in millisteps per second
+ *
+ *  \param  act     Action after reaching switch
+ *  \param  dir     Direction of movement
+ *  \param  speed   Speed of movement in millisteps per second
+ *  \return void
+ */
+void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t speed);
 
 #endif /* L6480_H */

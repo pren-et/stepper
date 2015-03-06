@@ -3030,15 +3030,63 @@ void l6480_cmd_goto_dir(l6480_dir_t dir, int32_t abs_pos) {
     return;
 }
 
-void l6480_cmd_gountil(uint8_t act, l6480_dir_t dir, uint32_t speed) {
-    /*! \todo Implement function */
+void l6480_cmd_gountil(l6480_act_t act, l6480_dir_t dir, uint32_t speed) {
+    /* local variables */
+    l6480_cmd_val_t value;
+
+    /* input value limitation */
+    if (speed >= L6480_CMD_GOUNTIL_SPEED_MAX) {
+        speed  = L6480_CMD_GOUNTIL_SPEED_MAX;
+    }
+
+    /* Prepare data local */
+    value.speed.data = speed;
+
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir), 
+        L6480_CMD_GOUNTIL(act, dir),
+        L6480_CMD_GOUNTIL(act, dir),
+        value.array);
+
+    return;
 }
 
-void l6480_cmd_gountil_millisteps_s(uint8_t act, l6480_dir_t dir, uint32_t speed) {
-    /*! \todo Implement function */
+void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t speed) {
+    /* local variables */
+    l6480_cmd_val_t value;
+
+    /* input value limitation */
+    if (speed >= L6480_CMD_GOUNTIL_SPEED_MILLI_MAX) {
+        speed  = L6480_CMD_GOUNTIL_SPEED_MILLI_MAX;
+    }
+
+    /*! calculate speed in millisteps per second
+        \f[
+            \text{speed}~[\si{step\per\second}] 
+            = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\second}]}
+        \f]
+        \f[
+            \text{speed}~[\si{\milli step\per\second}] 
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
+            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
+            \approx \text{MIN\_SPEED} \cdot 14.90
+        \f]
+    */
+    speed = speed * 10 / 149;
+
+    /* Prepare data local */
+    value.speed.data = speed;
+
+    /* Send command to device */
+    l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir), 
+        L6480_CMD_GOUNTIL(act, dir),
+        L6480_CMD_GOUNTIL(act, dir),
+        value.array);
+
+    return;
 }
 
-void l6480_cmd_releasesw(uint8_t act, l6480_dir_t dir) {
+void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir) {
     /*! \todo Implement function */
 }
 void l6480_cmd_gohome(void) {
