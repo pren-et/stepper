@@ -3176,6 +3176,16 @@ void l6480_cmd_hardhiz(void) {
 }
 
 uint16_t l6480_cmd_getstatus(void) {
-    /*! \todo Implement function */
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETSTATUS, 
+        L6480_CMD_GETSTATUS_LEN, 
+        L6480_CMD_GETSTATUS_READ, 
+        reg.array);
+
+    /* return status */
+    return reg.raw.data;
 }
 

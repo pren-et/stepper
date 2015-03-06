@@ -2374,4 +2374,11 @@ void l6480_cmd_softhiz(void);
  */
 void l6480_cmd_hardhiz(void);
 
+/*! \fn uint16_t l6480_cmd_getstatus(void)
+ *  \brief Send command getstatus to read device status
+ *
+ *  \return status
+ */
+uint16_t l6480_cmd_getstatus(void);
+
 #endif /* L6480_H */
