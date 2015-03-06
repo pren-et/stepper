@@ -945,6 +945,8 @@ Commands
 #define L6480_CMD_GOTO                      0x60
 #define L6480_CMD_GOTO_LEN                  4
 #define L6480_CMD_GOTO_READ                 0
+#define L6480_CMD_GOTO_STEP_MIN             -2097152
+#define L6480_CMD_GOTO_STEP_MAX             2097151
 /*! @} */
 
 /*! \name Command
@@ -1055,18 +1057,22 @@ typedef enum {
  *  \brief Type for values sent by commands. 
  */
 typedef union {
-    uint8_t array[4];           /*!< array access */
+    uint8_t array[4];               /*!< array access */
     struct {
-        uint32_t data;              /*!< raw data */
-    } raw;                      /*!< raw data access */
+        uint32_t data;                  /*!< raw data */
+    } raw;                          /*!< raw data access */
     struct {
-        uint32_t data;              /*!< raw data */
-        uint32_t unused;            /*!< unused */
-    } speed;                    /*!< speed data access */
+        uint32_t data       : 20;       /*!< raw data */
+        uint32_t unused     : 12;       /*!< unused */
+    } speed;                        /*!< speed data access */
     struct {
-        uint32_t data;              /*!< step data */
-        uint32_t unused;            /*!< unused */
-    } step;                     /*!< step data access */
+        uint32_t data       : 22;       /*!< step data */
+        uint32_t unused     : 10;       /*!< unused */
+    } step;                         /*!< step data access */
+    struct {
+        int32_t data        : 22;       /*!< position data */
+        int32_t unused      : 10;       /*!< unused */
+    } position;                     /*!< position data access */
 } l6480_cmd_val_t;
 
 /******************************************************************************
@@ -2255,5 +2261,22 @@ void l6480_cmd_stepclock(l6480_dir_t dir);
  *  \return void
  */
 void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step);
+
+/*! \fn void l6480_cmd_goto(int32_t abs_pos)
+ *  \brief Send command goto
+ *
+ *  \param  abs_pos End position of movement
+ *  \return void
+ */
+void l6480_cmd_goto(int32_t abs_pos);
+
+/*! \fn void l6480_cmd_goto_dir(l6480_dir_t dir, int32_t abs_pos)
+ *  \brief Send command goto with a given direction
+ *
+ *  \param  dir     Direction of movement
+ *  \param  abs_pos End position of movement
+ *  \return void
+ */
+void l6480_cmd_goto_dir(l6480_dir_t dir, int32_t abs_pos);
 
 #endif /* L6480_H */
