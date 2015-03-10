@@ -104,6 +104,10 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=KSKKQCNH
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for DC_Stepper\Design Rule Check - DC_Stepper.html
+DItemRevisionGUID=
+
 [Configuration1]
 Name=Default Configuration
 ParameterCount=0
