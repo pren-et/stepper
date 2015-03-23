@@ -104,6 +104,23 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=KSKKQCNH
 
+[Document5]
+DocumentPath=OutputJob-Stepper_1_0.OutJob
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=
+
 [GeneratedDocument1]
 DocumentPath=Project Outputs for DC_Stepper\Design Rule Check - DC_Stepper.html
 DItemRevisionGUID=
@@ -117,6 +134,9 @@ CurrentRevision=
 Variant=[No Variations]
 GenerateBOM=1
 OutputJobsCount=0
+
+[Generic_EDE]
+OutputDir=
 
 [OutputGroup1]
 Name=Netlist Outputs
