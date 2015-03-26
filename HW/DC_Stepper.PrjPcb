@@ -122,30 +122,42 @@ GenerateClassCluster=0
 DocumentUniqueId=
 
 [GeneratedDocument1]
-DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.EXTREP
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.DRR
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GBL
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.EXTREP
 DItemRevisionGUID=
 
 [GeneratedDocument3]
-DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GM1
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GBL
 DItemRevisionGUID=
 
 [GeneratedDocument4]
-DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GTL
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GM1
 DItemRevisionGUID=
 
 [GeneratedDocument5]
-DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.REP
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GTL
 DItemRevisionGUID=
 
 [GeneratedDocument6]
-DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.RUL
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.LDP
 DItemRevisionGUID=
 
 [GeneratedDocument7]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.REP
+DItemRevisionGUID=
+
+[GeneratedDocument8]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.RUL
+DItemRevisionGUID=
+
+[GeneratedDocument9]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument10]
 DocumentPath=Project Outputs for DC_Stepper\Design Rule Check - DC_Stepper.html
 DItemRevisionGUID=
 
@@ -352,7 +364,7 @@ OutputDefault3=0
 [OutputGroup5]
 Name=Fabrication Outputs
 Description=
-TargetPrinter=An OneNote 2010 senden
+TargetPrinter=\\ps05.campus.intern\print_public_ta_t21
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=NC Drill
 OutputName1=NC Drill Files
@@ -360,7 +372,7 @@ OutputDocumentPath1=
 OutputVariantName1=
 OutputDefault1=0
 Configuration1_Name1=OutputConfigurationParameter1
-Configuration1_Item1=BoardEdgeRoutToolDia=2000000|GenerateBoardEdgeRout=False|GenerateDrilledSlotsG85=False|GenerateEIADrillFile=False|GenerateSeparatePlatedNonPlatedFiles=False|NumberOfDecimals=5|NumberOfUnits=2|OptimizeChangeLocationCommands=True|OriginPosition=Relative|Record=DrillView|Units=Imperial|ZeroesMode=SuppressTrailingZeroes
+Configuration1_Item1=BoardEdgeRoutToolDia=2000000|GenerateBoardEdgeRout=False|GenerateDrilledSlotsG85=False|GenerateEIADrillFile=False|GenerateSeparatePlatedNonPlatedFiles=False|NumberOfDecimals=3|NumberOfUnits=2|OptimizeChangeLocationCommands=True|OriginPosition=Relative|Record=DrillView|Units=Imperial|ZeroesMode=SuppressTrailingZeroes
 OutputType2=Mask
 OutputName2=Solder/Paste Mask Prints
 OutputDocumentPath2=
