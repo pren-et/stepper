@@ -3189,3 +3189,79 @@ uint16_t l6480_cmd_getstatus(void) {
     return reg.raw.data;
 }
 
+#if PL_HAS_SHELL
+static uint8_t PrintStatus(const CLS1_StdioType *io) {
+    l6480_reg_status_t status;
+    CLS1_SendStatusStr((unsigned char*)"l6480", (unsigned char*)"\r\n", io->stdOut);
+    status.raw.data = l6480_cmd_getstatus();
+    CLS1_SendStatusStr((unsigned char*)"  High Z",                  (status.reg.hiz         ?(unsigned char*)"TRUE\r\n"     :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  BUSY",                    (status.reg.busy        ?(unsigned char*)"Ready\r\n"    :(unsigned char*)"Executing\r\n"),  io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Switch",                  (status.reg.sw_f        ?(unsigned char*)"Closed\r\n"   :(unsigned char*)"Open\r\n"),       io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Switch turn on event",    (status.reg.sw_evn      ?(unsigned char*)"TRUE\r\n"     :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Direction",               (status.reg.dir         ?(unsigned char*)"Forward\r\n"  :(unsigned char*)"Reverse\r\n"),    io-> stdOut);
+    switch (status.reg.mot_status) {
+        case L6480_STATUS_MOT_STATUS_STOP:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Stopped\r\n",          io-> stdOut);
+            break;
+        case L6480_STATUS_MOT_STATUS_ACC:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Acceleration\r\n",     io-> stdOut);
+            break;
+        case L6480_STATUS_MOT_STATUS_DEC:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Deceleration\r\n",     io-> stdOut);
+            break;
+        case L6480_STATUS_MOT_STATUS_CONST:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Constant speed\r\n",   io-> stdOut);
+            break;
+        default:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Unknown status\r\n",   io-> stdOut);
+            break;
+    }
+    CLS1_SendStatusStr((unsigned char*)"  Command error",           (status.reg.cmd_error   ?(unsigned char*)"Unknown Command\r\n"  :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Step-clock mode",         (status.reg.stck_mod    ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Undervoltage lockout",    (status.reg.uvlo        ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  ADC Undervoltage event",  (status.reg.uvlo_adc    ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    switch (status.reg.th_status) {
+        case L6480_STATUS_TH_STATUS_NORMAL:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Normal\r\n",           io-> stdOut);
+            break;
+        case L6480_STATUS_TH_STATUS_WARNING:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Warning\r\n",          io-> stdOut);
+            break;
+        case L6480_STATUS_TH_STATUS_BRI_SHTDWN:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Bridge shutdown\r\n",  io-> stdOut);
+            break;
+        case L6480_STATUS_TH_STATUS_DEV_SHTDWN:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Device shutdown\r\n",  io-> stdOut);
+            break;
+        default;
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Unknown status\r\n",   io-> stdOut);
+            break;
+    }
+    CLS1_SendStatusStr((unsigned char*)"  Overcurrent",             (status.reg.ocd         ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Stall on bridge A",       (status.reg.step_loss_a ?(unsigned char*)"None\r\n"             :(unsigned char*)"Stall\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Stall on bridge B",       (status.reg.step_loss_b ?(unsigned char*)"None\r\n"             :(unsigned char*)"Stall\r\n"),      io-> stdOut);
+    return ERR_OK;
+}
+
+static uint8_t PrintHelp(const CLS1_StdioType *io) {
+    CLS1_SendHelpStr((unsigned char*)"l6480",           (unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  help|status",   (unsigned char*)"Print help or status information\r\n", io->stdOut);
+    return ERR_OK;
+}
+
+uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdioType *io) {
+    if (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
+        UTIL1_strcmp((char*)cmd, "l6480 help")      == 0 ||
+        UTIL1_strcmp((char*)cmd, "stepper help")    == 0) {
+        *handled = TRUE;
+        return PrintHelp(io);
+    }
+    if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)     == 0 ||
+        UTIL1_strcmp((char*)cmd, "l6480 status")      == 0 ||
+        UTIL1_strcmp((char*)cmd, "stepper status")    == 0) {
+        *handled = TRUE;
+        return PrintStatus(io);
+    }
+    return ERR_OK;
+}
+#endif /* PL_HAS_SHELL */
