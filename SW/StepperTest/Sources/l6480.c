@@ -19,11 +19,22 @@
  *  \todo Define in SPI Module
  */
 void spi_write(uint8_t *data) {
-	SM1_SendChar(*data);
+    SM1_SendChar(*data);
 }
 
 void spi_read(uint8_t *data) {
-	SM1_RecvChar(data);
+	/* dummy data*/
+	uint8_t zero = 0;
+	/* delete previously received data */
+    while (SM1_GetCharsInRxBuf()) {
+        SM1_RecvChar(NULL);
+    }
+    /* send zeros to read data */
+    SM1_SendChar(*zero);
+    /* Wait until data transfer has completed */
+    while (SM1_GetCharsInRxBuf()) {}
+    /* read data */
+    SM1_RecvChar(*data);
 }
 
 void l6480_init(void) {
@@ -53,8 +64,8 @@ void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
     /*! \todo Check if byte order for sending a command is correct */
     if (read) {         /* check if reading data is needed */
         for (i = 0; i < (len - 1); i++) {
-            //spi_read(data++);   /* read data */
-        	spi_write(&d);
+            spi_read(data++);   /* read data */
+        	//spi_write(&d);
         }
     } else {
         for (i = 0; i < (len - 1); i++) {
