@@ -35,6 +35,9 @@
 #include "LEDG.h"
 #include "LEDpin1.h"
 #include "BitIoLdd1.h"
+//#include "STCK.h"
+//#include "BitsIoLdd1.h"
+//#include "WAIT1.h"
 /* Including shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -56,6 +59,7 @@ int main(void)
   l6480_init();
   LEDG_On();
   l6480_cmd_getstatus();
+  /*
   l6480_reg_config_t config;
   config.raw.data      = 0x0000;
   config.reg.ext_clk   = 0;
@@ -76,9 +80,34 @@ int main(void)
   l6480_set_config(config.raw.data);
   l6480_cmd_getstatus();
   l6480_cmd_run(1,500); 	// Motor vorwärts
-  for(;;) {
-
+  */
+  //l6480_cmd_stepclock(1);	// Motor vorwärts
+  l6480_set_ocd_th_millivolt(1000); // Overcurrentdetection
+  l6480_set_stall_th_millivolt(1000); // Stalldetection
+  l6480_set_gatecfg1_igate_milliampere(96);
+  l6480_set_gatecfg1_tcc_nanosecond(250);
+  l6480_set_gatecfg1_tboost_nanosecond(125);
+  l6480_set_gatecfg2_tdt_nanosecond(250);
+  l6480_set_gatecfg2_tblank_nanosecond(250);
+  l6480_set_kval_hold(10);				//
+  l6480_set_kval_run(10);
+  //l6480_set_config_oc_sd(0);			// Brücken nicht ausschalten bei OCD
+  l6480_cmd_hardstop();					// Aus HiZ
+  for(;;){
+  l6480_cmd_run(1,1048575); 			// Motor vorwärts
+  l6480_cmd_softstop();					// Aus HiZ
   }
+  l6480_cmd_getstatus();
+  /*
+  int i = 0;
+  for(i=0;i<20000;i++) {
+	  STCK_PutVal(TRUE);
+	  WAIT1_Waitus(100);
+	  STCK_PutVal(FALSE);
+	  WAIT1_Waitus(100);
+  }*/
+  l6480_cmd_getstatus();
+  for(;;){};
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
