@@ -35,6 +35,7 @@
 #include "LEDG.h"
 #include "LEDpin1.h"
 #include "BitIoLdd1.h"
+#include "WAIT1.h"
 //#include "STCK.h"
 //#include "BitsIoLdd1.h"
 //#include "WAIT1.h"
@@ -95,7 +96,9 @@ int main(void)
   l6480_cmd_hardstop();					// Aus HiZ
   for(;;){
   l6480_cmd_run(1,1048575); 			// Motor vorwärts
+  WAIT1_Waitms(1000);
   l6480_cmd_softstop();					// Aus HiZ
+  WAIT1_Waitms(1000);
   }
   l6480_cmd_getstatus();
   /*
