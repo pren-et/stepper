@@ -30,11 +30,11 @@ void spi_read(uint8_t *data) {
         SM1_RecvChar(NULL);
     }
     /* send zeros to read data */
-    SM1_SendChar(*zero);
+    SM1_SendChar(&zero);
     /* Wait until data transfer has completed */
     while (SM1_GetCharsInRxBuf()) {}
     /* read data */
-    SM1_RecvChar(*data);
+    SM1_RecvChar(data);
 }
 
 void l6480_init(void) {
