@@ -20,7 +20,9 @@ kds_workspace
 
 # ignore editor stuff
 *.swp
+HW/Project Outputs for DC_Stepper
 
 SW/StepperTest/.settings/com.processorexpert.core.ide.newprojectwizard.prefs
 SW/StepperTest/.settings/com.freescale.processorexpert.core.prefs
 HW/Project Logs for DC_Stepper
+HW/DC_Stepper.PrjPcbStructure
