@@ -14,7 +14,7 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
-#define PL_PC       (1)
-#define PL_FRDM     (0)
+#define PL_PC       (0)
+#define PL_FRDM     (1)
 
 #endif /* PLATFORM_H */

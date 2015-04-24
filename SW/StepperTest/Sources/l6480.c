@@ -11,8 +11,11 @@
  *
  */
 
+#include "platform.h"
 #include "l6480.h"
-#include "SM1.h"
+#if PL_FRDM
+    #include "SM1.h"
+#endif /* PL_FRDM */
 
 /* Definition of necessary functions provided by a SPI module later */
 /*! \fn spi_write(uint8_t *data)
