@@ -1,4 +1,5 @@
 # doxygen output
 html/
 latex/
-*.o *.out
+*.o
+*.out
