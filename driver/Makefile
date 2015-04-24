@@ -5,10 +5,10 @@ all: build syntax doxygen
 build:
 	gcc -Wall -Wparentheses -c main.c
 	gcc -Wall -Wparentheses -c l6480.c
-	gcc main.o l6480.o -lm -o main
+	gcc main.o l6480.o -lm -o main.out
 
 run:
-	./main
+	./main.out
 
 syntax: 
 	gcc -Wall -Wparentheses -c l6480.c -fsyntax-only
@@ -20,3 +20,4 @@ clean:
 	rm -rf html/
 	rm -rf latex/
 	rm -rf *.o
+	rm -rf *.out

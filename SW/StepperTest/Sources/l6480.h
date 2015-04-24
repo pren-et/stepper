@@ -14,7 +14,20 @@
 #ifndef L6480_H
 #define L6480_H
 
+#include "platform.h"
+
+#if PL_PC
+    #include <stdio.h>
+#endif /* PL_PC */
+
+#if PL_FRDM
+    #include "SM1.h"
+#endif /* PL_FRDM */
+
 #include <stdint.h>
+#if PL_HAS_SHELL
+    #include "CLS1.h"
+#endif /* PL_HAS_SHELL */
 
 /******************************************************************************
 Test compiler dependencies
@@ -2380,5 +2393,17 @@ void l6480_cmd_hardhiz(void);
  *  \return status
  */
 uint16_t l6480_cmd_getstatus(void);
+
+/*! \fn uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdioType *io)
+ *  \brief Command line parser for l6480
+ *
+ *  \param  *cmd        pointer to command to parse
+ *  \param  *handled    pointer to handled flag, set true if command was parsed
+ *  \param  *io         pointer to stdio for returning answer
+ *  \return Error flag
+ */
+#if PL_HAS_SHELL
+    uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdioType *io);
+#endif /* PL_HAS_SHELL */
 
 #endif /* L6480_H */

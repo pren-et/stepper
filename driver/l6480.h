@@ -15,10 +15,16 @@
 #define L6480_H
 
 #include "platform.h"
+
 #if PL_PC
     #include <stdio.h>
 #endif /* PL_PC */
-    #include <stdint.h>
+
+#if PL_FRDM
+    #include "SM1.h"
+#endif /* PL_FRDM */
+
+#include <stdint.h>
 #if PL_HAS_SHELL
     #include "CLS1.h"
 #endif /* PL_HAS_SHELL */

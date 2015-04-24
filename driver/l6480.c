@@ -1,14 +1,14 @@
 /*!
- *  ____  ____  _____ _   _       _____ _____ 
+ *  ____  ____  _____ _   _       _____ _____
  * |  _ \|  _ \| ____| \ | |     | ____|_   _|
- * | |_) | |_) |  _| |  \| |_____|  _|   | |  
- * |  __/|  _ <| |___| |\  |_____| |___  | |  
- * |_|   |_| \_\_____|_| \_|     |_____| |_|  
- *                                            
+ * | |_) | |_) |  _| |  \| |_____|  _|   | |
+ * |  __/|  _ <| |___| |\  |_____| |___  | |
+ * |_|   |_| \_\_____|_| \_|     |_____| |_|
+ *
  * \file l6480.c
  * \brief Driver for Stepper driver L6480 from ST Microelectronics
  * \author pren-et
- * 
+ *
  */
 
 #include "l6480.h"
@@ -17,7 +17,10 @@
 /*! \fn spi_write(uint8_t *data)
  *  \todo Define in SPI Module
  */
-void spi_write(uint8_t *data) { 
+void spi_write(uint8_t *data) {
+    #if PL_FRDM
+        SM1_SendChar(*data);
+    #endif /* PL_FRDM */
     #if PL_PC
         printf("write: 0x%X\n", *data);
     #endif /* PL_PC */
@@ -27,6 +30,20 @@ void spi_write(uint8_t *data) {
  *  \todo Define in SPI Module
  */
 void spi_read(uint8_t *data) {
+    #if PL_FRDM
+        /* dummy data*/
+        uint8_t zero = 0;
+        /* delete previously received data */
+        //while (SM1_GetCharsInRxBuf()) {
+        //    SM1_RecvChar(NULL);
+        //}
+        /* send zeros to read data */
+        SM1_SendChar(&zero);
+        /* Wait until data transfer has completed */
+        //while (SM1_GetCharsInRxBuf()) {}
+        /* read data */
+        //SM1_RecvChar(data);
+    #endif /* PL_FRDM */
     #if PL_PC
         //unsigned int readdata;
         printf("read:  \n");
@@ -40,6 +57,7 @@ void spi_read(uint8_t *data) {
 void l6480_init(void) {
     /* test orientation of bitfields */
     test_bitfield_t test_bitfield;      /* testvariable */
+    test_bitfield.byte = 0x00;
     test_bitfield.bitfield.low = 0x01;  /* write testvalue to lower nibble */
     if (test_bitfield.byte != 0x01) {   /* test if lower nibble has been written */
         while (1) {                     /* loop to stop executing if wrong order */
@@ -51,7 +69,7 @@ void l6480_init(void) {
                 your compiler or in this library! */
         }
     }
-    
+
     return;
 }
 
@@ -62,11 +80,11 @@ void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
     /*! \todo Check if byte order for sending a command is correct */
     if (read) {         /* check if reading data is needed */
         for (i = 0; i < (len - 1); i++) {
-            spi_read(data++);   /* read data */
+            spi_read(data+len-2-i);   /* read data */
         }
     } else {
         for (i = 0; i < (len - 1); i++) {
-            spi_write(data++);  /* write data */
+            spi_write(data+len-2-i);  /* write data */
         }
     }
 }
@@ -76,9 +94,9 @@ int32_t l6480_get_abs_pos(void) {
     l6480_reg_abs_pos_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ABS_POS), 
-        L6480_CMD_GETPARAM_LEN(ABS_POS), 
-        L6480_CMD_GETPARAM_READ(ABS_POS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ABS_POS),
+        L6480_CMD_GETPARAM_LEN(ABS_POS),
+        L6480_CMD_GETPARAM_READ(ABS_POS),
         reg.array);
 
     /* return data */
@@ -101,9 +119,9 @@ void l6480_set_abs_pos(int32_t pos) {
     reg.raw.data = pos;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ABS_POS), 
-        L6480_CMD_SETPARAM_LEN(ABS_POS), 
-        L6480_CMD_SETPARAM_READ(ABS_POS), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ABS_POS),
+        L6480_CMD_SETPARAM_LEN(ABS_POS),
+        L6480_CMD_SETPARAM_READ(ABS_POS),
         reg.array);
 
     return;
@@ -114,9 +132,9 @@ int16_t l6480_get_el_pos(void) {
     l6480_reg_el_pos_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(EL_POS), 
-        L6480_CMD_GETPARAM_LEN(EL_POS), 
-        L6480_CMD_GETPARAM_READ(EL_POS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(EL_POS),
+        L6480_CMD_GETPARAM_LEN(EL_POS),
+        L6480_CMD_GETPARAM_READ(EL_POS),
         reg.array);
 
     /* return data */
@@ -140,9 +158,9 @@ void l6480_set_el_pos(uint8_t fullstep, uint8_t microstep) {
     reg.reg.microstep = microstep;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(EL_POS), 
-        L6480_CMD_SETPARAM_LEN(EL_POS), 
-        L6480_CMD_SETPARAM_READ(EL_POS), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(EL_POS),
+        L6480_CMD_SETPARAM_LEN(EL_POS),
+        L6480_CMD_SETPARAM_READ(EL_POS),
         reg.array);
     return;
 }
@@ -152,9 +170,9 @@ int32_t l6480_get_mark(void) {
     l6480_reg_mark_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(MARK), 
-        L6480_CMD_GETPARAM_LEN(MARK), 
-        L6480_CMD_GETPARAM_READ(MARK), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(MARK),
+        L6480_CMD_GETPARAM_LEN(MARK),
+        L6480_CMD_GETPARAM_READ(MARK),
         reg.array);
 
     /* return data */
@@ -177,9 +195,9 @@ void l6480_set_mark(int32_t mark) {
     reg.raw.data = mark;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(MARK), 
-        L6480_CMD_SETPARAM_LEN(MARK), 
-        L6480_CMD_SETPARAM_READ(MARK), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(MARK),
+        L6480_CMD_SETPARAM_LEN(MARK),
+        L6480_CMD_SETPARAM_READ(MARK),
         reg.array);
 
     return;
@@ -190,9 +208,9 @@ int32_t l6480_get_speed(void) {
     l6480_reg_speed_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(SPEED), 
-        L6480_CMD_GETPARAM_LEN(SPEED), 
-        L6480_CMD_GETPARAM_READ(SPEED), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(SPEED),
+        L6480_CMD_GETPARAM_LEN(SPEED),
+        L6480_CMD_GETPARAM_READ(SPEED),
         reg.array);
 
     /* return data */
@@ -208,13 +226,13 @@ int32_t l6480_get_speed_millisteps_s(void) {
 
     /*! calculate speed in millisteps per second
         \f[
-            \text{speed}~[\si{step\per\second}] 
+            \text{speed}~[\si{step\per\second}]
             = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\second}]}
         \f]
         \f[
-            \text{speed}~[\si{\milli step\per\second}] 
-            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
-            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
+            \text{speed}~[\si{\milli step\per\second}]
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]}
+            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9}
             \approx \text{MIN\_SPEED} \cdot 14.90
         \f]
     */
@@ -229,9 +247,9 @@ uint16_t l6480_get_acc(void) {
     l6480_reg_acc_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ACC), 
-        L6480_CMD_GETPARAM_LEN(ACC), 
-        L6480_CMD_GETPARAM_READ(ACC), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ACC),
+        L6480_CMD_GETPARAM_LEN(ACC),
+        L6480_CMD_GETPARAM_READ(ACC),
         reg.array);
 
     /* return data */
@@ -272,9 +290,9 @@ void l6480_set_acc(uint16_t acc) {
     reg.raw.data = acc;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ACC), 
-        L6480_CMD_SETPARAM_LEN(ACC), 
-        L6480_CMD_SETPARAM_READ(ACC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ACC),
+        L6480_CMD_SETPARAM_LEN(ACC),
+        L6480_CMD_SETPARAM_READ(ACC),
         reg.array);
 
     return;
@@ -304,9 +322,9 @@ uint16_t l6480_get_dec(void) {
     l6480_reg_dec_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(DEC), 
-        L6480_CMD_GETPARAM_LEN(DEC), 
-        L6480_CMD_GETPARAM_READ(DEC), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(DEC),
+        L6480_CMD_GETPARAM_LEN(DEC),
+        L6480_CMD_GETPARAM_READ(DEC),
         reg.array);
 
     /* return data */
@@ -347,9 +365,9 @@ void l6480_set_dec(uint16_t dec) {
     reg.raw.data = dec;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(DEC), 
-        L6480_CMD_SETPARAM_LEN(DEC), 
-        L6480_CMD_SETPARAM_READ(DEC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(DEC),
+        L6480_CMD_SETPARAM_LEN(DEC),
+        L6480_CMD_SETPARAM_READ(DEC),
         reg.array);
 
     return;
@@ -379,9 +397,9 @@ uint16_t l6480_get_max_speed(void) {
     l6480_reg_max_speed_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(MAX_SPEED), 
-        L6480_CMD_GETPARAM_LEN(MAX_SPEED), 
-        L6480_CMD_GETPARAM_READ(MAX_SPEED), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(MAX_SPEED),
+        L6480_CMD_GETPARAM_LEN(MAX_SPEED),
+        L6480_CMD_GETPARAM_READ(MAX_SPEED),
         reg.array);
 
     /* return data */
@@ -422,9 +440,9 @@ void l6480_set_max_speed(uint16_t max_speed) {
     reg.raw.data = max_speed;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(MAX_SPEED), 
-        L6480_CMD_SETPARAM_LEN(MAX_SPEED), 
-        L6480_CMD_SETPARAM_READ(MAX_SPEED), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(MAX_SPEED),
+        L6480_CMD_SETPARAM_LEN(MAX_SPEED),
+        L6480_CMD_SETPARAM_READ(MAX_SPEED),
         reg.array);
 
     return;
@@ -454,9 +472,9 @@ uint16_t l6480_get_min_speed(void) {
     l6480_reg_min_speed_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(MIN_SPEED), 
-        L6480_CMD_GETPARAM_LEN(MIN_SPEED), 
-        L6480_CMD_GETPARAM_READ(MIN_SPEED), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(MIN_SPEED),
+        L6480_CMD_GETPARAM_LEN(MIN_SPEED),
+        L6480_CMD_GETPARAM_READ(MIN_SPEED),
         reg.array);
 
     /* Analyze data */
@@ -498,9 +516,9 @@ uint16_t l6480_get_lspd_opt_speed(void) {
     l6480_reg_min_speed_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(MIN_SPEED), 
-        L6480_CMD_GETPARAM_LEN(MIN_SPEED), 
-        L6480_CMD_GETPARAM_READ(MIN_SPEED), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(MIN_SPEED),
+        L6480_CMD_GETPARAM_LEN(MIN_SPEED),
+        L6480_CMD_GETPARAM_READ(MIN_SPEED),
         reg.array);
 
     /* Analyze data */
@@ -551,9 +569,9 @@ void l6480_set_min_speed(uint16_t speed) {
     reg.reg.lspd_opt  = 0;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
-        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
-        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED),
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED),
+        L6480_CMD_SETPARAM_READ(MIN_SPEED),
         reg.array);
 
     return;
@@ -592,9 +610,9 @@ void l6480_set_lspd_opt_speed(uint16_t speed) {
     reg.reg.lspd_opt  = 1;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
-        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
-        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED),
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED),
+        L6480_CMD_SETPARAM_READ(MIN_SPEED),
         reg.array);
 
     return;
@@ -624,9 +642,9 @@ uint8_t l6480_get_boost_mode(void) {
     l6480_reg_fs_spd_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
-        L6480_CMD_GETPARAM_LEN(FS_SPD), 
-        L6480_CMD_GETPARAM_READ(FS_SPD), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD),
+        L6480_CMD_GETPARAM_LEN(FS_SPD),
+        L6480_CMD_GETPARAM_READ(FS_SPD),
         reg.array);
 
     /* return data */
@@ -638,18 +656,18 @@ void l6480_set_boost_mode_on(void) {
     l6480_reg_fs_spd_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
-        L6480_CMD_GETPARAM_LEN(FS_SPD), 
-        L6480_CMD_GETPARAM_READ(FS_SPD), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD),
+        L6480_CMD_GETPARAM_LEN(FS_SPD),
+        L6480_CMD_GETPARAM_READ(FS_SPD),
         reg.array);
 
     /* Set boost mode */
     reg.reg.boost_mode = 1;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
-        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
-        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED),
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED),
+        L6480_CMD_SETPARAM_READ(MIN_SPEED),
         reg.array);
 }
 
@@ -658,18 +676,18 @@ void l6480_set_boost_mode_off(void) {
     l6480_reg_fs_spd_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
-        L6480_CMD_GETPARAM_LEN(FS_SPD), 
-        L6480_CMD_GETPARAM_READ(FS_SPD), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD),
+        L6480_CMD_GETPARAM_LEN(FS_SPD),
+        L6480_CMD_GETPARAM_READ(FS_SPD),
         reg.array);
 
     /* Set boost mode */
     reg.reg.boost_mode = 0;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED), 
-        L6480_CMD_SETPARAM_LEN(MIN_SPEED), 
-        L6480_CMD_SETPARAM_READ(MIN_SPEED), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(MIN_SPEED),
+        L6480_CMD_SETPARAM_LEN(MIN_SPEED),
+        L6480_CMD_SETPARAM_READ(MIN_SPEED),
         reg.array);
 }
 
@@ -678,9 +696,9 @@ uint16_t l6480_get_fs_spd(void) {
     l6480_reg_fs_spd_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
-        L6480_CMD_GETPARAM_LEN(FS_SPD), 
-        L6480_CMD_GETPARAM_READ(FS_SPD), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD),
+        L6480_CMD_GETPARAM_LEN(FS_SPD),
+        L6480_CMD_GETPARAM_READ(FS_SPD),
         reg.array);
 
     /* return fs_spd */
@@ -718,18 +736,18 @@ void l6480_set_fs_spd(uint16_t speed) {
     }
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD), 
-        L6480_CMD_GETPARAM_LEN(FS_SPD), 
-        L6480_CMD_GETPARAM_READ(FS_SPD), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FS_SPD),
+        L6480_CMD_GETPARAM_LEN(FS_SPD),
+        L6480_CMD_GETPARAM_READ(FS_SPD),
         reg.array);
 
     /* prepare data local */
     reg.reg.fs_spd = speed;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(FS_SPD), 
-        L6480_CMD_SETPARAM_LEN(FS_SPD), 
-        L6480_CMD_SETPARAM_READ(FS_SPD), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(FS_SPD),
+        L6480_CMD_SETPARAM_LEN(FS_SPD),
+        L6480_CMD_SETPARAM_READ(FS_SPD),
         reg.array);
 
     return;
@@ -759,9 +777,9 @@ uint8_t l6480_get_kval_hold(void) {
     l6480_reg_kval_hold_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_HOLD), 
-        L6480_CMD_GETPARAM_LEN(KVAL_HOLD), 
-        L6480_CMD_GETPARAM_READ(KVAL_HOLD), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_HOLD),
+        L6480_CMD_GETPARAM_LEN(KVAL_HOLD),
+        L6480_CMD_GETPARAM_READ(KVAL_HOLD),
         reg.array);
 
     /* return kval_hold */
@@ -776,9 +794,9 @@ void l6480_set_kval_hold(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_HOLD), 
-        L6480_CMD_SETPARAM_LEN(KVAL_HOLD), 
-        L6480_CMD_SETPARAM_READ(KVAL_HOLD), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_HOLD),
+        L6480_CMD_SETPARAM_LEN(KVAL_HOLD),
+        L6480_CMD_SETPARAM_READ(KVAL_HOLD),
         reg.array);
 
     return;
@@ -789,9 +807,9 @@ uint8_t l6480_get_kval_run(void) {
     l6480_reg_kval_run_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_RUN), 
-        L6480_CMD_GETPARAM_LEN(KVAL_RUN), 
-        L6480_CMD_GETPARAM_READ(KVAL_RUN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_RUN),
+        L6480_CMD_GETPARAM_LEN(KVAL_RUN),
+        L6480_CMD_GETPARAM_READ(KVAL_RUN),
         reg.array);
 
     /* return kval_run */
@@ -806,9 +824,9 @@ void l6480_set_kval_run(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_RUN), 
-        L6480_CMD_SETPARAM_LEN(KVAL_RUN), 
-        L6480_CMD_SETPARAM_READ(KVAL_RUN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_RUN),
+        L6480_CMD_SETPARAM_LEN(KVAL_RUN),
+        L6480_CMD_SETPARAM_READ(KVAL_RUN),
         reg.array);
 
     return;
@@ -819,9 +837,9 @@ uint8_t l6480_get_kval_acc(void) {
     l6480_reg_kval_acc_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_ACC), 
-        L6480_CMD_GETPARAM_LEN(KVAL_ACC), 
-        L6480_CMD_GETPARAM_READ(KVAL_ACC), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_ACC),
+        L6480_CMD_GETPARAM_LEN(KVAL_ACC),
+        L6480_CMD_GETPARAM_READ(KVAL_ACC),
         reg.array);
 
     /* return kval_acc */
@@ -836,9 +854,9 @@ void l6480_set_kval_acc(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_ACC), 
-        L6480_CMD_SETPARAM_LEN(KVAL_ACC), 
-        L6480_CMD_SETPARAM_READ(KVAL_ACC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_ACC),
+        L6480_CMD_SETPARAM_LEN(KVAL_ACC),
+        L6480_CMD_SETPARAM_READ(KVAL_ACC),
         reg.array);
 
     return;
@@ -849,9 +867,9 @@ uint8_t l6480_get_kval_dec(void) {
     l6480_reg_kval_dec_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_DEC), 
-        L6480_CMD_GETPARAM_LEN(KVAL_DEC), 
-        L6480_CMD_GETPARAM_READ(KVAL_DEC), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(KVAL_DEC),
+        L6480_CMD_GETPARAM_LEN(KVAL_DEC),
+        L6480_CMD_GETPARAM_READ(KVAL_DEC),
         reg.array);
 
     /* return kval_dec */
@@ -866,9 +884,9 @@ void l6480_set_kval_dec(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_DEC), 
-        L6480_CMD_SETPARAM_LEN(KVAL_DEC), 
-        L6480_CMD_SETPARAM_READ(KVAL_DEC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(KVAL_DEC),
+        L6480_CMD_SETPARAM_LEN(KVAL_DEC),
+        L6480_CMD_SETPARAM_READ(KVAL_DEC),
         reg.array);
 
     return;
@@ -879,9 +897,9 @@ uint16_t l6480_get_int_speed(void) {
     l6480_reg_int_speed_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(INT_SPEED), 
-        L6480_CMD_GETPARAM_LEN(INT_SPEED), 
-        L6480_CMD_GETPARAM_READ(INT_SPEED), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(INT_SPEED),
+        L6480_CMD_GETPARAM_LEN(INT_SPEED),
+        L6480_CMD_GETPARAM_READ(INT_SPEED),
         reg.array);
 
     /* return int_speed */
@@ -927,9 +945,9 @@ void l6480_set_int_speed(uint16_t speed) {
     reg.raw.data = speed;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(INT_SPEED), 
-        L6480_CMD_SETPARAM_LEN(INT_SPEED), 
-        L6480_CMD_SETPARAM_READ(INT_SPEED), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(INT_SPEED),
+        L6480_CMD_SETPARAM_LEN(INT_SPEED),
+        L6480_CMD_SETPARAM_READ(INT_SPEED),
         reg.array);
 
     return;
@@ -964,9 +982,9 @@ uint8_t l6480_get_st_slp(void) {
     l6480_reg_st_slp_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ST_SLP), 
-        L6480_CMD_GETPARAM_LEN(ST_SLP), 
-        L6480_CMD_GETPARAM_READ(ST_SLP), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ST_SLP),
+        L6480_CMD_GETPARAM_LEN(ST_SLP),
+        L6480_CMD_GETPARAM_READ(ST_SLP),
         reg.array);
 
     /* return st_slp */
@@ -981,9 +999,9 @@ void l6480_set_st_slp(uint8_t slope) {
     reg.raw.data = slope;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ST_SLP), 
-        L6480_CMD_SETPARAM_LEN(ST_SLP), 
-        L6480_CMD_SETPARAM_READ(ST_SLP), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ST_SLP),
+        L6480_CMD_SETPARAM_LEN(ST_SLP),
+        L6480_CMD_SETPARAM_READ(ST_SLP),
         reg.array);
 
     return;
@@ -994,9 +1012,9 @@ uint8_t l6480_get_fn_slp_acc(void) {
     l6480_reg_fn_slp_acc_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FN_SLP_ACC), 
-        L6480_CMD_GETPARAM_LEN(FN_SLP_ACC), 
-        L6480_CMD_GETPARAM_READ(FN_SLP_ACC), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FN_SLP_ACC),
+        L6480_CMD_GETPARAM_LEN(FN_SLP_ACC),
+        L6480_CMD_GETPARAM_READ(FN_SLP_ACC),
         reg.array);
 
     /* return fn_slp_acc */
@@ -1011,9 +1029,9 @@ void l6480_set_fn_slp_acc(uint8_t slope) {
     reg.raw.data = slope;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_ACC), 
-        L6480_CMD_SETPARAM_LEN(FN_SLP_ACC), 
-        L6480_CMD_SETPARAM_READ(FN_SLP_ACC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_ACC),
+        L6480_CMD_SETPARAM_LEN(FN_SLP_ACC),
+        L6480_CMD_SETPARAM_READ(FN_SLP_ACC),
         reg.array);
 
     return;
@@ -1024,9 +1042,9 @@ uint8_t l6480_get_fn_slp_dec(void) {
     l6480_reg_fn_slp_dec_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(FN_SLP_DEC), 
-        L6480_CMD_GETPARAM_LEN(FN_SLP_DEC), 
-        L6480_CMD_GETPARAM_READ(FN_SLP_DEC), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(FN_SLP_DEC),
+        L6480_CMD_GETPARAM_LEN(FN_SLP_DEC),
+        L6480_CMD_GETPARAM_READ(FN_SLP_DEC),
         reg.array);
 
     /* return fn_slp_dec */
@@ -1041,9 +1059,9 @@ void l6480_set_fn_slp_dec(uint8_t slope) {
     reg.raw.data = slope;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_DEC), 
-        L6480_CMD_SETPARAM_LEN(FN_SLP_DEC), 
-        L6480_CMD_SETPARAM_READ(FN_SLP_DEC), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(FN_SLP_DEC),
+        L6480_CMD_SETPARAM_LEN(FN_SLP_DEC),
+        L6480_CMD_SETPARAM_READ(FN_SLP_DEC),
         reg.array);
 
     return;
@@ -1054,9 +1072,9 @@ uint8_t l6480_get_k_therm(void) {
     l6480_reg_k_therm_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(K_THERM), 
-        L6480_CMD_GETPARAM_LEN(K_THERM), 
-        L6480_CMD_GETPARAM_READ(K_THERM), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(K_THERM),
+        L6480_CMD_GETPARAM_LEN(K_THERM),
+        L6480_CMD_GETPARAM_READ(K_THERM),
         reg.array);
 
     /* return k_therm */
@@ -1090,9 +1108,9 @@ void l6480_set_k_therm(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(K_THERM), 
-        L6480_CMD_SETPARAM_LEN(K_THERM), 
-        L6480_CMD_SETPARAM_READ(K_THERM), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(K_THERM),
+        L6480_CMD_SETPARAM_LEN(K_THERM),
+        L6480_CMD_SETPARAM_READ(K_THERM),
         reg.array);
 
     return;
@@ -1123,9 +1141,9 @@ uint8_t l6480_get_adc_out(void) {
     l6480_reg_adc_out_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ADC_OUT), 
-        L6480_CMD_GETPARAM_LEN(ADC_OUT), 
-        L6480_CMD_GETPARAM_READ(ADC_OUT), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ADC_OUT),
+        L6480_CMD_GETPARAM_LEN(ADC_OUT),
+        L6480_CMD_GETPARAM_READ(ADC_OUT),
         reg.array);
 
     /* return adc_out */
@@ -1137,9 +1155,9 @@ uint8_t l6480_get_ocd_th(void) {
     l6480_reg_ocd_th_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(OCD_TH), 
-        L6480_CMD_GETPARAM_LEN(OCD_TH), 
-        L6480_CMD_GETPARAM_READ(OCD_TH), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(OCD_TH),
+        L6480_CMD_GETPARAM_LEN(OCD_TH),
+        L6480_CMD_GETPARAM_READ(OCD_TH),
         reg.array);
 
     /* return ocd_th */
@@ -1173,9 +1191,9 @@ void l6480_set_ocd_th(uint8_t threshold) {
     reg.raw.data = threshold;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(OCD_TH), 
-        L6480_CMD_SETPARAM_LEN(OCD_TH), 
-        L6480_CMD_SETPARAM_READ(OCD_TH), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(OCD_TH),
+        L6480_CMD_SETPARAM_LEN(OCD_TH),
+        L6480_CMD_SETPARAM_READ(OCD_TH),
         reg.array);
 
     return;
@@ -1206,9 +1224,9 @@ uint8_t l6480_get_stall_th(void) {
     l6480_reg_stall_th_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STALL_TH), 
-        L6480_CMD_GETPARAM_LEN(STALL_TH), 
-        L6480_CMD_GETPARAM_READ(STALL_TH), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STALL_TH),
+        L6480_CMD_GETPARAM_LEN(STALL_TH),
+        L6480_CMD_GETPARAM_READ(STALL_TH),
         reg.array);
 
     /* return stall_th */
@@ -1242,9 +1260,9 @@ void l6480_set_stall_th(uint8_t threshold) {
     reg.raw.data = threshold;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STALL_TH), 
-        L6480_CMD_SETPARAM_LEN(STALL_TH), 
-        L6480_CMD_SETPARAM_READ(STALL_TH), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STALL_TH),
+        L6480_CMD_SETPARAM_LEN(STALL_TH),
+        L6480_CMD_SETPARAM_READ(STALL_TH),
         reg.array);
 
     return;
@@ -1275,9 +1293,9 @@ uint8_t l6480_get_step_mode(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* return step_mode */
@@ -1289,9 +1307,9 @@ uint8_t l6480_get_step_mode_sync_en(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* return sync_en */
@@ -1303,9 +1321,9 @@ uint8_t l6480_get_step_mode_sync_sel(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* return sync_sel */
@@ -1317,9 +1335,9 @@ uint8_t l6480_get_step_mode_step_sel(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* return step_sel */
@@ -1331,9 +1349,9 @@ uint8_t l6480_get_step_mode_step_sel_steps(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* return step_sel */
@@ -1348,9 +1366,9 @@ void l6480_set_step_mode(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
-        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE),
+        L6480_CMD_SETPARAM_LEN(STEP_MODE),
+        L6480_CMD_SETPARAM_READ(STEP_MODE),
         reg.array);
 
     return;
@@ -1361,18 +1379,18 @@ void l6480_set_step_mode_sync_en_on(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* prepare data local */
     reg.reg.sync_en = 1;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
-        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE),
+        L6480_CMD_SETPARAM_LEN(STEP_MODE),
+        L6480_CMD_SETPARAM_READ(STEP_MODE),
         reg.array);
 
     return;
@@ -1383,18 +1401,18 @@ void l6480_set_step_mode_sync_en_off(void) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* prepare data local */
     reg.reg.sync_en = 0;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
-        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE),
+        L6480_CMD_SETPARAM_LEN(STEP_MODE),
+        L6480_CMD_SETPARAM_READ(STEP_MODE),
         reg.array);
 
     return;
@@ -1405,18 +1423,18 @@ void l6480_set_step_mode_sync_sel(uint8_t sync_sel) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* prepare data local */
     reg.reg.sync_sel = sync_sel;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
-        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE),
+        L6480_CMD_SETPARAM_LEN(STEP_MODE),
+        L6480_CMD_SETPARAM_READ(STEP_MODE),
         reg.array);
 
     return;
@@ -1427,18 +1445,18 @@ void l6480_set_step_mode_step_sel(uint8_t sel) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* prepare data local */
     reg.reg.step_sel = sel;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
-        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE),
+        L6480_CMD_SETPARAM_LEN(STEP_MODE),
+        L6480_CMD_SETPARAM_READ(STEP_MODE),
         reg.array);
 
     return;
@@ -1449,9 +1467,9 @@ void l6480_set_step_mode_step_sel_steps(uint8_t steps) {
     l6480_reg_step_mode_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE), 
-        L6480_CMD_GETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_GETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STEP_MODE),
+        L6480_CMD_GETPARAM_LEN(STEP_MODE),
+        L6480_CMD_GETPARAM_READ(STEP_MODE),
         reg.array);
 
     /* prepare data local */
@@ -1484,9 +1502,9 @@ void l6480_set_step_mode_step_sel_steps(uint8_t steps) {
     }
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE), 
-        L6480_CMD_SETPARAM_LEN(STEP_MODE), 
-        L6480_CMD_SETPARAM_READ(STEP_MODE), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(STEP_MODE),
+        L6480_CMD_SETPARAM_LEN(STEP_MODE),
+        L6480_CMD_SETPARAM_READ(STEP_MODE),
         reg.array);
 
     return;
@@ -1497,9 +1515,9 @@ uint8_t l6480_get_alarm_en(void) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* return step_sel */
@@ -1514,9 +1532,9 @@ void l6480_set_alarm_en(uint8_t alarm_en) {
     reg.raw.data = alarm_en;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1527,18 +1545,18 @@ void l6480_set_alarm_en_overcurrent(uint8_t overcurrent) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.overcurrent = overcurrent;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1549,18 +1567,18 @@ void l6480_set_alarm_en_th_shutdown(uint8_t th_shutdown) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.th_shutdown = th_shutdown;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1571,18 +1589,18 @@ void l6480_set_alarm_en_th_warning(uint8_t th_warning) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.th_warning = th_warning;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1593,18 +1611,18 @@ void l6480_set_alarm_en_uvlo(uint8_t uvlo) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.uvlo = uvlo;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1615,18 +1633,18 @@ void l6480_set_alarm_en_adc_uvlo(uint8_t adc_uvlo) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.adc_uvlo = adc_uvlo;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1637,18 +1655,18 @@ void l6480_set_alarm_en_stall_detect(uint8_t stall_det) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.stall_det = stall_det;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1659,18 +1677,18 @@ void l6480_set_alarm_en_switch_on(uint8_t switch_on) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.switch_on = switch_on;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1681,18 +1699,18 @@ void l6480_set_alarm_en_command_err(uint8_t cmd_err) {
     l6480_reg_alarm_en_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN), 
-        L6480_CMD_GETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_GETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(ALARM_EN),
+        L6480_CMD_GETPARAM_LEN(ALARM_EN),
+        L6480_CMD_GETPARAM_READ(ALARM_EN),
         reg.array);
 
     /* prepare data local */
     reg.reg.cmd_error = cmd_err;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN), 
-        L6480_CMD_SETPARAM_LEN(ALARM_EN), 
-        L6480_CMD_SETPARAM_READ(ALARM_EN), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(ALARM_EN),
+        L6480_CMD_SETPARAM_LEN(ALARM_EN),
+        L6480_CMD_SETPARAM_READ(ALARM_EN),
         reg.array);
 
     return;
@@ -1703,9 +1721,9 @@ uint16_t l6480_get_gatecfg1(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* return gatecfg1 */
@@ -1717,9 +1735,9 @@ uint8_t l6480_get_gatecfg1_wd_en(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* return step_sel */
@@ -1731,9 +1749,9 @@ uint8_t l6480_get_gatecfg1_tboost(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* return step_sel */
@@ -1746,9 +1764,9 @@ uint16_t l6480_get_gatecfg1_tboost_nanosecond(void) {
     uint16_t tboost;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* Calculate tboost in nanoseconds */
@@ -1791,9 +1809,9 @@ uint8_t l6480_get_gatecfg1_igate(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* return step_sel */
@@ -1806,9 +1824,9 @@ uint8_t l6480_get_gatecfg1_igate_milliampere(void) {
     uint8_t igate;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* Calculate igate in milliamperes */
@@ -1851,9 +1869,9 @@ uint8_t l6480_get_gatecfg1_tcc(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* return tcc */
@@ -1866,9 +1884,9 @@ uint16_t l6480_get_gatecfg1_tcc_nanosecond(void) {
     uint16_t tcc;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* Calculate tcc in nanoseconds */
@@ -1891,9 +1909,9 @@ void l6480_set_gatecfg1(uint16_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -1904,18 +1922,18 @@ void l6480_set_gatecfg1_wd_en(uint8_t wd_en) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.wd_en = wd_en;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -1926,18 +1944,18 @@ void l6480_set_gatecfg1_wd_en_on(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.wd_en = 1;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -1948,18 +1966,18 @@ void l6480_set_gatecfg1_wd_en_off(void) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.wd_en = 0;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -1970,18 +1988,18 @@ void l6480_set_gatecfg1_tboost(uint8_t time) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.tboost = time;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -1992,9 +2010,9 @@ void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
@@ -2027,9 +2045,9 @@ void l6480_set_gatecfg1_tboost_nanosecond(uint16_t time) {
     }
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -2040,18 +2058,18 @@ void l6480_set_gatecfg1_igate(uint8_t current) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.igate = current;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -2062,9 +2080,9 @@ void l6480_set_gatecfg1_igate_milliampere(uint8_t current) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
@@ -2094,9 +2112,9 @@ void l6480_set_gatecfg1_igate_milliampere(uint8_t current) {
     }
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -2107,18 +2125,18 @@ void l6480_set_gatecfg1_tcc(uint8_t time) {
     l6480_reg_gatecfg1_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.tcc = time;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -2134,18 +2152,18 @@ void l6480_set_gatecfg1_tcc_nanosecond(uint16_t time) {
     }
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1), 
-        L6480_CMD_GETPARAM_LEN(GATECFG1), 
-        L6480_CMD_GETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG1),
+        L6480_CMD_GETPARAM_LEN(GATECFG1),
+        L6480_CMD_GETPARAM_READ(GATECFG1),
         reg.array);
 
     /* prepare data local */
     reg.reg.tcc = time / 125;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1), 
-        L6480_CMD_SETPARAM_LEN(GATECFG1), 
-        L6480_CMD_SETPARAM_READ(GATECFG1), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG1),
+        L6480_CMD_SETPARAM_LEN(GATECFG1),
+        L6480_CMD_SETPARAM_READ(GATECFG1),
         reg.array);
 
     return;
@@ -2156,9 +2174,9 @@ uint8_t l6480_get_gatecfg2(void) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* return gatecfg2 */
@@ -2170,9 +2188,9 @@ uint8_t l6480_get_gatecfg2_tblank(void) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* return tblank */
@@ -2184,9 +2202,9 @@ uint16_t l6480_get_gatecfg2_tblank_nanosecond(void) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* return tblank in nanoseconds */
@@ -2198,9 +2216,9 @@ uint8_t l6480_get_gatecfg2_tdt(void) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* return tdt */
@@ -2212,9 +2230,9 @@ uint16_t l6480_get_gatecfg2_tdt_nanosecond(void) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* return tdt in nanoseconds */
@@ -2229,9 +2247,9 @@ void l6480_set_gatecfg2(uint8_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
-        L6480_CMD_SETPARAM_LEN(GATECFG2), 
-        L6480_CMD_SETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2),
+        L6480_CMD_SETPARAM_LEN(GATECFG2),
+        L6480_CMD_SETPARAM_READ(GATECFG2),
         reg.array);
 
     return;
@@ -2242,18 +2260,18 @@ void l6480_set_gatecfg2_tblank(uint8_t time) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* prepare data local */
     reg.reg.tblank = time;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
-        L6480_CMD_SETPARAM_LEN(GATECFG2), 
-        L6480_CMD_SETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2),
+        L6480_CMD_SETPARAM_LEN(GATECFG2),
+        L6480_CMD_SETPARAM_READ(GATECFG2),
         reg.array);
 
     return;
@@ -2272,18 +2290,18 @@ void l6480_set_gatecfg2_tblank_nanosecond(uint16_t time) {
     }
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* prepare data local */
     reg.reg.tblank = (time / 125) - 1;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
-        L6480_CMD_SETPARAM_LEN(GATECFG2), 
-        L6480_CMD_SETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2),
+        L6480_CMD_SETPARAM_LEN(GATECFG2),
+        L6480_CMD_SETPARAM_READ(GATECFG2),
         reg.array);
 
     return;
@@ -2294,18 +2312,18 @@ void l6480_set_gatecfg2_tdt(uint8_t time) {
     l6480_reg_gatecfg2_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* prepare data local */
     reg.reg.tdt = time;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
-        L6480_CMD_SETPARAM_LEN(GATECFG2), 
-        L6480_CMD_SETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2),
+        L6480_CMD_SETPARAM_LEN(GATECFG2),
+        L6480_CMD_SETPARAM_READ(GATECFG2),
         reg.array);
 
     return;
@@ -2324,18 +2342,18 @@ void l6480_set_gatecfg2_tdt_nanosecond(uint16_t time) {
     }
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2), 
-        L6480_CMD_GETPARAM_LEN(GATECFG2), 
-        L6480_CMD_GETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(GATECFG2),
+        L6480_CMD_GETPARAM_LEN(GATECFG2),
+        L6480_CMD_GETPARAM_READ(GATECFG2),
         reg.array);
 
     /* prepare data local */
     reg.reg.tdt = (time / 125) - 1;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2), 
-        L6480_CMD_SETPARAM_LEN(GATECFG2), 
-        L6480_CMD_SETPARAM_READ(GATECFG2), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(GATECFG2),
+        L6480_CMD_SETPARAM_LEN(GATECFG2),
+        L6480_CMD_SETPARAM_READ(GATECFG2),
         reg.array);
 
     return;
@@ -2346,9 +2364,9 @@ uint16_t l6480_get_config(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2360,9 +2378,9 @@ uint8_t l6480_get_config_f_pwm_int(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2374,9 +2392,9 @@ uint8_t l6480_get_config_f_pwm_dec(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2388,9 +2406,9 @@ uint8_t l6480_get_config_vccval(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2402,9 +2420,9 @@ uint8_t l6480_get_config_uvloval(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2416,9 +2434,9 @@ uint8_t l6480_get_config_oc_sd(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2430,9 +2448,9 @@ uint8_t l6480_get_config_en_vscomp(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2444,9 +2462,9 @@ uint8_t l6480_get_config_sw_mode(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2458,9 +2476,9 @@ uint8_t l6480_get_config_ext_clk(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2472,9 +2490,9 @@ uint8_t l6480_get_config_osc_sel(void) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* return config */
@@ -2489,9 +2507,9 @@ void l6480_set_config(uint16_t value) {
     reg.raw.data = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2502,18 +2520,18 @@ void l6480_set_config_f_pwm_int(uint8_t factor) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.f_pwm_int = factor;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2524,18 +2542,18 @@ void l6480_set_config_f_pwm_dec(uint8_t factor) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.f_pwm_dec = factor;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2546,18 +2564,18 @@ void l6480_set_config_vccval(uint8_t value) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.vccval = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2568,18 +2586,18 @@ void l6480_set_config_uvloval(uint8_t value) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.uvloval = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2590,18 +2608,18 @@ void l6480_set_config_oc_sd(uint8_t value) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.oc_sd = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2612,18 +2630,18 @@ void l6480_set_config_en_vscomp(uint8_t value) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.en_vscomp = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2634,18 +2652,18 @@ void l6480_set_config_sw_mode(uint8_t mode) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.sw_mode = mode;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2656,18 +2674,18 @@ void l6480_set_config_ext_clk(uint8_t value) {
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.ext_clk = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2678,18 +2696,18 @@ void l6480_set_config_osc_sel(uint8_t value){
     l6480_reg_config_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG), 
-        L6480_CMD_GETPARAM_LEN(CONFIG), 
-        L6480_CMD_GETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(CONFIG),
+        L6480_CMD_GETPARAM_LEN(CONFIG),
+        L6480_CMD_GETPARAM_READ(CONFIG),
         reg.array);
 
     /* prepare data local */
     reg.reg.osc_sel = value;
 
     /* send data to device */
-    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG), 
-        L6480_CMD_SETPARAM_LEN(CONFIG), 
-        L6480_CMD_SETPARAM_READ(CONFIG), 
+    l6480_send_cmd( L6480_CMD_SETPARAM(CONFIG),
+        L6480_CMD_SETPARAM_LEN(CONFIG),
+        L6480_CMD_SETPARAM_READ(CONFIG),
         reg.array);
 
     return;
@@ -2700,9 +2718,9 @@ uint16_t l6480_get_status(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2714,9 +2732,9 @@ uint8_t l6480_get_status_step_loss_b(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2728,9 +2746,9 @@ uint8_t l6480_get_status_step_loss_a(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2742,9 +2760,9 @@ uint8_t l6480_get_status_ocd(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2756,9 +2774,9 @@ uint8_t l6480_get_status_th_status(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2770,9 +2788,9 @@ uint8_t l6480_get_status_uvlo_adc(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2784,9 +2802,9 @@ uint8_t l6480_get_status_uvlo(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2798,9 +2816,9 @@ uint8_t l6480_get_status_stck_mod(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2812,9 +2830,9 @@ uint8_t l6480_get_status_cmd_error(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2826,9 +2844,9 @@ uint8_t l6480_get_status_mot_status(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2840,9 +2858,9 @@ uint8_t l6480_get_status_dir(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2854,9 +2872,9 @@ uint8_t l6480_get_status_sw_evn(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2868,9 +2886,9 @@ uint8_t l6480_get_status_sw_f(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2882,9 +2900,9 @@ uint8_t l6480_get_status_busy(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2896,9 +2914,9 @@ uint8_t l6480_get_status_hiz(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS), 
-        L6480_CMD_GETPARAM_LEN(STATUS), 
-        L6480_CMD_GETPARAM_READ(STATUS), 
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
         reg.array);
 
     /* return status */
@@ -2906,7 +2924,7 @@ uint8_t l6480_get_status_hiz(void) {
 }
 
 void l6480_cmd_nop(void) {
-    l6480_send_cmd( L6480_CMD_NOP, 
+    l6480_send_cmd( L6480_CMD_NOP,
         L6480_CMD_NOP_LEN,
         L6480_CMD_NOP_READ,
         0);
@@ -2925,7 +2943,7 @@ void l6480_cmd_run(l6480_dir_t dir, uint32_t speed){
     value.speed.data = speed;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_RUN(dir), 
+    l6480_send_cmd( L6480_CMD_RUN(dir),
         L6480_CMD_RUN_LEN(dir),
         L6480_CMD_RUN_READ(dir),
         value.array);
@@ -2944,13 +2962,13 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
 
     /*! calculate speed in millisteps per second
         \f[
-            \text{speed}~[\si{step\per\second}] 
+            \text{speed}~[\si{step\per\second}]
             = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\second}]}
         \f]
         \f[
-            \text{speed}~[\si{\milli step\per\second}] 
-            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
-            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
+            \text{speed}~[\si{\milli step\per\second}]
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]}
+            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9}
             \approx \text{MIN\_SPEED} \cdot 14.90
         \f]
     */
@@ -2960,7 +2978,7 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
     value.speed.data = speed;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_RUN(dir), 
+    l6480_send_cmd( L6480_CMD_RUN(dir),
         L6480_CMD_RUN_LEN(dir),
         L6480_CMD_RUN_READ(dir),
         value.array);
@@ -2969,7 +2987,7 @@ void l6480_cmd_run_millisteps_s(l6480_dir_t dir, uint32_t speed){
 }
 
 void l6480_cmd_stepclock(l6480_dir_t dir) {
-    l6480_send_cmd( L6480_CMD_STEPCLOCK(dir), 
+    l6480_send_cmd( L6480_CMD_STEPCLOCK(dir),
         L6480_CMD_STEPCLOCK_LEN(dir),
         L6480_CMD_STEPCLOCK_READ(dir),
         0);
@@ -2988,7 +3006,7 @@ void l6480_cmd_move(l6480_dir_t dir, uint32_t n_step) {
     value.step.data = n_step;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_MOVE(dir), 
+    l6480_send_cmd( L6480_CMD_MOVE(dir),
         L6480_CMD_MOVE_LEN(dir),
         L6480_CMD_MOVE_READ(dir),
         value.array);
@@ -3012,7 +3030,7 @@ void l6480_cmd_goto(int32_t abs_pos) {
     value.position.data = abs_pos;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_GOTO, 
+    l6480_send_cmd( L6480_CMD_GOTO,
         L6480_CMD_GOTO_LEN,
         L6480_CMD_GOTO_READ,
         value.array);
@@ -3036,7 +3054,7 @@ void l6480_cmd_goto_dir(l6480_dir_t dir, int32_t abs_pos) {
     value.position.data = abs_pos;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_GOTO_DIR(dir), 
+    l6480_send_cmd( L6480_CMD_GOTO_DIR(dir),
         L6480_CMD_GOTO_DIR_LEN(dir),
         L6480_CMD_GOTO_DIR_READ(dir),
         value.array);
@@ -3057,7 +3075,7 @@ void l6480_cmd_gountil(l6480_act_t act, l6480_dir_t dir, uint32_t speed) {
     value.speed.data = speed;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir), 
+    l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir),
         L6480_CMD_GOUNTIL_LEN(act, dir),
         L6480_CMD_GOUNTIL_READ(act, dir),
         value.array);
@@ -3076,13 +3094,13 @@ void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t s
 
     /*! calculate speed in millisteps per second
         \f[
-            \text{speed}~[\si{step\per\second}] 
+            \text{speed}~[\si{step\per\second}]
             = \frac{\text{SPEED} \cdot 2^{-28}}{250~[\si{\second}]}
         \f]
         \f[
-            \text{speed}~[\si{\milli step\per\second}] 
-            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]} 
-            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9} 
+            \text{speed}~[\si{\milli step\per\second}]
+            = \frac{\text{SPEED} \cdot 1000 \cdot 2^{-28}}{250~[\si{\second}]}
+            = \text{SPEED} \cdot 2^{-26} \cdot 10^{9}
             \approx \text{MIN\_SPEED} \cdot 14.90
         \f]
     */
@@ -3092,7 +3110,7 @@ void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t s
     value.speed.data = speed;
 
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir), 
+    l6480_send_cmd( L6480_CMD_GOUNTIL(act, dir),
         L6480_CMD_GOUNTIL_LEN(act, dir),
         L6480_CMD_GOUNTIL_READ(act, dir),
         value.array);
@@ -3102,7 +3120,7 @@ void l6480_cmd_gountil_millisteps_s(l6480_act_t act, l6480_dir_t dir, uint32_t s
 
 void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_RELEASESW(act, dir), 
+    l6480_send_cmd( L6480_CMD_RELEASESW(act, dir),
         L6480_CMD_RELEASESW_LEN(act, dir),
         L6480_CMD_RELEASESW_READ(act, dir),
         0);
@@ -3111,7 +3129,7 @@ void l6480_cmd_releasesw(l6480_act_t act, l6480_dir_t dir) {
 }
 void l6480_cmd_gohome(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_GOHOME, 
+    l6480_send_cmd( L6480_CMD_GOHOME,
         L6480_CMD_GOHOME_LEN,
         L6480_CMD_GOHOME_READ,
         0);
@@ -3121,7 +3139,7 @@ void l6480_cmd_gohome(void) {
 
 void l6480_cmd_gomark(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_GOMARK, 
+    l6480_send_cmd( L6480_CMD_GOMARK,
         L6480_CMD_GOMARK_LEN,
         L6480_CMD_GOMARK_READ,
         0);
@@ -3131,7 +3149,7 @@ void l6480_cmd_gomark(void) {
 
 void l6480_cmd_resetpos(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_RESETPOS, 
+    l6480_send_cmd( L6480_CMD_RESETPOS,
         L6480_CMD_RESETPOS_LEN,
         L6480_CMD_RESETPOS_READ,
         0);
@@ -3141,7 +3159,7 @@ void l6480_cmd_resetpos(void) {
 
 void l6480_cmd_resetdevice(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_RESETDEVICE, 
+    l6480_send_cmd( L6480_CMD_RESETDEVICE,
         L6480_CMD_RESETDEVICE_LEN,
         L6480_CMD_RESETDEVICE_READ,
         0);
@@ -3151,7 +3169,7 @@ void l6480_cmd_resetdevice(void) {
 
 void l6480_cmd_softstop(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_SOFTSTOP, 
+    l6480_send_cmd( L6480_CMD_SOFTSTOP,
         L6480_CMD_SOFTSTOP_LEN,
         L6480_CMD_SOFTSTOP_READ,
         0);
@@ -3161,7 +3179,7 @@ void l6480_cmd_softstop(void) {
 
 void l6480_cmd_hardstop(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_HARDSTOP, 
+    l6480_send_cmd( L6480_CMD_HARDSTOP,
         L6480_CMD_HARDSTOP_LEN,
         L6480_CMD_HARDSTOP_READ,
         0);
@@ -3171,7 +3189,7 @@ void l6480_cmd_hardstop(void) {
 
 void l6480_cmd_softhiz(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_SOFTHIZ, 
+    l6480_send_cmd( L6480_CMD_SOFTHIZ,
         L6480_CMD_SOFTHIZ_LEN,
         L6480_CMD_SOFTHIZ_READ,
         0);
@@ -3181,7 +3199,7 @@ void l6480_cmd_softhiz(void) {
 
 void l6480_cmd_hardhiz(void) {
     /* Send command to device */
-    l6480_send_cmd( L6480_CMD_HARDHIZ, 
+    l6480_send_cmd( L6480_CMD_HARDHIZ,
         L6480_CMD_HARDHIZ_LEN,
         L6480_CMD_HARDHIZ_READ,
         0);
@@ -3194,9 +3212,9 @@ uint16_t l6480_cmd_getstatus(void) {
     l6480_reg_status_t reg;
 
     /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETSTATUS, 
-        L6480_CMD_GETSTATUS_LEN, 
-        L6480_CMD_GETSTATUS_READ, 
+    l6480_send_cmd( L6480_CMD_GETSTATUS,
+        L6480_CMD_GETSTATUS_LEN,
+        L6480_CMD_GETSTATUS_READ,
         reg.array);
 
     /* return status */

@@ -19,22 +19,40 @@
  *  \todo Define in SPI Module
  */
 void spi_write(uint8_t *data) {
-    SM1_SendChar(*data);
+    #if PL_FRDM
+        SM1_SendChar(*data);
+    #endif /* PL_FRDM */
+    #if PL_PC
+        printf("write: 0x%X\n", *data);
+    #endif /* PL_PC */
+    return;
 }
-
+/*! \fn spi_read(uint8_t *data)
+ *  \todo Define in SPI Module
+ */
 void spi_read(uint8_t *data) {
-	/* dummy data*/
-	uint8_t zero = 0;
-	/* delete previously received data */
-    //while (SM1_GetCharsInRxBuf()) {
-    //    SM1_RecvChar(NULL);
-    //}
-    /* send zeros to read data */
-    SM1_SendChar(&zero);
-    /* Wait until data transfer has completed */
-    //while (SM1_GetCharsInRxBuf()) {}
-    /* read data */
-    //SM1_RecvChar(data);
+    #if PL_FRDM
+        /* dummy data*/
+        uint8_t zero = 0;
+        /* delete previously received data */
+        //while (SM1_GetCharsInRxBuf()) {
+        //    SM1_RecvChar(NULL);
+        //}
+        /* send zeros to read data */
+        SM1_SendChar(&zero);
+        /* Wait until data transfer has completed */
+        //while (SM1_GetCharsInRxBuf()) {}
+        /* read data */
+        //SM1_RecvChar(data);
+    #endif /* PL_FRDM */
+    #if PL_PC
+        //unsigned int readdata;
+        printf("read:  \n");
+        //scanf("%X", &readdata);
+        //*data = (uint8_t) *readdata;
+        *data = 0x00;
+    #endif /* PL_PC */
+    return;
 }
 
 void l6480_init(void) {
@@ -59,13 +77,11 @@ void l6480_init(void) {
 void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
     /* local variables */
     uint8_t i;          /* variable to count number of sent bits */
-    uint8_t d = 0x00;
     spi_write(&cmd);    /* send command */
     /*! \todo Check if byte order for sending a command is correct */
     if (read) {         /* check if reading data is needed */
         for (i = 0; i < (len - 1); i++) {
-            spi_read(data++);   /* read data */
-        	//spi_write(&d);
+            spi_read(data+len-2-i);   /* read data */
         }
     } else {
         for (i = 0; i < (len - 1); i++) {
@@ -2852,20 +2868,6 @@ uint8_t l6480_get_status_dir(void) {
     return reg.reg.dir;
 }
 
-uint8_t l6480_get_status_sw_f(void) {
-    /* local variables */
-    l6480_reg_status_t reg;
-
-    /* read data from device */
-    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
-        L6480_CMD_GETPARAM_LEN(STATUS),
-        L6480_CMD_GETPARAM_READ(STATUS),
-        reg.array);
-
-    /* return status */
-    return reg.reg.sw_f;
-}
-
 uint8_t l6480_get_status_sw_evn(void) {
     /* local variables */
     l6480_reg_status_t reg;
@@ -2878,6 +2880,20 @@ uint8_t l6480_get_status_sw_evn(void) {
 
     /* return status */
     return reg.reg.sw_evn;
+}
+
+uint8_t l6480_get_status_sw_f(void) {
+    /* local variables */
+    l6480_reg_status_t reg;
+
+    /* read data from device */
+    l6480_send_cmd( L6480_CMD_GETPARAM(STATUS),
+        L6480_CMD_GETPARAM_LEN(STATUS),
+        L6480_CMD_GETPARAM_READ(STATUS),
+        reg.array);
+
+    /* return status */
+    return reg.reg.sw_f;
 }
 
 uint8_t l6480_get_status_busy(void) {
@@ -3206,3 +3222,79 @@ uint16_t l6480_cmd_getstatus(void) {
     return reg.raw.data;
 }
 
+#if PL_HAS_SHELL
+static uint8_t PrintStatus(const CLS1_StdioType *io) {
+    l6480_reg_status_t status;
+    CLS1_SendStatusStr((unsigned char*)"l6480", (unsigned char*)"\r\n", io->stdOut);
+    status.raw.data = l6480_cmd_getstatus();
+    CLS1_SendStatusStr((unsigned char*)"  High Z",                  (status.reg.hiz         ?(unsigned char*)"TRUE\r\n"     :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  BUSY",                    (status.reg.busy        ?(unsigned char*)"Ready\r\n"    :(unsigned char*)"Executing\r\n"),  io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Switch",                  (status.reg.sw_f        ?(unsigned char*)"Closed\r\n"   :(unsigned char*)"Open\r\n"),       io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Switch turn on event",    (status.reg.sw_evn      ?(unsigned char*)"TRUE\r\n"     :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Direction",               (status.reg.dir         ?(unsigned char*)"Forward\r\n"  :(unsigned char*)"Reverse\r\n"),    io-> stdOut);
+    switch (status.reg.mot_status) {
+        case L6480_STATUS_MOT_STATUS_STOP:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Stopped\r\n",          io-> stdOut);
+            break;
+        case L6480_STATUS_MOT_STATUS_ACC:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Acceleration\r\n",     io-> stdOut);
+            break;
+        case L6480_STATUS_MOT_STATUS_DEC:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Deceleration\r\n",     io-> stdOut);
+            break;
+        case L6480_STATUS_MOT_STATUS_CONST:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Constant speed\r\n",   io-> stdOut);
+            break;
+        default:
+            CLS1_SendStatusStr((unsigned char*)"  Motor status",    (unsigned char*)"Unknown status\r\n",   io-> stdOut);
+            break;
+    }
+    CLS1_SendStatusStr((unsigned char*)"  Command error",           (status.reg.cmd_error   ?(unsigned char*)"Unknown Command\r\n"  :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Step-clock mode",         (status.reg.stck_mod    ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Undervoltage lockout",    (status.reg.uvlo        ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  ADC Undervoltage event",  (status.reg.uvlo_adc    ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    switch (status.reg.th_status) {
+        case L6480_STATUS_TH_STATUS_NORMAL:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Normal\r\n",           io-> stdOut);
+            break;
+        case L6480_STATUS_TH_STATUS_WARNING:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Warning\r\n",          io-> stdOut);
+            break;
+        case L6480_STATUS_TH_STATUS_BRI_SHTDWN:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Bridge shutdown\r\n",  io-> stdOut);
+            break;
+        case L6480_STATUS_TH_STATUS_DEV_SHTDWN:
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Device shutdown\r\n",  io-> stdOut);
+            break;
+        default;
+            CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Unknown status\r\n",   io-> stdOut);
+            break;
+    }
+    CLS1_SendStatusStr((unsigned char*)"  Overcurrent",             (status.reg.ocd         ?(unsigned char*)"TRUE\r\n"             :(unsigned char*)"FALSE\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Stall on bridge A",       (status.reg.step_loss_a ?(unsigned char*)"None\r\n"             :(unsigned char*)"Stall\r\n"),      io-> stdOut);
+    CLS1_SendStatusStr((unsigned char*)"  Stall on bridge B",       (status.reg.step_loss_b ?(unsigned char*)"None\r\n"             :(unsigned char*)"Stall\r\n"),      io-> stdOut);
+    return ERR_OK;
+}
+
+static uint8_t PrintHelp(const CLS1_StdioType *io) {
+    CLS1_SendHelpStr((unsigned char*)"l6480",           (unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  help|status",   (unsigned char*)"Print help or status information\r\n", io->stdOut);
+    return ERR_OK;
+}
+
+uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdioType *io) {
+    if (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
+        UTIL1_strcmp((char*)cmd, "l6480 help")      == 0 ||
+        UTIL1_strcmp((char*)cmd, "stepper help")    == 0) {
+        *handled = TRUE;
+        return PrintHelp(io);
+    }
+    if (UTIL1_strcmp((char*)cmd, CLS1_CMD_STATUS)     == 0 ||
+        UTIL1_strcmp((char*)cmd, "l6480 status")      == 0 ||
+        UTIL1_strcmp((char*)cmd, "stepper status")    == 0) {
+        *handled = TRUE;
+        return PrintStatus(io);
+    }
+    return ERR_OK;
+}
+#endif /* PL_HAS_SHELL */
