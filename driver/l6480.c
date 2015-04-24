@@ -11,17 +11,28 @@
  * 
  */
 
+#include "stdio.h"
 #include "l6480.h"
 
 /* Definition of necessary functions provided by a SPI module later */
 /*! \fn spi_write(uint8_t *data)
  *  \todo Define in SPI Module
  */
-void spi_write(uint8_t *data) { return; }
+void spi_write(uint8_t *data) { 
+    printf("write: 0x%X\n", *data);
+    return;
+}
 /*! \fn spi_read(uint8_t *data)
  *  \todo Define in SPI Module
  */
-void spi_read(uint8_t *data) { return; }
+void spi_read(uint8_t *data) {
+    //unsigned int readdata;
+    printf("read:  \n");
+    //scanf("%X", &readdata);
+    //*data = (uint8_t) *readdata;
+    *data = 0x00;
+    return;
+}
 
 void l6480_init(void) {
     /* test orientation of bitfields */
