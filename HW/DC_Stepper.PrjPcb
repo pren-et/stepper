@@ -139,6 +139,42 @@ GenerateClassCluster=0
 DocumentUniqueId=FJBMDABY
 
 [GeneratedDocument1]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.DRR
+DItemRevisionGUID=
+
+[GeneratedDocument2]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.EXTREP
+DItemRevisionGUID=
+
+[GeneratedDocument3]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GBL
+DItemRevisionGUID=
+
+[GeneratedDocument4]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GM1
+DItemRevisionGUID=
+
+[GeneratedDocument5]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.GTL
+DItemRevisionGUID=
+
+[GeneratedDocument6]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.LDP
+DItemRevisionGUID=
+
+[GeneratedDocument7]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.REP
+DItemRevisionGUID=
+
+[GeneratedDocument8]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.RUL
+DItemRevisionGUID=
+
+[GeneratedDocument9]
+DocumentPath=Project Outputs for DC_Stepper\DC_Stepper.TXT
+DItemRevisionGUID=
+
+[GeneratedDocument10]
 DocumentPath=Project Outputs for DC_Stepper\Design Rule Check - DC_Stepper.html
 DItemRevisionGUID=
 

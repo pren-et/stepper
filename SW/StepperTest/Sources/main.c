@@ -36,6 +36,8 @@
 #include "LEDpin1.h"
 #include "BitIoLdd1.h"
 #include "WAIT1.h"
+#include "Vent.h"
+#include "BitsIoLdd1.h"
 //#include "STCK.h"
 //#include "BitsIoLdd1.h"
 //#include "WAIT1.h"
@@ -60,7 +62,7 @@ int main(void)
   l6480_init();
   LEDG_On();
   l6480_cmd_getstatus();
-  /*
+/*
   l6480_reg_config_t config;
   config.raw.data      = 0x0000;
   config.reg.ext_clk   = 0;
@@ -81,24 +83,31 @@ int main(void)
   l6480_set_config(config.raw.data);
   l6480_cmd_getstatus();
   l6480_cmd_run(1,500); 	// Motor vorwärts
-  */
   //l6480_cmd_stepclock(1);	// Motor vorwärts
-  l6480_set_ocd_th_millivolt(1000); // Overcurrentdetection
-  l6480_set_stall_th_millivolt(1000); // Stalldetection
+  */
+  l6480_set_ocd_th_millivolt(1000); 	// Overcurrentdetection
+  l6480_set_stall_th_millivolt(1000); 	// Stalldetection
   l6480_set_gatecfg1_igate_milliampere(96);
   l6480_set_gatecfg1_tcc_nanosecond(250);
   l6480_set_gatecfg1_tboost_nanosecond(125);
   l6480_set_gatecfg2_tdt_nanosecond(250);
   l6480_set_gatecfg2_tblank_nanosecond(250);
-  l6480_set_kval_hold(10);				//
-  l6480_set_kval_run(10);
+  l6480_set_kval_hold(5);				//
+  l6480_set_kval_run(5);
   //l6480_set_config_oc_sd(0);			// Brücken nicht ausschalten bei OCD
   l6480_cmd_hardstop();					// Aus HiZ
+  uint16_t speed = 0;
   for(;;){
-  l6480_cmd_run(1,1048575); 			// Motor vorwärts
-  WAIT1_Waitms(1000);
-  l6480_cmd_softstop();					// Aus HiZ
-  WAIT1_Waitms(1000);
+	  l6480_cmd_run(1,speed); 				// Motor vorwärts
+	  WAIT1_Waitms(1000);
+	  l6480_cmd_softstop();					// Aus HiZ
+	  WAIT1_Waitms(1000);
+	  if (speed < 0xfffff) {
+		  speed += 1000;
+	  }
+	  else {
+		  speed = 0;
+	  }
   }
   l6480_cmd_getstatus();
   /*
@@ -108,9 +117,11 @@ int main(void)
 	  WAIT1_Waitus(100);
 	  STCK_PutVal(FALSE);
 	  WAIT1_Waitus(100);
-  }*/
+  }
   l6480_cmd_getstatus();
-  for(;;){};
+
+  for(;;){
+  };
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/

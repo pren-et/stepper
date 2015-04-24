@@ -69,7 +69,7 @@ void l6480_send_cmd(uint8_t cmd, uint8_t len, uint8_t read, uint8_t *data) {
         }
     } else {
         for (i = 0; i < (len - 1); i++) {
-            spi_write(data++);  /* write data */
+            spi_write(data+len-2-i);  /* write data */
         }
     }
 }
