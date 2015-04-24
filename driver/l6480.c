@@ -11,7 +11,6 @@
  * 
  */
 
-#include "stdio.h"
 #include "l6480.h"
 
 /* Definition of necessary functions provided by a SPI module later */
@@ -19,18 +18,22 @@
  *  \todo Define in SPI Module
  */
 void spi_write(uint8_t *data) { 
-    printf("write: 0x%X\n", *data);
+    #if PL_PC
+        printf("write: 0x%X\n", *data);
+    #endif /* PL_PC */
     return;
 }
 /*! \fn spi_read(uint8_t *data)
  *  \todo Define in SPI Module
  */
 void spi_read(uint8_t *data) {
-    //unsigned int readdata;
-    printf("read:  \n");
-    //scanf("%X", &readdata);
-    //*data = (uint8_t) *readdata;
-    *data = 0x00;
+    #if PL_PC
+        //unsigned int readdata;
+        printf("read:  \n");
+        //scanf("%X", &readdata);
+        //*data = (uint8_t) *readdata;
+        *data = 0x00;
+    #endif /* PL_PC */
     return;
 }
 
