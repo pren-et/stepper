@@ -59,69 +59,40 @@ int main(void)
   PE_low_level_init();
   /*** End of Processor Expert internal initialization.                    ***/
 
-  l6480_init();
+  l6480_init();							// Compilertest
   LEDG_On();
   l6480_cmd_getstatus();
-/*
-  l6480_reg_config_t config;
-  config.raw.data      = 0x0000;
-  config.reg.ext_clk   = 0;
-  config.reg.osc_sel   = 1;
-  config.reg.sw_mode   = 0;
-  config.reg.oc_sd     = 0;
-  config.reg.vccval    = 0;
-  config.reg.uvloval   = 0;
-  config.reg.en_vscomp = 0;
-  config.reg.f_pwm_int = 1;
-  config.reg.f_pwm_dec = 5;
- // l6480_get_config();
-  l6480_set_ocd_th_millivolt(1000);
-  l6480_set_kval_hold(64);
-  l6480_set_kval_run(64);
-  l6480_set_kval_acc(64);
-  l6480_set_kval_dec(64);
-  l6480_set_config(config.raw.data);
-  l6480_cmd_getstatus();
-  l6480_cmd_run(1,500); 	// Motor vorwärts
-  //l6480_cmd_stepclock(1);	// Motor vorwärts
-  */
-  l6480_set_ocd_th_millivolt(1000); 	// Overcurrentdetection
-  l6480_set_stall_th_millivolt(1000); 	// Stalldetection
-  l6480_set_gatecfg1_igate_milliampere(96);
-  l6480_set_gatecfg1_tcc_nanosecond(250);
+
+  /*******************************************************
+   * Einstellungen für den Motor und die Treiberstufen   *
+   ******************************************************/
+  l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
+  l6480_set_stall_th_millivolt(1000); 			// Stalldetection Tresold
+  l6480_set_gatecfg1_igate_milliampere(96);		// Gatstrom
+  l6480_set_gatecfg1_tcc_nanosecond(250);		// Bestromungszeiten
   l6480_set_gatecfg1_tboost_nanosecond(125);
   l6480_set_gatecfg2_tdt_nanosecond(250);
-  l6480_set_gatecfg2_tblank_nanosecond(250);
-  l6480_set_kval_hold(5);				//
-  l6480_set_kval_run(5);
-  //l6480_set_config_oc_sd(0);			// Brücken nicht ausschalten bei OCD
-  l6480_cmd_hardstop();					// Aus HiZ
+  l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
+  l6480_set_kval_hold(5);						// KVAL Motor Stillstand
+  l6480_set_kval_run(5);						// kVAL Motor Run
+
+  /*******************************************************
+   * Beginn Ansteuerung									 *
+   ******************************************************/
+  l6480_cmd_hardstop();							// Aus HiZ
   uint16_t speed = 0;
   for(;;){
-	  l6480_cmd_run(1,speed); 				// Motor vorwärts
+	  l6480_cmd_run(1,speed); 					// Motor vorwärts
 	  WAIT1_Waitms(1000);
-	  l6480_cmd_softstop();					// Aus HiZ
+	  l6480_cmd_softstop();						//
 	  WAIT1_Waitms(1000);
-	  if (speed < 0xfffff) {
+	  if (speed < 0xfffff) {					// Geschwindigkeit erhöhen
 		  speed += 1000;
 	  }
 	  else {
-		  speed = 0;
+		  speed = 0;							// Geschwindigkeit rücksetzen
 	  }
   }
-  l6480_cmd_getstatus();
-  /*
-  int i = 0;
-  for(i=0;i<20000;i++) {
-	  STCK_PutVal(TRUE);
-	  WAIT1_Waitus(100);
-	  STCK_PutVal(FALSE);
-	  WAIT1_Waitus(100);
-  }
-  l6480_cmd_getstatus();
-
-  for(;;){
-  };
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/
