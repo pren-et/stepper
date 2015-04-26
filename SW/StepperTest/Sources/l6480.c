@@ -42,7 +42,7 @@ void spi_read(uint8_t *data) {
         //    SM1_RecvChar(NULL);
         //}
         /* send zeros to read data */
-        SM1_SendChar(&zero);
+        SM1_SendChar((int) &zero);
         /* Wait until data transfer has completed */
         //while (SM1_GetCharsInRxBuf()) {}
         /* read data */
