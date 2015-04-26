@@ -11,7 +11,7 @@
  *
  */
 
-#include "platform.h"
+//#include "platform.h"
 #include "l6480.h"
 #if PL_FRDM
     #include "SM1.h"

@@ -64,7 +64,7 @@ int main(void)
   l6480_cmd_getstatus();
 
   /*******************************************************
-   * Einstellungen für den Motor und die Treiberstufen   *
+   * Einstellungen fï¿½r den Motor und die Treiberstufen   *
    ******************************************************/
   l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
   l6480_set_stall_th_millivolt(1000); 			// Stalldetection Tresold
@@ -82,15 +82,15 @@ int main(void)
   l6480_cmd_hardstop();							// Aus HiZ
   uint16_t speed = 0;
   for(;;){
-	  l6480_cmd_run(1,speed); 					// Motor vorwärts
+	  l6480_cmd_run(1,speed); 					// Motor vorwï¿½rts
 	  WAIT1_Waitms(1000);
 	  l6480_cmd_softstop();						//
 	  WAIT1_Waitms(1000);
-	  if (speed < 0xfffff) {					// Geschwindigkeit erhöhen
+	  if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
 		  speed += 1000;
 	  }
 	  else {
-		  speed = 0;							// Geschwindigkeit rücksetzen
+		  speed = 0;							// Geschwindigkeit rï¿½cksetzen
 	  }
   }
 

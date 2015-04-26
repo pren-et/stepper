@@ -14,7 +14,7 @@
 #ifndef L6480_H
 #define L6480_H
 
-#include "platform.h"
+//#include "platform.h"
 
 #if PL_PC
     #include <stdio.h>

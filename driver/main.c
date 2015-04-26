@@ -12,8 +12,8 @@
  */
 
 #include "stdio.h"
-#include "platform.h"
-#include "l6480.h"
+//#include "platform.h"
+#include "../SW/StepperTest/Sources/l6480.h"
 
 int main(void) {
     printf("Hello World\n");

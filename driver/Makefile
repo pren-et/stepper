@@ -3,18 +3,17 @@
 all: build syntax doxygen
 
 build:
-	gcc -Wall -Wparentheses -c main.c
-	gcc -Wall -Wparentheses -c l6480.c
+	gcc -Wall -Wparentheses -D PL_PC -c main.c ../SW/StepperTest/Sources/l6480.c
 	gcc main.o l6480.o -lm -o main.out
 
 run:
 	./main.out
 
 syntax: 
-	gcc -Wall -Wparentheses -c l6480.c -fsyntax-only
+	gcc -Wall -Wparentheses -c ../SW/StepperTest/Sources/l6480.c -fsyntax-only
 
 doxygen:
-	doxygen l6480.doxyfile
+	doxygen ../SW/StepperTest/Sources/l6480.doxyfile
 
 clean:
 	rm -rf html/
