@@ -34,7 +34,7 @@
 #include "PE_Error.h"
 #include "PE_Const.h"
 #include "IO_Map.h"
-#include "SM1.h"
+#include "Stepperspi.h"
 #include "SMasterLdd1.h"
 #include "LEDG.h"
 #include "LEDpin1.h"
@@ -63,12 +63,12 @@ extern "C" {
 void Cpu_OnNMIINT(void);
 
 
-void SM1_OnRxChar(void);
+void Stepperspi_OnRxChar(void);
 /*
 ** ===================================================================
-**     Event       :  SM1_OnRxChar (module Events)
+**     Event       :  Stepperspi_OnRxChar (module Events)
 **
-**     Component   :  SM1 [SynchroMaster]
+**     Component   :  Stepperspi [SynchroMaster]
 **     Description :
 **         This event is called after a correct character is received.
 **         The event is available only when the <Interrupt
@@ -78,12 +78,12 @@ void SM1_OnRxChar(void);
 ** ===================================================================
 */
 
-void SM1_OnTxChar(void);
+void Stepperspi_OnTxChar(void);
 /*
 ** ===================================================================
-**     Event       :  SM1_OnTxChar (module Events)
+**     Event       :  Stepperspi_OnTxChar (module Events)
 **
-**     Component   :  SM1 [SynchroMaster]
+**     Component   :  Stepperspi [SynchroMaster]
 **     Description :
 **         This event is called after a character is transmitted.
 **     Parameters  : None

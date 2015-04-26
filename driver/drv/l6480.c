@@ -14,7 +14,7 @@
 //#include "platform.h"
 #include "l6480.h"
 #if PL_FRDM
-    #include "SM1.h"
+    #include "Stepperspi.h"
 #endif /* PL_FRDM */
 
 /* Definition of necessary functions provided by a SPI module later */
@@ -23,7 +23,7 @@
  */
 void spi_write(uint8_t *data) {
     #if PL_FRDM
-        SM1_SendChar(*data);
+        Stepperspi_SendChar(*data);
     #endif /* PL_FRDM */
     #if PL_PC
         printf("write: 0x%X\n", *data);
@@ -38,15 +38,15 @@ void spi_read(uint8_t *data) {
         /* dummy data*/
         uint8_t zero = 0;
         /* delete previously received data */
-        //while (SM1_GetCharsInRxBuf()) {
-        //    SM1_RecvChar(NULL);
+        //while (Stepperspi_GetCharsInRxBuf()) {
+        //    Stepperspi_RecvChar(NULL);
         //}
         /* send zeros to read data */
-        SM1_SendChar((int) &zero);
+        Stepperspi_SendChar((int) &zero);
         /* Wait until data transfer has completed */
-        //while (SM1_GetCharsInRxBuf()) {}
+        //while (Stepperspi_GetCharsInRxBuf()) {}
         /* read data */
-        //SM1_RecvChar(data);
+        //Stepperspi_RecvChar(data);
     #endif /* PL_FRDM */
     #if PL_PC
         //unsigned int readdata;

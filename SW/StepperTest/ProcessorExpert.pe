@@ -3,7 +3,7 @@
   <Header>
     <Name>StepperTest</Name>
     <SavedBy>daniw</SavedBy>
-    <ModificationStamp>15</ModificationStamp>
+    <ModificationStamp>17</ModificationStamp>
     <Date>2015-04-26</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.1.RT6_b1437-1025</PEversion>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>39</ProjectCompNumb>
+    <ProjectCompNumb>42</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -4502,7 +4502,7 @@
   </Configuration>
   <Bean>
     <BeanType>SynchroMaster</BeanType>
-    <Name>SM1</Name>
+    <Name>Stepperspi</Name>
     <CompNumb>11</CompNumb>
     <CompEnabled>true</CompEnabled>
     <GenCodeMode>ALWAYS_WRITE</GenCodeMode>
@@ -4517,7 +4517,7 @@
         <ItemSymbol>DeviceName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1</Value>
+        <Value>Stepperspi</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>Ser</ItemSymbol>
@@ -6770,7 +6770,7 @@
         <ItemSymbol>BeforeNewSpeedName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_BeforeNewSpeed</Value>
+        <Value>Stepperspi_BeforeNewSpeed</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>AfterNewSpeed</ItemSymbol>
@@ -6786,7 +6786,7 @@
         <ItemSymbol>AfterNewSpeedName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_AfterNewSpeed</Value>
+        <Value>Stepperspi_AfterNewSpeed</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnRxChar</ItemSymbol>
@@ -6802,7 +6802,7 @@
         <ItemSymbol>OnRxCharName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnRxChar</Value>
+        <Value>Stepperspi_OnRxChar</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnRxCharPriority</ItemSymbol>
@@ -6824,7 +6824,7 @@
         <ItemSymbol>OnRxCharExtName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnRxCharExt</Value>
+        <Value>Stepperspi_OnRxCharExt</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnRxCharExtPriority</ItemSymbol>
@@ -6846,7 +6846,7 @@
         <ItemSymbol>OnTxCharName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnTxChar</Value>
+        <Value>Stepperspi_OnTxChar</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnTxCharPriority</ItemSymbol>
@@ -6868,7 +6868,7 @@
         <ItemSymbol>OnFullRxBufName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnFullRxBuf</Value>
+        <Value>Stepperspi_OnFullRxBuf</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnFullRxBufPriority</ItemSymbol>
@@ -6890,7 +6890,7 @@
         <ItemSymbol>OnFreeTxBufName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnFreeTxBuf</Value>
+        <Value>Stepperspi_OnFreeTxBuf</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnFreeTxBufPriority</ItemSymbol>
@@ -6912,7 +6912,7 @@
         <ItemSymbol>OnErrorName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnError</Value>
+        <Value>Stepperspi_OnError</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnErrorPriority</ItemSymbol>
@@ -6939,7 +6939,7 @@
         <ItemSymbol>OnFaultName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>SM1_OnFault</Value>
+        <Value>Stepperspi_OnFault</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnFaultPriority</ItemSymbol>

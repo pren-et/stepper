@@ -57,9 +57,9 @@ void Cpu_OnNMIINT(void)
 
 /*
 ** ===================================================================
-**     Event       :  SM1_OnRxChar (module Events)
+**     Event       :  Stepperspi_OnRxChar (module Events)
 **
-**     Component   :  SM1 [SynchroMaster]
+**     Component   :  Stepperspi [SynchroMaster]
 **     Description :
 **         This event is called after a correct character is received.
 **         The event is available only when the <Interrupt
@@ -68,23 +68,23 @@ void Cpu_OnNMIINT(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void SM1_OnRxChar(void)
+void Stepperspi_OnRxChar(void)
 {
   /* Write your code here ... */
 }
 
 /*
 ** ===================================================================
-**     Event       :  SM1_OnTxChar (module Events)
+**     Event       :  Stepperspi_OnTxChar (module Events)
 **
-**     Component   :  SM1 [SynchroMaster]
+**     Component   :  Stepperspi [SynchroMaster]
 **     Description :
 **         This event is called after a character is transmitted.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================
 */
-void SM1_OnTxChar(void)
+void Stepperspi_OnTxChar(void)
 {
   /* Write your code here ... */
 }

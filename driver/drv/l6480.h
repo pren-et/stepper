@@ -21,7 +21,7 @@
 #endif /* PL_PC */
 
 #if PL_FRDM
-    #include "SM1.h"
+    #include "Stepperspi.h"
 #endif /* PL_FRDM */
 
 #include <stdint.h>

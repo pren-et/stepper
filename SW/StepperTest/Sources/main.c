@@ -30,7 +30,7 @@
 /* Including needed modules to compile this module/procedure */
 #include "Cpu.h"
 #include "Events.h"
-#include "SM1.h"
+#include "Stepperspi.h"
 #include "SMasterLdd1.h"
 #include "LEDG.h"
 #include "LEDpin1.h"
@@ -46,8 +46,8 @@
 #include "PE_Error.h"
 #include "PE_Const.h"
 #include "IO_Map.h"
-#include "l6480.h"
 /* User includes (#include below this line is not maintained by Processor Expert) */
+#include "../../../../stepper/driver/drv/l6480.h"
 
 /*lint -save  -e970 Disable MISRA rule (6.3) checking. */
 int main(void)
