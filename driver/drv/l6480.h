@@ -22,7 +22,12 @@
 
 #if PL_FRDM
     #include "Stepperspi.h"
+    #include "shell.h"
 #endif /* PL_FRDM */
+
+#if PL_HAS_SHELL
+    #include "CLS1.h"
+#endif /* PL_HAS_SHELL */
 
 #include <stdint.h>
 #if PL_HAS_SHELL
@@ -2403,7 +2408,7 @@ uint16_t l6480_cmd_getstatus(void);
  *  \return Error flag
  */
 #if PL_HAS_SHELL
-    uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdioType *io);
+    uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io);
 #endif /* PL_HAS_SHELL */
 
 #endif /* L6480_H */

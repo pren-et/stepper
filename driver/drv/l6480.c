@@ -15,7 +15,13 @@
 #include "l6480.h"
 #if PL_FRDM
     #include "Stepperspi.h"
+    #include "shell.h"
 #endif /* PL_FRDM */
+
+#if PL_HAS_SHELL
+    #include "UTIL1.h"
+    #include "CLS1.h"
+#endif /* PL_HAS_SHELL */
 
 /* Definition of necessary functions provided by a SPI module later */
 /*! \fn spi_write(uint8_t *data)
@@ -3226,7 +3232,7 @@ uint16_t l6480_cmd_getstatus(void) {
 }
 
 #if PL_HAS_SHELL
-static uint8_t PrintStatus(const CLS1_StdioType *io) {
+static uint8_t PrintStatus(const CLS1_StdIOType *io) {
     l6480_reg_status_t status;
     CLS1_SendStatusStr((unsigned char*)"l6480", (unsigned char*)"\r\n", io->stdOut);
     status.raw.data = l6480_cmd_getstatus();
@@ -3269,7 +3275,7 @@ static uint8_t PrintStatus(const CLS1_StdioType *io) {
         case L6480_STATUS_TH_STATUS_DEV_SHTDWN:
             CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Device shutdown\r\n",  io-> stdOut);
             break;
-        default;
+        default:
             CLS1_SendStatusStr((unsigned char*)"  Thermal status",  (unsigned char*)"Unknown status\r\n",   io-> stdOut);
             break;
     }
@@ -3279,13 +3285,13 @@ static uint8_t PrintStatus(const CLS1_StdioType *io) {
     return ERR_OK;
 }
 
-static uint8_t PrintHelp(const CLS1_StdioType *io) {
+static uint8_t PrintHelp(const CLS1_StdIOType *io) {
     CLS1_SendHelpStr((unsigned char*)"l6480",           (unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  help|status",   (unsigned char*)"Print help or status information\r\n", io->stdOut);
     return ERR_OK;
 }
 
-uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdioType *io) {
+uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     if (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
         UTIL1_strcmp((char*)cmd, "l6480 help")      == 0 ||
         UTIL1_strcmp((char*)cmd, "stepper help")    == 0) {
