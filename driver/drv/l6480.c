@@ -3290,6 +3290,7 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io) {
     CLS1_SendHelpStr((unsigned char*)"  help|status",           (unsigned char*)"Print help or status information\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  run (f|r) <speed>",     (unsigned char*)"Run stepper with given direction and speed in millisteps per second\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  goto (f|r) <position>", (unsigned char*)"Go to given position with optional direction\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  move (f|r) <steps>",    (unsigned char*)"Move given number of steps with given direction\r\n", io->stdOut);
     return ERR_OK;
 }
 
@@ -3363,6 +3364,40 @@ static uint8_t ParseCmdGotoParameter(const unsigned char *cmd, bool *handled, co
     return res;
 }
 
+static uint8_t ParseCmdMoveParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
+    const unsigned char *p;
+    uint32_t val32u;
+    uint8_t res = ERR_OK;
+    l6480_dir_t dir;
+
+    if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
+        UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
+        dir = L6480_DIR_FWD;
+        p = cmd+sizeof("f");
+    }
+    else if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
+            UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
+        dir = L6480_DIR_REV;
+        p = cmd+sizeof("r");
+    }
+    else { /* No direction given is threated as forward */
+        dir = L6480_DIR_FWD;
+        p = cmd;
+        /* Alternative implementation: No direction threated as error */
+        // res = ERR_FAILED;
+        // return res;
+    }
+    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
+        l6480_cmd_move(dir, val32u);
+        *handled = TRUE;
+    }
+    else {
+        CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
+        res = ERR_FAILED;
+    }
+    return res;
+}
+
 uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     if      (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
              UTIL1_strcmp((char*)cmd, "l6480 help")      == 0 ||
@@ -3387,6 +3422,12 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     }
     else if (UTIL1_strncmp((char*)cmd, "stepper goto ",  sizeof("stepper goto ")-1)   ==0) {
         return ParseCmdGotoParameter(cmd+sizeof("stepper goto ")-1, handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 move ",    sizeof("l6480 move ")-1)     ==0) {
+        return ParseCmdMoveParameter(cmd+sizeof("l6480 move ")-1, handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "stepper move ",  sizeof("stepper move ")-1)   ==0) {
+        return ParseCmdMoveParameter(cmd+sizeof("stepper move ")-1, handled, io);
     }
     return ERR_OK;
 }
