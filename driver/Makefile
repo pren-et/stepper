@@ -13,7 +13,7 @@ syntax:
 	gcc -Wall -Wparentheses -c ../SW/StepperTest/Sources/l6480.c -fsyntax-only
 
 doxygen:
-	doxygen ../SW/StepperTest/Sources/l6480.doxyfile
+	doxygen l6480.doxyfile
 
 clean:
 	rm -rf html/
