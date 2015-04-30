@@ -73,8 +73,10 @@ int main(void)
   l6480_set_gatecfg1_tboost_nanosecond(125);
   l6480_set_gatecfg2_tdt_nanosecond(250);
   l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
-  l6480_set_kval_hold(5);						// KVAL Motor Stillstand
-  l6480_set_kval_run(5);						// kVAL Motor Run
+  l6480_set_kval_hold(10);						// KVAL Motor Stillstand
+  l6480_set_kval_run(128);						// kVAL Motor Run
+  l6480_set_kval_acc(10);
+  l6480_set_kval_dec(10);
 
   /*******************************************************
    * Beginn Ansteuerung									 *
@@ -82,16 +84,44 @@ int main(void)
   l6480_cmd_hardstop();							// Aus HiZ
   uint16_t speed = 0;
   for(;;){
-	  l6480_cmd_run(1,speed); 					// Motor vorwï¿½rts
+    l6480_cmd_softstop();
+    WAIT1_Waitms(1000);
+    l6480_cmd_run(0,speed); 					// Motor rueckwärts
+    WAIT1_Waitms(2000);
+    l6480_cmd_softstop();						//
+    WAIT1_Waitms(1000);
+    if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
+     speed += 1000;
+    }
+    else {
+      speed = 0;							// Geschwindigkeit rï¿½cksetzen
+    }
+  }
+  l6480_cmd_hardstop();							// Aus HiZ
+  //uint16_t speed = 0;
+  for(;;){
+
+
+	  speed = 5000;
+	  //l6480_cmd_run(1,speed); 					// Motor vorwï¿½rts
+	  Vent_PutVal(TRUE);
+	  WAIT1_Waitms(3000);
+	  Vent_PutVal(FALSE);
 	  WAIT1_Waitms(1000);
-	  l6480_cmd_softstop();						//
-	  WAIT1_Waitms(1000);
-	  if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
+
+	  //l6480_cmd_softstop();
+	  //Vent_PutVal(TRUE);
+	  //WAIT1_Waitms(1000);
+	  //l6480_cmd_run(0,speed); 					// Motor rueckwärts
+	  //WAIT1_Waitms(2000);
+	  //l6480_cmd_softstop();						//
+	  //WAIT1_Waitms(1000);
+	  /*if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
 		  speed += 1000;
 	  }
 	  else {
 		  speed = 0;							// Geschwindigkeit rï¿½cksetzen
-	  }
+	  }*/
   }
 
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
