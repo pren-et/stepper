@@ -86,15 +86,15 @@ int main(void)
   for(;;){
     l6480_cmd_softstop();
     WAIT1_Waitms(1000);
-    l6480_cmd_run(0,speed); 					// Motor rueckwärts
+    l6480_cmd_run(0,speed); 					// Motor reverse
     WAIT1_Waitms(2000);
     l6480_cmd_softstop();						//
     WAIT1_Waitms(1000);
-    if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
+    if (speed < 0xfffff) {					// increase speed
      speed += 1000;
     }
     else {
-      speed = 0;							// Geschwindigkeit rï¿½cksetzen
+      speed = 0;							// reset speed
     }
   }
   l6480_cmd_hardstop();							// Aus HiZ
@@ -103,7 +103,7 @@ int main(void)
 
 
 	  speed = 5000;
-	  //l6480_cmd_run(1,speed); 					// Motor vorwï¿½rts
+	  //l6480_cmd_run(1,speed); 					// Motor forward
 	  Vent_PutVal(TRUE);
 	  WAIT1_Waitms(3000);
 	  Vent_PutVal(FALSE);
@@ -112,15 +112,15 @@ int main(void)
 	  //l6480_cmd_softstop();
 	  //Vent_PutVal(TRUE);
 	  //WAIT1_Waitms(1000);
-	  //l6480_cmd_run(0,speed); 					// Motor rueckwärts
+	  //l6480_cmd_run(0,speed); 					// Motor reverse
 	  //WAIT1_Waitms(2000);
 	  //l6480_cmd_softstop();						//
 	  //WAIT1_Waitms(1000);
-	  /*if (speed < 0xfffff) {					// Geschwindigkeit erhï¿½hen
+	  /*if (speed < 0xfffff) {					// increase speed
 		  speed += 1000;
 	  }
 	  else {
-		  speed = 0;							// Geschwindigkeit rï¿½cksetzen
+		  speed = 0;							// reset speed
 	  }*/
   }
 
