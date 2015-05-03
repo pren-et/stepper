@@ -73,10 +73,10 @@ int main(void)
   l6480_set_gatecfg1_tboost_nanosecond(125);
   l6480_set_gatecfg2_tdt_nanosecond(250);
   l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
-  l6480_set_kval_hold(10);						// KVAL Motor Stillstand
-  l6480_set_kval_run(128);						// kVAL Motor Run
-  l6480_set_kval_acc(10);
-  l6480_set_kval_dec(10);
+  l6480_set_kval_hold(64);						// KVAL Motor Stillstand
+  l6480_set_kval_run(64);						// kVAL Motor Run
+  l6480_set_kval_acc(64);
+  l6480_set_kval_dec(64);
 
   /*******************************************************
    * Beginn Ansteuerung									 *
