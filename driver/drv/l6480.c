@@ -3291,6 +3291,10 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io) {
     CLS1_SendHelpStr((unsigned char*)"  run (f|r) <speed>",     (unsigned char*)"Run stepper with given direction and speed in millisteps per second\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  goto (f|r) <position>", (unsigned char*)"Go to given position with optional direction\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  move (f|r) <steps>",    (unsigned char*)"Move given number of steps with given direction\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  reset",				    (unsigned char*)"Resets the device\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  hardstop",    			(unsigned char*)"proceeds a hardstop\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  softstop",    			(unsigned char*)"proceeds a softstop\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  initposition",    		(unsigned char*)"get zeroposition with hall-sens (in progress)\r\n", io->stdOut);
     return ERR_OK;
 }
 
@@ -3310,7 +3314,7 @@ static uint8_t ParseCmdRunParameter(const unsigned char *cmd, bool *handled, con
         dir = L6480_DIR_REV;
         p = cmd+sizeof("r");
     }
-    else { /* No direction given is threated as forward */
+    else { /* No direction given is treated as forward */
         dir = L6480_DIR_FWD;
         p = cmd;
     }
@@ -3398,6 +3402,53 @@ static uint8_t ParseCmdMoveParameter(const unsigned char *cmd, bool *handled, co
     return res;
 }
 
+static uint8_t ParseCmdSoftStopParameter(bool *handled, const CLS1_StdIOType *io) {
+    	uint8_t res = ERR_OK;
+    	l6480_cmd_softstop();
+        *handled = TRUE;
+        res = ERR_OK;
+
+    return res;
+}
+
+static uint8_t ParseCmdHardStopParameter(bool *handled, const CLS1_StdIOType *io) {
+		uint8_t res = ERR_OK;
+    	l6480_cmd_hardstop();
+        *handled = TRUE;
+        res = ERR_OK;
+
+    return res;
+}
+
+static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
+    	uint8_t res = ERR_OK;
+		l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
+		l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
+		l6480_set_gatecfg1_igate_milliampere(96);	// Gatestrom
+		l6480_set_gatecfg1_tcc_nanosecond(250);		// Bestromungszeiten
+		l6480_set_gatecfg1_tboost_nanosecond(125);
+		l6480_set_gatecfg2_tdt_nanosecond(250);
+		l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
+		l6480_set_kval_hold(254);						// KVAL Motor Stillstand
+		l6480_set_kval_run(254);						// kVAL Motor Run
+		l6480_set_kval_acc(254);
+		l6480_set_kval_dec(254);
+    	l6480_cmd_hardstop();
+
+        *handled = TRUE;
+        res = ERR_OK;
+
+    return res;
+}
+
+static uint8_t ParseCmdInitPositionParameter(bool *handled, const CLS1_StdIOType *io) {
+    	uint8_t res = ERR_OK;
+        *handled = TRUE;
+        /* TODO: function to get init position with hallsensor!*/
+
+    return res;
+}
+
 uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     if      (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
              UTIL1_strcmp((char*)cmd, "l6480 help")      == 0 ||
@@ -3428,6 +3479,30 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     }
     else if (UTIL1_strncmp((char*)cmd, "stepper move ",  sizeof("stepper move ")-1)   ==0) {
         return ParseCmdMoveParameter(cmd+sizeof("stepper move ")-1, handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "stepper softstop ",  sizeof("stepper softstop ")-1)   ==0) {
+        return ParseCmdSoftStopParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 softstop ",    sizeof("l6480 softstop ")-1)     ==0) {
+        return ParseCmdSoftStopParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "stepper hardstop ",  sizeof("stepper hardstop ")-1)   ==0) {
+        return ParseCmdHardStopParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 hardstop ",    sizeof("l6480 hardstop ")-1)     ==0) {
+        return ParseCmdHardStopParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "stepper reset ",  sizeof("stepper reset ")-1)   ==0) {
+        return ParseCmdResetParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 reset ",    sizeof("l6480 reset ")-1)     ==0) {
+        return ParseCmdResetParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",    sizeof("l6480 initposition ")-1)     ==0) {
+        return ParseCmdInitPositionParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",    sizeof("l6480 initposition ")-1)     ==0) {
+        return ParseCmdInitPositionParameter(handled, io);
     }
     return ERR_OK;
 }
