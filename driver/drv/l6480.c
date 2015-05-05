@@ -3421,7 +3421,9 @@ static uint8_t ParseCmdHardStopParameter(bool *handled, const CLS1_StdIOType *io
 }
 
 static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
+
     	uint8_t res = ERR_OK;
+    	l6480_cmd_resetdevice();
 		l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
 		l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
 		l6480_set_gatecfg1_igate_milliampere(96);	// Gatestrom
@@ -3441,12 +3443,48 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
     return res;
 }
 
-static uint8_t ParseCmdInitPositionParameter(bool *handled, const CLS1_StdIOType *io) {
-    	uint8_t res = ERR_OK;
-        *handled = TRUE;
-        /* TODO: function to get init position with hallsensor!*/
+static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
+	const unsigned char *p;
+	    uint32_t val32u;
+	    uint8_t res = ERR_OK;
+	    l6480_dir_t dir;
 
-    return res;
+	    if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
+	        UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
+	        dir = L6480_DIR_FWD;
+	        p = cmd+sizeof("f");
+	    }
+	    else if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
+	            UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
+	        dir = L6480_DIR_REV;
+	        p = cmd+sizeof("r");
+	    }
+	    else { /* No direction given is threated as forward */
+	        dir = L6480_DIR_FWD;
+	        p = cmd;
+	        /* Alternative implementation: No direction threated as error */
+	        // res = ERR_FAILED;
+	        // return res;
+	    }
+	    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
+	    		/*Safe ABS to MARK_Reg (ACT = 1)*/
+	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
+	    		/*Reset ABS (ACT = 0)=> Set Home position*/
+	    		if(dir==L6480_DIR_FWD){
+	    			l6480_cmd_releasesw(0,L6480_DIR_REV);
+	    		}else{
+	    			l6480_cmd_releasesw(0,L6480_DIR_FWD);
+	    		}
+
+	    		l6480_cmd_gohome();
+
+	           *handled = TRUE;
+	       }
+	       else {
+	           CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
+	           res = ERR_FAILED;
+	       }
+	       return res;
 }
 
 uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
@@ -3498,12 +3536,14 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     else if (UTIL1_strcmp((char*)cmd, "l6480 reset")     ==0) {
         return ParseCmdResetParameter(handled, io);
     }
-    else if (UTIL1_strcmp((char*)cmd, "stepper initposition")     ==0) {
-        return ParseCmdInitPositionParameter(handled, io);
+    else if (UTIL1_strncmp((char*)cmd, "stepper initposition ",  sizeof("stepper initposition ")-1)   ==0) {
+        return ParseCmdInitPositionParameter(cmd+sizeof("stepper initposition ")-1, handled, io);
     }
-    else if (UTIL1_strcmp((char*)cmd, "l6480 initposition")     ==0) {
-        return ParseCmdInitPositionParameter(handled, io);
+
+    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",  sizeof("l6480 initposition ")-1)   ==0) {
+        return ParseCmdInitPositionParameter(cmd+sizeof("l6480 initposition ")-1, handled, io);
     }
+
 
     return ERR_OK;
 }
