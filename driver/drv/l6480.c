@@ -3480,30 +3480,31 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     else if (UTIL1_strncmp((char*)cmd, "stepper move ",  sizeof("stepper move ")-1)   ==0) {
         return ParseCmdMoveParameter(cmd+sizeof("stepper move ")-1, handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "stepper softstop ",  sizeof("stepper softstop ")-1)   ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "stepper softstop")   ==0) {
         return ParseCmdSoftStopParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "l6480 softstop ",    sizeof("l6480 softstop ")-1)     ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "l6480 softstop")     ==0) {
         return ParseCmdSoftStopParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "stepper hardstop ",  sizeof("stepper hardstop ")-1)   ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "stepper hardstop")   ==0) {
         return ParseCmdHardStopParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "l6480 hardstop ",    sizeof("l6480 hardstop ")-1)     ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "l6480 hardstop")     ==0) {
         return ParseCmdHardStopParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "stepper reset ",  sizeof("stepper reset ")-1)   ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "stepper reset")   ==0) {
         return ParseCmdResetParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "l6480 reset ",    sizeof("l6480 reset ")-1)     ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "l6480 reset")     ==0) {
         return ParseCmdResetParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",    sizeof("l6480 initposition ")-1)     ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "stepper initposition")     ==0) {
         return ParseCmdInitPositionParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",    sizeof("l6480 initposition ")-1)     ==0) {
+    else if (UTIL1_strcmp((char*)cmd, "l6480 initposition")     ==0) {
         return ParseCmdInitPositionParameter(handled, io);
     }
+
     return ERR_OK;
 }
 #endif /* PL_HAS_SHELL */
