@@ -3449,15 +3449,15 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    uint8_t res = ERR_OK;
 	    l6480_dir_t dir;
 
-	    if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
-	        UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
+	    if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
+	        UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
 	        dir = L6480_DIR_FWD;
-	        p = cmd+sizeof("f");
-	    }
-	    else if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
-	            UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
-	        dir = L6480_DIR_REV;
 	        p = cmd+sizeof("r");
+	    }
+	    else if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
+	            UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
+	        dir = L6480_DIR_REV;
+	        p = cmd+sizeof("f");
 	    }
 	    else { /* No direction given is threated as forward */
 	        dir = L6480_DIR_FWD;
@@ -3469,6 +3469,7 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
 	    		/*Safe ABS to MARK_Reg (ACT = 1)*/
 	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
+
 	    		/*Reset ABS (ACT = 0)=> Set Home position*/
 	    		if(dir==L6480_DIR_FWD){
 	    			l6480_cmd_releasesw(0,L6480_DIR_REV);
@@ -3486,6 +3487,32 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	       }
 	       return res;
 }
+
+static uint8_t ParseCmdHomeParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
+	const unsigned char *p;
+	    uint32_t val32u;
+	    uint8_t res = ERR_OK;
+	    l6480_dir_t dir;
+
+	    if (UTIL1_strcmp((char*)cmd, (char*)"go")==0 ){
+    		l6480_cmd_gohome();
+            *handled = TRUE;
+	    }
+	    else if (UTIL1_strcmp((char*)cmd, (char*)"set")==0)  {
+	    	l6480_cmd_resetpos();
+			*handled = TRUE;
+	    }
+	    else { /* No direction given is threated as forward */
+
+	        /* Alternative implementation: No direction threated as error */
+	         res = ERR_FAILED;
+	         return res;
+	    }
+
+
+	    return res;
+}
+
 
 uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     if      (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
@@ -3542,6 +3569,13 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
 
     else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",  sizeof("l6480 initposition ")-1)   ==0) {
         return ParseCmdInitPositionParameter(cmd+sizeof("l6480 initposition ")-1, handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "stepper home ",  sizeof("stepper home ")-1)   ==0) {
+        return ParseCmdHomeParameter(cmd+sizeof("stepper home ")-1, handled, io);
+    }
+
+    else if (UTIL1_strncmp((char*)cmd, "l6480 home ",  sizeof("l6480 home ")-1)   ==0) {
+        return ParseCmdHomeParameter(cmd+sizeof("l6480 home ")-1, handled, io);
     }
 
 
