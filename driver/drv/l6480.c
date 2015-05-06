@@ -3286,15 +3286,16 @@ static uint8_t PrintStatus(const CLS1_StdIOType *io) {
 }
 
 static uint8_t PrintHelp(const CLS1_StdIOType *io) {
-    CLS1_SendHelpStr((unsigned char*)"l6480",                   (unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  help|status",           (unsigned char*)"Print help or status information\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  run (f|r) <speed>",     (unsigned char*)"Run stepper with given direction and speed in millisteps per second\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  goto (f|r) <position>", (unsigned char*)"Go to given position with optional direction\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  move (f|r) <steps>",    (unsigned char*)"Move given number of steps with given direction\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  reset",				    (unsigned char*)"Resets the device\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  hardstop",    			(unsigned char*)"proceeds a hardstop\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  softstop",    			(unsigned char*)"proceeds a softstop\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  initposition",    		(unsigned char*)"get zeroposition with hall-sens (in progress)\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"l6480",                   	(unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  help|status",           	(unsigned char*)"Print help or status information\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  run (f|r) <speed>",     	(unsigned char*)"Run stepper with given direction and speed in millisteps per second\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  goto (f|r) <position>", 	(unsigned char*)"Go to given position with optional direction\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  move (f|r) <steps>",    	(unsigned char*)"Move given number of steps with given direction\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  reset",				    	(unsigned char*)"Resets the device\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  hardstop",    				(unsigned char*)"proceeds a hardstop\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  softstop",    				(unsigned char*)"proceeds a softstop\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  initposition (f|r) <speed>",(unsigned char*)"set home position with hallsensor\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  home (go|set)",				(unsigned char*)"goes to or overrides home position with actual position \r\n", io->stdOut);
     return ERR_OK;
 }
 
