@@ -3353,7 +3353,7 @@ static uint8_t ParseCmdGotoParameter(const unsigned char *cmd, bool *handled, co
         dir_given = FALSE;
         p = cmd;
     }
-    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
+    if (UTIL1_ScanDecimal32sNumber(&p, &val32u)==ERR_OK) {
         if (dir_given) {
             l6480_cmd_goto_dir(dir, val32u);
         }
@@ -3470,6 +3470,10 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
 	    		/*Safe ABS to MARK_Reg (ACT = 1)*/
 	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
+
+	    	    l6480_reg_status_t status;
+	    	    status.raw.data = l6480_cmd_getstatus();
+	    	    while (status.reg.busy==0){};
 
 	    		/*Reset ABS (ACT = 0)=> Set Home position*/
 	    		if(dir==L6480_DIR_FWD){
