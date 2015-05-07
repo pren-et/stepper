@@ -3353,7 +3353,7 @@ static uint8_t ParseCmdGotoParameter(const unsigned char *cmd, bool *handled, co
         dir_given = FALSE;
         p = cmd;
     }
-    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
+    if (UTIL1_ScanDecimal32sNumber(&p, &val32u)==ERR_OK) {
         if (dir_given) {
             l6480_cmd_goto_dir(dir, val32u);
         }
