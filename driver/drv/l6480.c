@@ -3435,8 +3435,8 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
     	stepmode_config.reg.sync_sel = 0;				//sync unimportant due to BUSY - mode
     	stepmode_config.reg.sync_en = 0;				//Busy mode
     	l6480_set_step_mode(stepmode_config.raw.data);
-    	l6480_reg_config_t config;
 
+    	l6480_reg_config_t config;
         config.reg.osc_sel = 0;  //unused
         config.reg.ext_clk = 0;  //unused
         config.reg.sw_mode = 1;  //user disposal
@@ -3495,7 +3495,7 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
 
 
-	    	    while (!STP_BSY_GetVal()){};
+	    	 //   while (!STP_BSY_GetVal()){};
 
 	    		/*Reset ABS (ACT = 0)=> Set Home position*/
 	    		if(dir==L6480_DIR_FWD){
