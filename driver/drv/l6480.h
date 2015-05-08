@@ -508,7 +508,7 @@ typedef union {
         uint8_t null        :  1;               /*!< unused bit, must always be zero! */
         uint8_t sync_sel    :  3;               /*!< select synchronization signal source */
         uint8_t sync_en     :  1;               /*!< enable synchronization */
-    } reg;                                  /*!< register access */
+    } reg;                                  	/*!< register access */
 } l6480_reg_step_mode_t;
 /*! \enum l6480_step_sel_t
  * \brief enum for Step mode selection
