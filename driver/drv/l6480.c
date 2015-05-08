@@ -13,6 +13,10 @@
 
 //#include "platform.h"
 #include "l6480.h"
+
+	#include "STP_BSY.h"
+
+
 #if PL_FRDM
     #include "Stepperspi.h"
     #include "shell.h"
@@ -3425,6 +3429,25 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
 
     	uint8_t res = ERR_OK;
     	l6480_cmd_resetdevice();
+
+    	l6480_reg_step_mode_t stepmode_config;
+    	stepmode_config.reg.step_sel = L6480_STEP_SEL_MICRO_128; 				//128 steps
+    	stepmode_config.reg.sync_sel = 0;				//sync unimportant due to BUSY - mode
+    	stepmode_config.reg.sync_en = 0;				//Busy mode
+    	l6480_set_step_mode(stepmode_config.raw.data);
+    	l6480_reg_config_t config;
+
+        config.reg.osc_sel = 0;  //unused
+        config.reg.ext_clk = 0;  //unused
+        config.reg.sw_mode = 1;  //user disposal
+        config.reg.en_vscomp  = 0; //Bridge shut down
+        config.reg.oc_sd   = 1; 	//Bridge shutdown
+        config.reg.uvloval = 0;		//6.9V,6.3V etc
+        config.reg.vccval  = 0;		//7.5V
+        config.reg.f_pwm_dec = 4;
+        config.reg.f_pwm_int = 1;
+    	l6480_set_config(config.raw.data);
+
 		l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
 		l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
 		l6480_set_gatecfg1_igate_milliampere(96);	// Gatestrom
@@ -3452,12 +3475,12 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 
 	    if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
 	        UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
-	        dir = L6480_DIR_FWD;
+	        dir = L6480_DIR_REV;
 	        p = cmd+sizeof("r");
 	    }
 	    else if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
 	            UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
-	        dir = L6480_DIR_REV;
+	        dir =  L6480_DIR_FWD;
 	        p = cmd+sizeof("f");
 	    }
 	    else { /* No direction given is threated as forward */
@@ -3471,9 +3494,8 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    		/*Safe ABS to MARK_Reg (ACT = 1)*/
 	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
 
-	    	    l6480_reg_status_t status;
-	    	    status.raw.data = l6480_cmd_getstatus();
-	    	    while (status.reg.busy==0){};
+
+	    	    while (!STP_BSY_GetVal()){};
 
 	    		/*Reset ABS (ACT = 0)=> Set Home position*/
 	    		if(dir==L6480_DIR_FWD){
