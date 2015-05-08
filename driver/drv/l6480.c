@@ -3296,6 +3296,7 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io) {
     CLS1_SendHelpStr((unsigned char*)"  softstop",    				(unsigned char*)"proceeds a softstop\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  initposition (f|r) <speed>",(unsigned char*)"set home position with hallsensor\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  home (go|set)",				(unsigned char*)"goes to or overrides home position with actual position \r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  softhiz",					(unsigned char*)"proceeds a softstop and go HiZ \r\n", io->stdOut);
     return ERR_OK;
 }
 
@@ -3406,6 +3407,15 @@ static uint8_t ParseCmdMoveParameter(const unsigned char *cmd, bool *handled, co
 static uint8_t ParseCmdSoftStopParameter(bool *handled, const CLS1_StdIOType *io) {
     	uint8_t res = ERR_OK;
     	l6480_cmd_softstop();
+        *handled = TRUE;
+        res = ERR_OK;
+
+    return res;
+}
+
+static uint8_t ParseCmdSoftHizParameter(bool *handled, const CLS1_StdIOType *io) {
+    	uint8_t res = ERR_OK;
+    	l6480_cmd_softhiz();
         *handled = TRUE;
         res = ERR_OK;
 
@@ -3582,7 +3592,9 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     else if (UTIL1_strncmp((char*)cmd, "l6480 home ",  sizeof("l6480 home ")-1)   ==0) {
         return ParseCmdHomeParameter(cmd+sizeof("l6480 home ")-1, handled, io);
     }
-
+    else if (UTIL1_strcmp((char*)cmd, "l6480 softhiz")     ==0) {
+            return ParseCmdSoftHizParameter(handled, io);
+        }
 
     return ERR_OK;
 }
