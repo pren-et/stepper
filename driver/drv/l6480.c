@@ -13,8 +13,8 @@
 
 //#include "platform.h"
 #include "l6480.h"
-
-	#include "STP_BSY.h"
+#include "STP_BSY.h"
+#include "WAIT1.h"
 
 
 #if PL_FRDM
@@ -3455,10 +3455,11 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
 		l6480_set_gatecfg1_tboost_nanosecond(125);
 		l6480_set_gatecfg2_tdt_nanosecond(250);
 		l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
-		l6480_set_kval_hold(254);						// KVAL Motor Stillstand
-		l6480_set_kval_run(254);						// kVAL Motor Run
+		l6480_set_kval_hold(64);						// KVAL Motor Stillstand
+		l6480_set_kval_run(170);						// kVAL Motor Run
 		l6480_set_kval_acc(254);
 		l6480_set_kval_dec(254);
+		l6480_set_max_speed(70);
     	l6480_cmd_hardstop();
 
         *handled = TRUE;
@@ -3494,17 +3495,22 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    		/*Safe ABS to MARK_Reg (ACT = 1)*/
 	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
 
-
-	    	 //   while (!STP_BSY_GetVal()){};
+	    		WAIT1_Waitms(200);
+	    	    while (STP_BSY_GetVal() == 0){};
 
 	    		/*Reset ABS (ACT = 0)=> Set Home position*/
-	    		if(dir==L6480_DIR_FWD){
+	    		if(dir == L6480_DIR_FWD){
 	    			l6480_cmd_releasesw(0,L6480_DIR_REV);
 	    		}else{
 	    			l6480_cmd_releasesw(0,L6480_DIR_FWD);
 	    		}
 
-	    		l6480_cmd_gohome();
+	    		WAIT1_Waitms(200);
+	    		while (STP_BSY_GetVal() == 0){};
+
+	    		l6480_cmd_move(dir,2500);
+
+	    		//l6480_cmd_gohome();
 
 	           *handled = TRUE;
 	       }
