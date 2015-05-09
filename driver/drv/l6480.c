@@ -13,9 +13,8 @@
 
 //#include "platform.h"
 #include "l6480.h"
-
-//#include "STP_BSY.h"
-
+#include "STP_BSY.h"
+#include "WAIT1.h"
 
 #if PL_FRDM
     #include "Stepperspi.h"
@@ -3479,50 +3478,53 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
 
 static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     const unsigned char *p;
-    uint32_t val32u;
-    uint8_t res = ERR_OK;
-    l6480_dir_t dir;
+        uint32_t val32u;
+        uint8_t res = ERR_OK;
+        l6480_dir_t dir;
 
-    if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
+        if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
             UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
-        dir = L6480_DIR_REV;
-        p = cmd+sizeof("r");
-    }
-    else if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
-            UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
-        dir =  L6480_DIR_FWD;
-        p = cmd+sizeof("f");
-    }
-    else { /* No direction given is threated as forward */
-        dir = L6480_DIR_FWD;
-        p = cmd;
-        /* Alternative implementation: No direction threated as error */
-        // res = ERR_FAILED;
-        // return res;
-    }
-    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
-        /*Safe ABS to MARK_Reg (ACT = 1)*/
-        l6480_cmd_gountil_millisteps_s(1, dir, val32u);
-
-
-        //   while (!STP_BSY_GetVal()){};
-
-        /*Reset ABS (ACT = 0)=> Set Home position*/
-        if(dir==L6480_DIR_FWD){
-            l6480_cmd_releasesw(0,L6480_DIR_REV);
-        }else{
-            l6480_cmd_releasesw(0,L6480_DIR_FWD);
+            dir = L6480_DIR_REV;
+            p = cmd+sizeof("r");
         }
+        else if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
+                UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
+            dir =  L6480_DIR_FWD;
+            p = cmd+sizeof("f");
+        }
+        else { /* No direction given is threated as forward */
+            dir = L6480_DIR_FWD;
+            p = cmd;
+            /* Alternative implementation: No direction threated as error */
+            // res = ERR_FAILED;
+            // return res;
+        }
+        if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
+                /*Safe ABS to MARK_Reg (ACT = 1)*/
+                l6480_cmd_gountil_millisteps_s(1, dir, val32u);
 
-        l6480_cmd_gohome();
+                WAIT1_Waitms(200);
+                while (STP_BSY_GetVal() == 0){};
 
-        *handled = TRUE;
-    }
-    else {
-        CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
-        res = ERR_FAILED;
-    }
-    return res;
+                /*Reset ABS (ACT = 0)=> Set Home position*/
+                if(dir == L6480_DIR_FWD){
+                    l6480_cmd_releasesw(0,L6480_DIR_REV);
+                }else{
+                    l6480_cmd_releasesw(0,L6480_DIR_FWD);
+                }
+
+                WAIT1_Waitms(200);
+                while (STP_BSY_GetVal() == 0){};
+
+                l6480_cmd_gohome();
+
+               *handled = TRUE;
+           }
+           else {
+               CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
+               res = ERR_FAILED;
+           }
+           return res;
 }
 
 static uint8_t ParseCmdHomeParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
