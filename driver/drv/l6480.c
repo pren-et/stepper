@@ -14,7 +14,7 @@
 //#include "platform.h"
 #include "l6480.h"
 
-	#include "STP_BSY.h"
+//#include "STP_BSY.h"
 
 
 #if PL_FRDM
@@ -3290,17 +3290,18 @@ static uint8_t PrintStatus(const CLS1_StdIOType *io) {
 }
 
 static uint8_t PrintHelp(const CLS1_StdIOType *io) {
-    CLS1_SendHelpStr((unsigned char*)"l6480",                   	(unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  help|status",           	(unsigned char*)"Print help or status information\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  run (f|r) <speed>",     	(unsigned char*)"Run stepper with given direction and speed in millisteps per second\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  goto (f|r) <position>", 	(unsigned char*)"Go to given position with optional direction\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  move (f|r) <steps>",    	(unsigned char*)"Move given number of steps with given direction\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  reset",				    	(unsigned char*)"Resets the device\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  hardstop",    				(unsigned char*)"proceeds a hardstop\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  softstop",    				(unsigned char*)"proceeds a softstop\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"l6480",                       (unsigned char*)"Group of l6480 commands\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  help|status",               (unsigned char*)"Print help or status information\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  run (f|r) <speed>",         (unsigned char*)"Run stepper with given direction and speed in millisteps per second\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  goto (f|r) <position>",     (unsigned char*)"Go to given position with optional direction\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  move (f|r) <steps>",        (unsigned char*)"Move given number of steps with given direction\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  reset",                     (unsigned char*)"Resets the device\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  hardstop",                  (unsigned char*)"proceeds a hardstop\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  softstop",                  (unsigned char*)"proceeds a softstop\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  initposition (f|r) <speed>",(unsigned char*)"set home position with hallsensor\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  home (go|set)",				(unsigned char*)"goes to or overrides home position with actual position \r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  softhiz",					(unsigned char*)"proceeds a softstop and go HiZ \r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  home (go|set)",             (unsigned char*)"goes to or overrides home position with actual position\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  softhiz",                   (unsigned char*)"proceeds a softstop and go HiZ\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  kval (h|r|a|d) <value>",    (unsigned char*)"set kval\r\n", io->stdOut);
     return ERR_OK;
 }
 
@@ -3409,147 +3410,206 @@ static uint8_t ParseCmdMoveParameter(const unsigned char *cmd, bool *handled, co
 }
 
 static uint8_t ParseCmdSoftStopParameter(bool *handled, const CLS1_StdIOType *io) {
-    	uint8_t res = ERR_OK;
-    	l6480_cmd_softstop();
-        *handled = TRUE;
-        res = ERR_OK;
+    uint8_t res = ERR_OK;
+    l6480_cmd_softstop();
+    *handled = TRUE;
+    res = ERR_OK;
 
     return res;
 }
 
 static uint8_t ParseCmdSoftHizParameter(bool *handled, const CLS1_StdIOType *io) {
-    	uint8_t res = ERR_OK;
-    	l6480_cmd_softhiz();
-        *handled = TRUE;
-        res = ERR_OK;
+    uint8_t res = ERR_OK;
+    l6480_cmd_softhiz();
+    *handled = TRUE;
+    res = ERR_OK;
 
     return res;
 }
 
 static uint8_t ParseCmdHardStopParameter(bool *handled, const CLS1_StdIOType *io) {
-		uint8_t res = ERR_OK;
-    	l6480_cmd_hardstop();
-        *handled = TRUE;
-        res = ERR_OK;
+    uint8_t res = ERR_OK;
+    l6480_cmd_hardstop();
+    *handled = TRUE;
+    res = ERR_OK;
 
     return res;
 }
 
 static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
+    uint8_t res = ERR_OK;
+    l6480_cmd_resetdevice();
 
-    	uint8_t res = ERR_OK;
-    	l6480_cmd_resetdevice();
+    l6480_reg_step_mode_t stepmode_config;
+    stepmode_config.reg.step_sel = L6480_STEP_SEL_MICRO_128;                //128 steps
+    stepmode_config.reg.sync_sel = 0;               //sync unimportant due to BUSY - mode
+    stepmode_config.reg.sync_en = 0;                //Busy mode
+    l6480_set_step_mode(stepmode_config.raw.data);
 
-    	l6480_reg_step_mode_t stepmode_config;
-    	stepmode_config.reg.step_sel = L6480_STEP_SEL_MICRO_128; 				//128 steps
-    	stepmode_config.reg.sync_sel = 0;				//sync unimportant due to BUSY - mode
-    	stepmode_config.reg.sync_en = 0;				//Busy mode
-    	l6480_set_step_mode(stepmode_config.raw.data);
+    l6480_reg_config_t config;
+    config.reg.osc_sel = 0;  //unused
+    config.reg.ext_clk = 0;  //unused
+    config.reg.sw_mode = 1;  //user disposal
+    config.reg.en_vscomp  = 0; //Bridge shut down
+    config.reg.oc_sd   = 1;     //Bridge shutdown
+    config.reg.uvloval = 0;     //6.9V,6.3V etc
+    config.reg.vccval  = 0;     //7.5V
+    config.reg.f_pwm_dec = 4;
+    config.reg.f_pwm_int = 1;
+    l6480_set_config(config.raw.data);
 
-    	l6480_reg_config_t config;
-        config.reg.osc_sel = 0;  //unused
-        config.reg.ext_clk = 0;  //unused
-        config.reg.sw_mode = 1;  //user disposal
-        config.reg.en_vscomp  = 0; //Bridge shut down
-        config.reg.oc_sd   = 1; 	//Bridge shutdown
-        config.reg.uvloval = 0;		//6.9V,6.3V etc
-        config.reg.vccval  = 0;		//7.5V
-        config.reg.f_pwm_dec = 4;
-        config.reg.f_pwm_int = 1;
-    	l6480_set_config(config.raw.data);
+    l6480_set_ocd_th_millivolt(1000);           // Overcurrentdetection Treshold
+    l6480_set_stall_th_millivolt(1000);         // Stalldetection Tresold
+    l6480_set_gatecfg1_igate_milliampere(96);   // Gatestrom
+    l6480_set_gatecfg1_tcc_nanosecond(250);     // Bestromungszeiten
+    l6480_set_gatecfg1_tboost_nanosecond(125);
+    l6480_set_gatecfg2_tdt_nanosecond(250);
+    l6480_set_gatecfg2_tblank_nanosecond(250);  // Pausenzeit Messung
+    l6480_set_kval_hold(16);                        // KVAL Motor Stillstand
+    l6480_set_kval_run(16);                     // kVAL Motor Run
+    l6480_set_kval_acc(16);
+    l6480_set_kval_dec(16);
+    l6480_cmd_hardstop();
 
-		l6480_set_ocd_th_millivolt(1000); 			// Overcurrentdetection Treshold
-		l6480_set_stall_th_millivolt(1000); 		// Stalldetection Tresold
-		l6480_set_gatecfg1_igate_milliampere(96);	// Gatestrom
-		l6480_set_gatecfg1_tcc_nanosecond(250);		// Bestromungszeiten
-		l6480_set_gatecfg1_tboost_nanosecond(125);
-		l6480_set_gatecfg2_tdt_nanosecond(250);
-		l6480_set_gatecfg2_tblank_nanosecond(250);	// Pausenzeit Messung
-		l6480_set_kval_hold(254);						// KVAL Motor Stillstand
-		l6480_set_kval_run(254);						// kVAL Motor Run
-		l6480_set_kval_acc(254);
-		l6480_set_kval_dec(254);
-    	l6480_cmd_hardstop();
-
-        *handled = TRUE;
-        res = ERR_OK;
+    *handled = TRUE;
+    res = ERR_OK;
 
     return res;
 }
 
 static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
-	const unsigned char *p;
-	    uint32_t val32u;
-	    uint8_t res = ERR_OK;
-	    l6480_dir_t dir;
+    const unsigned char *p;
+    uint32_t val32u;
+    uint8_t res = ERR_OK;
+    l6480_dir_t dir;
 
-	    if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
-	        UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
-	        dir = L6480_DIR_REV;
-	        p = cmd+sizeof("r");
-	    }
-	    else if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
-	            UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
-	        dir =  L6480_DIR_FWD;
-	        p = cmd+sizeof("f");
-	    }
-	    else { /* No direction given is threated as forward */
-	        dir = L6480_DIR_FWD;
-	        p = cmd;
-	        /* Alternative implementation: No direction threated as error */
-	        // res = ERR_FAILED;
-	        // return res;
-	    }
-	    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
-	    		/*Safe ABS to MARK_Reg (ACT = 1)*/
-	    		l6480_cmd_gountil_millisteps_s(1, dir, val32u);
+    if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
+            UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
+        dir = L6480_DIR_REV;
+        p = cmd+sizeof("r");
+    }
+    else if (UTIL1_strncmp((char*)cmd, (char*)"f", sizeof("f")-1)==0 ||
+            UTIL1_strncmp((char*)cmd, (char*)"F", sizeof("F")-1)==0) {
+        dir =  L6480_DIR_FWD;
+        p = cmd+sizeof("f");
+    }
+    else { /* No direction given is threated as forward */
+        dir = L6480_DIR_FWD;
+        p = cmd;
+        /* Alternative implementation: No direction threated as error */
+        // res = ERR_FAILED;
+        // return res;
+    }
+    if (UTIL1_ScanDecimal32uNumber(&p, &val32u)==ERR_OK) {
+        /*Safe ABS to MARK_Reg (ACT = 1)*/
+        l6480_cmd_gountil_millisteps_s(1, dir, val32u);
 
 
-	    	 //   while (!STP_BSY_GetVal()){};
+        //   while (!STP_BSY_GetVal()){};
 
-	    		/*Reset ABS (ACT = 0)=> Set Home position*/
-	    		if(dir==L6480_DIR_FWD){
-	    			l6480_cmd_releasesw(0,L6480_DIR_REV);
-	    		}else{
-	    			l6480_cmd_releasesw(0,L6480_DIR_FWD);
-	    		}
+        /*Reset ABS (ACT = 0)=> Set Home position*/
+        if(dir==L6480_DIR_FWD){
+            l6480_cmd_releasesw(0,L6480_DIR_REV);
+        }else{
+            l6480_cmd_releasesw(0,L6480_DIR_FWD);
+        }
 
-	    		l6480_cmd_gohome();
+        l6480_cmd_gohome();
 
-	           *handled = TRUE;
-	       }
-	       else {
-	           CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
-	           res = ERR_FAILED;
-	       }
-	       return res;
+        *handled = TRUE;
+    }
+    else {
+        CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
+        res = ERR_FAILED;
+    }
+    return res;
 }
 
 static uint8_t ParseCmdHomeParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
-	const unsigned char *p;
-	    uint32_t val32u;
-	    uint8_t res = ERR_OK;
-	    l6480_dir_t dir;
+    const unsigned char *p;
+    uint32_t val32u;
+    uint8_t res = ERR_OK;
+    l6480_dir_t dir;
 
-	    if (UTIL1_strcmp((char*)cmd, (char*)"go")==0 ){
-    		l6480_cmd_gohome();
-            *handled = TRUE;
-	    }
-	    else if (UTIL1_strcmp((char*)cmd, (char*)"set")==0)  {
-	    	l6480_cmd_resetpos();
-			*handled = TRUE;
-	    }
-	    else { /* No direction given is threated as forward */
+    if (UTIL1_strcmp((char*)cmd, (char*)"go")==0 ){
+        l6480_cmd_gohome();
+        *handled = TRUE;
+    }
+    else if (UTIL1_strcmp((char*)cmd, (char*)"set")==0)  {
+        l6480_cmd_resetpos();
+        *handled = TRUE;
+    }
+    else { /* No direction given is threated as forward */
 
-	        /* Alternative implementation: No direction threated as error */
-	         res = ERR_FAILED;
-	         return res;
-	    }
+        /* Alternative implementation: No direction threated as error */
+         res = ERR_FAILED;
+         return res;
+    }
 
 
-	    return res;
+    return res;
 }
 
+static uint8_t ParseCmdKvalParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
+    enum kval_select {KVAL_SEL_HOLD, KVAL_SEL_RUN, KVAL_SEL_ACC, KVAL_SEL_DEC, KVAL_SEL_INV};
+    enum kval_select sel = KVAL_SEL_INV;
+    const unsigned char *p;
+    uint8_t res = ERR_OK;
+    uint8_t kval;
+
+    if (UTIL1_strncmp((char*)cmd, (char*)"h", sizeof("h")-1)==0 ||
+        UTIL1_strncmp((char*)cmd, (char*)"H", sizeof("H")-1)==0) {
+        sel = KVAL_SEL_HOLD;
+        p = cmd + sizeof("h");
+    }
+    else if (UTIL1_strncmp((char*)cmd, (char*)"r", sizeof("r")-1)==0 ||
+            UTIL1_strncmp((char*)cmd, (char*)"R", sizeof("R")-1)==0) {
+        sel = KVAL_SEL_RUN;
+        p = cmd + sizeof("r");
+    }
+    else if (UTIL1_strncmp((char*)cmd, (char*)"a", sizeof("a")-1)==0 ||
+            UTIL1_strncmp((char*)cmd, (char*)"A", sizeof("A")-1)==0) {
+        sel = KVAL_SEL_ACC;
+        p = cmd + sizeof("a");
+    }
+    else if (UTIL1_strncmp((char*)cmd, (char*)"d", sizeof("d")-1)==0 ||
+            UTIL1_strncmp((char*)cmd, (char*)"D", sizeof("D")-1)==0) {
+        sel = KVAL_SEL_DEC;
+        p = cmd + sizeof("d");
+    }
+    else {
+        p = cmd;
+    }
+    if (UTIL1_ScanDecimal8uNumber(&p, &kval)==ERR_OK) {
+        switch (sel) {
+            case KVAL_SEL_HOLD:
+                l6480_set_kval_hold(kval);
+                *handled = TRUE;
+                break;
+            case KVAL_SEL_RUN:
+                l6480_set_kval_run(kval);
+                *handled = TRUE;
+                break;
+            case KVAL_SEL_ACC:
+                l6480_set_kval_acc(kval);
+                *handled = TRUE;
+                break;
+            case KVAL_SEL_DEC:
+                l6480_set_kval_dec(kval);
+                *handled = TRUE;
+                break;
+            default:
+                CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
+                res = ERR_FAILED;
+                break;
+        }
+    }
+    else {
+        CLS1_SendStr((unsigned char*)"Wrong argument\r\n", io->stdErr);
+        res = ERR_FAILED;
+    }
+    return res;
+}
 
 uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     if      (UTIL1_strcmp((char*)cmd, CLS1_CMD_HELP)     == 0 ||
@@ -3582,41 +3642,48 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     else if (UTIL1_strncmp((char*)cmd, "stepper move ",  sizeof("stepper move ")-1)   ==0) {
         return ParseCmdMoveParameter(cmd+sizeof("stepper move ")-1, handled, io);
     }
-    else if (UTIL1_strcmp((char*)cmd, "stepper softstop")   ==0) {
-        return ParseCmdSoftStopParameter(handled, io);
-    }
     else if (UTIL1_strcmp((char*)cmd, "l6480 softstop")     ==0) {
         return ParseCmdSoftStopParameter(handled, io);
     }
-    else if (UTIL1_strcmp((char*)cmd, "stepper hardstop")   ==0) {
-        return ParseCmdHardStopParameter(handled, io);
+    else if (UTIL1_strcmp((char*)cmd, "stepper softstop")   ==0) {
+        return ParseCmdSoftStopParameter(handled, io);
     }
     else if (UTIL1_strcmp((char*)cmd, "l6480 hardstop")     ==0) {
         return ParseCmdHardStopParameter(handled, io);
     }
-    else if (UTIL1_strcmp((char*)cmd, "stepper reset")   ==0) {
-        return ParseCmdResetParameter(handled, io);
+    else if (UTIL1_strcmp((char*)cmd, "stepper hardstop")   ==0) {
+        return ParseCmdHardStopParameter(handled, io);
     }
     else if (UTIL1_strcmp((char*)cmd, "l6480 reset")     ==0) {
         return ParseCmdResetParameter(handled, io);
     }
+    else if (UTIL1_strcmp((char*)cmd, "stepper reset")   ==0) {
+        return ParseCmdResetParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",  sizeof("l6480 initposition ")-1)   ==0) {
+        return ParseCmdInitPositionParameter(cmd+sizeof("l6480 initposition ")-1, handled, io);
+    }
     else if (UTIL1_strncmp((char*)cmd, "stepper initposition ",  sizeof("stepper initposition ")-1)   ==0) {
         return ParseCmdInitPositionParameter(cmd+sizeof("stepper initposition ")-1, handled, io);
     }
-
-    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",  sizeof("l6480 initposition ")-1)   ==0) {
-        return ParseCmdInitPositionParameter(cmd+sizeof("l6480 initposition ")-1, handled, io);
+    else if (UTIL1_strncmp((char*)cmd, "l6480 home ",  sizeof("l6480 home ")-1)   ==0) {
+        return ParseCmdHomeParameter(cmd+sizeof("l6480 home ")-1, handled, io);
     }
     else if (UTIL1_strncmp((char*)cmd, "stepper home ",  sizeof("stepper home ")-1)   ==0) {
         return ParseCmdHomeParameter(cmd+sizeof("stepper home ")-1, handled, io);
     }
-
-    else if (UTIL1_strncmp((char*)cmd, "l6480 home ",  sizeof("l6480 home ")-1)   ==0) {
-        return ParseCmdHomeParameter(cmd+sizeof("l6480 home ")-1, handled, io);
-    }
     else if (UTIL1_strcmp((char*)cmd, "l6480 softhiz")     ==0) {
-            return ParseCmdSoftHizParameter(handled, io);
-        }
+        return ParseCmdSoftHizParameter(handled, io);
+    }
+    else if (UTIL1_strcmp((char*)cmd, "stepper softhiz")     ==0) {
+        return ParseCmdSoftHizParameter(handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "l6480 kval ",  sizeof("l6480 kval ")-1)   ==0) {
+        return ParseCmdKvalParameter(cmd+sizeof("l6480 kval ")-1, handled, io);
+    }
+    else if (UTIL1_strncmp((char*)cmd, "stepper kval ",  sizeof("stepper kval ")-1)   ==0) {
+        return ParseCmdKvalParameter(cmd+sizeof("stepper kval ")-1, handled, io);
+    }
 
     return ERR_OK;
 }
