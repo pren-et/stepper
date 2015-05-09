@@ -3518,9 +3518,7 @@ static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *han
 	    		WAIT1_Waitms(200);
 	    		while (STP_BSY_GetVal() == 0){};
 
-	    		l6480_cmd_move(dir,2500);
-
-	    		//l6480_cmd_gohome();
+	    		l6480_cmd_gohome();
 
 	           *handled = TRUE;
 	       }
