@@ -22,7 +22,7 @@
 
 #if PL_FRDM
     #include "Stepperspi.h"
-    #include "shell.h"
+    #include "Shell.h"
 #endif /* PL_FRDM */
 
 #if PL_HAS_SHELL

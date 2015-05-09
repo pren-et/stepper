@@ -13,12 +13,12 @@
 
 //#include "platform.h"
 #include "l6480.h"
-#include "STP_BSY.h"
-#include "WAIT1.h"
 
 #if PL_FRDM
+    #include "STP_BSY.h"
+    #include "WAIT1.h"
     #include "Stepperspi.h"
-    #include "shell.h"
+    #include "Shell.h"
 #endif /* PL_FRDM */
 
 #if PL_HAS_SHELL
