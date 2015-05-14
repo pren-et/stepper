@@ -3297,7 +3297,7 @@ static uint8_t PrintHelp(const CLS1_StdIOType *io) {
     CLS1_SendHelpStr((unsigned char*)"  reset",                     (unsigned char*)"Resets the device\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  hardstop",                  (unsigned char*)"proceeds a hardstop\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  softstop",                  (unsigned char*)"proceeds a softstop\r\n", io->stdOut);
-    CLS1_SendHelpStr((unsigned char*)"  initposition (f|r) <speed>",(unsigned char*)"set home position with hallsensor\r\n", io->stdOut);
+    CLS1_SendHelpStr((unsigned char*)"  init (f|r) <speed>",        (unsigned char*)"set home position with hallsensor\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  home (go|set)",             (unsigned char*)"goes to or overrides home position with actual position\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  softhiz",                   (unsigned char*)"proceeds a softstop and go HiZ\r\n", io->stdOut);
     CLS1_SendHelpStr((unsigned char*)"  kval (h|r|a|d) <value>",    (unsigned char*)"set kval\r\n", io->stdOut);
@@ -3476,7 +3476,7 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
     return res;
 }
 
-static uint8_t ParseCmdInitPositionParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
+static uint8_t ParseCmdInitParameter(const unsigned char *cmd, bool *handled, const CLS1_StdIOType *io) {
     const unsigned char *p;
         uint32_t val32u;
         uint8_t res = ERR_OK;
@@ -3662,11 +3662,11 @@ uint8_t l6480_ParseCommand(const unsigned char *cmd, bool *handled, const CLS1_S
     else if (UTIL1_strcmp((char*)cmd, "stepper reset")   ==0) {
         return ParseCmdResetParameter(handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "l6480 initposition ",  sizeof("l6480 initposition ")-1)   ==0) {
-        return ParseCmdInitPositionParameter(cmd+sizeof("l6480 initposition ")-1, handled, io);
+    else if (UTIL1_strncmp((char*)cmd, "l6480 init ",  sizeof("l6480 init ")-1)   ==0) {
+        return ParseCmdInitParameter(cmd+sizeof("l6480 init ")-1, handled, io);
     }
-    else if (UTIL1_strncmp((char*)cmd, "stepper initposition ",  sizeof("stepper initposition ")-1)   ==0) {
-        return ParseCmdInitPositionParameter(cmd+sizeof("stepper initposition ")-1, handled, io);
+    else if (UTIL1_strncmp((char*)cmd, "stepper init ",  sizeof("stepper init ")-1)   ==0) {
+        return ParseCmdInitParameter(cmd+sizeof("stepper init ")-1, handled, io);
     }
     else if (UTIL1_strncmp((char*)cmd, "l6480 home ",  sizeof("l6480 home ")-1)   ==0) {
         return ParseCmdHomeParameter(cmd+sizeof("l6480 home ")-1, handled, io);
