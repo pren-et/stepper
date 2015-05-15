@@ -3493,30 +3493,30 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
 
     #ifdef PL_T27
         l6480_reg_gatecfg1_t gatecfg1;
-        gatecfg1.tcc    = L6480_GATECFG1_TCC_250;       // Constant current phase duration 
-        gatecfg1.igate  = L6480_GATECFG1_IGATE_96;      // Gate current
-        gatecfg1.tboost = L6480_GATECFG1_TBOOST_125;    // Overboost phase duration
-        gatecfg1.wd_en  = 0;                            // clock source monitoring
-        l6480_set_gatecfg1(gatecfg1);
+        gatecfg1.reg.tcc    = L6480_GATECFG1_TCC_250;       // Constant current phase duration 
+        gatecfg1.reg.igate  = L6480_GATECFG1_IGATE_96;      // Gate current
+        gatecfg1.reg.tboost = L6480_GATECFG1_TBOOST_125;    // Overboost phase duration
+        gatecfg1.reg.wd_en  = 0;                            // clock source monitoring
+        l6480_set_gatecfg1(gatecfg1.raw.data);
     #else
         l6480_reg_gatecfg1_t gatecfg1;
-        gatecfg1.tcc    = L6480_GATECFG1_TCC_250;       // Constant current phase duration 
-        gatecfg1.igate  = L6480_GATECFG1_IGATE_96;      // Gate current
-        gatecfg1.tboost = L6480_GATECFG1_TBOOST_125;    // Overboost phase duration
-        gatecfg1.wd_en  = 0;                            // clock source monitoring
-        l6480_set_gatecfg1(gatecfg1);
+        gatecfg1.reg.tcc    = L6480_GATECFG1_TCC_250;       // Constant current phase duration 
+        gatecfg1.reg.igate  = L6480_GATECFG1_IGATE_96;      // Gate current
+        gatecfg1.reg.tboost = L6480_GATECFG1_TBOOST_125;    // Overboost phase duration
+        gatecfg1.reg.wd_en  = 0;                            // clock source monitoring
+        l6480_set_gatecfg1(gatecfg1.raw.data);
     #endif
 
     #ifdef PL_T27
         l6480_reg_gatecfg2_t gatecfg2;
-        gatecfg2.tdt = L6480_GATECFG2_TDT_250;          // deadtime duration
-        gatecfg2.tblank = L6480_GATECFG2_BLANK_250;     // current sense blanking duration
-        l6480_set_gatecfg2(gatecfg2);
+        gatecfg2.reg.tdt = L6480_GATECFG2_TDT_250;          // deadtime duration
+        gatecfg2.reg.tblank = L6480_GATECFG2_BLANK_250;     // current sense blanking duration
+        l6480_set_gatecfg2(gatecfg2.raw.data);
     #else
         l6480_reg_gatecfg2_t gatecfg2;
-        gatecfg2.tdt = L6480_GATECFG2_TDT_250;          // deadtime duration
-        gatecfg2.tblank = L6480_GATECFG2_BLANK_250;     // current sense blanking duration
-        l6480_set_gatecfg2(gatecfg2);
+        gatecfg2.reg.tdt = L6480_GATECFG2_TDT_250;          // deadtime duration
+        gatecfg2.reg.tblank = L6480_GATECFG2_TBLANK_250;    // current sense blanking duration
+        l6480_set_gatecfg2(gatecfg2.raw.data);
     #endif
 
     #ifdef PL_T27
