@@ -3439,37 +3439,99 @@ static uint8_t ParseCmdResetParameter(bool *handled, const CLS1_StdIOType *io) {
     uint8_t res = ERR_OK;
     l6480_cmd_resetdevice();
 
-    l6480_reg_step_mode_t stepmode_config;
-    stepmode_config.reg.step_sel = L6480_STEP_SEL_MICRO_128;                //128 steps
-    stepmode_config.reg.sync_sel = 0;               //sync unimportant due to BUSY - mode
-    stepmode_config.reg.sync_en = 0;                //Busy mode
-    l6480_set_step_mode(stepmode_config.raw.data);
+    #ifdef PL_T27
+        l6480_reg_step_mode_t stepmode_config;
+        stepmode_config.reg.step_sel = L6480_STEP_SEL_MICRO_128;                //128 steps
+        stepmode_config.reg.sync_sel = 0;               //sync unimportant due to BUSY - mode
+        stepmode_config.reg.sync_en = 0;                //Busy mode
+        l6480_set_step_mode(stepmode_config.raw.data);
+    #else
+        l6480_reg_step_mode_t stepmode_config;
+        stepmode_config.reg.step_sel = L6480_STEP_SEL_MICRO_128;                //128 steps
+        stepmode_config.reg.sync_sel = 0;               //sync unimportant due to BUSY - mode
+        stepmode_config.reg.sync_en = 0;                //Busy mode
+        l6480_set_step_mode(stepmode_config.raw.data);
+    #endif
 
-    l6480_reg_config_t config;
-    config.reg.osc_sel = 0;  //unused
-    config.reg.ext_clk = 0;  //unused
-    config.reg.sw_mode = 1;  //user disposal
-    config.reg.en_vscomp  = 0; //Bridge shut down
-    config.reg.oc_sd   = 1;     //Bridge shutdown
-    config.reg.uvloval = 0;     //6.9V,6.3V etc
-    config.reg.vccval  = 0;     //7.5V
-    config.reg.f_pwm_dec = 4;
-    config.reg.f_pwm_int = 1;
-    l6480_set_config(config.raw.data);
+    #ifdef PL_T27
+        l6480_reg_config_t config;
+        config.reg.osc_sel = 0;                         //unused
+        config.reg.ext_clk = 0;                         //unused
+        config.reg.sw_mode = 1;                         //user disposal
+        config.reg.en_vscomp  = 0;                      //Bridge shut down
+        config.reg.oc_sd   = 1;                         //Bridge shutdown
+        config.reg.uvloval = 0;                         //6.9V,6.3V etc
+        config.reg.vccval  = 0;                         //7.5V
+        config.reg.f_pwm_dec = 4;
+        config.reg.f_pwm_int = 1;
+        l6480_set_config(config.raw.data);
+    #else
+        l6480_reg_config_t config;
+        config.reg.osc_sel = 0;                         //unused
+        config.reg.ext_clk = 0;                         //unused
+        config.reg.sw_mode = 1;                         //user disposal
+        config.reg.en_vscomp  = 0;                      //Bridge shut down
+        config.reg.oc_sd   = 1;                         //Bridge shutdown
+        config.reg.uvloval = 0;                         //6.9V,6.3V etc
+        config.reg.vccval  = 0;                         //7.5V
+        config.reg.f_pwm_dec = 4;
+        config.reg.f_pwm_int = 1;
+        l6480_set_config(config.raw.data);
+    #endif
 
-    l6480_set_ocd_th_millivolt(1000);           // Overcurrentdetection Treshold
-    l6480_set_stall_th_millivolt(1000);         // Stalldetection Tresold
-    l6480_set_gatecfg1_igate_milliampere(96);   // Gatestrom
-    l6480_set_gatecfg1_tcc_nanosecond(250);     // Bestromungszeiten
-    l6480_set_gatecfg1_tboost_nanosecond(125);
-    l6480_set_gatecfg2_tdt_nanosecond(250);
-    l6480_set_gatecfg2_tblank_nanosecond(250);  // Pausenzeit Messung
-    l6480_set_kval_hold(16);                        // KVAL Motor Stillstand
-    l6480_set_kval_run(16);                     // kVAL Motor Run
-    l6480_set_kval_acc(16);
-    l6480_set_kval_dec(16);
+    #ifdef PL_T27
+        l6480_set_ocd_th_millivolt(1000);               // Overcurrentdetection Threshold
+    #else
+        l6480_set_ocd_th_millivolt(1000);               // Overcurrentdetection Threshold
+    #endif
+
+    #ifdef PL_T27
+        l6480_set_stall_th_millivolt(1000);             // Stalldetection Threshold
+    #else
+        l6480_set_stall_th_millivolt(1000);             // Stalldetection Threshold
+    #endif
+
+    #ifdef PL_T27
+        l6480_reg_gatecfg1_t gatecfg1;
+        gatecfg1.tcc    = L6480_GATECFG1_TCC_250;       // Constant current phase duration 
+        gatecfg1.igate  = L6480_GATECFG1_IGATE_96;      // Gate current
+        gatecfg1.tboost = L6480_GATECFG1_TBOOST_125;    // Overboost phase duration
+        gatecfg1.wd_en  = 0;                            // clock source monitoring
+        l6480_set_gatecfg1(gatecfg1);
+    #else
+        l6480_reg_gatecfg1_t gatecfg1;
+        gatecfg1.tcc    = L6480_GATECFG1_TCC_250;       // Constant current phase duration 
+        gatecfg1.igate  = L6480_GATECFG1_IGATE_96;      // Gate current
+        gatecfg1.tboost = L6480_GATECFG1_TBOOST_125;    // Overboost phase duration
+        gatecfg1.wd_en  = 0;                            // clock source monitoring
+        l6480_set_gatecfg1(gatecfg1);
+    #endif
+
+    #ifdef PL_T27
+        l6480_reg_gatecfg2_t gatecfg2;
+        gatecfg2.tdt = L6480_GATECFG2_TDT_250;          // deadtime duration
+        gatecfg2.tblank = L6480_GATECFG2_BLANK_250;     // current sense blanking duration
+        l6480_set_gatecfg2(gatecfg2);
+    #else
+        l6480_reg_gatecfg2_t gatecfg2;
+        gatecfg2.tdt = L6480_GATECFG2_TDT_250;          // deadtime duration
+        gatecfg2.tblank = L6480_GATECFG2_BLANK_250;     // current sense blanking duration
+        l6480_set_gatecfg2(gatecfg2);
+    #endif
+
+    #ifdef PL_T27
+        l6480_set_kval_hold(16);                        // KVAL Motor hold
+        l6480_set_kval_run(16);                         // KVAL Motor running
+        l6480_set_kval_acc(16);                         // KVAL Motor accelerating
+        l6480_set_kval_dec(16);                         // KVAL Motor decelerating
+    #else
+        l6480_set_kval_hold(16);                        // KVAL Motor hold
+        l6480_set_kval_run(16);                         // KVAL Motor running
+        l6480_set_kval_acc(16);                         // KVAL Motor accelerating
+        l6480_set_kval_dec(16);                         // KVAL Motor decelerating
+    #endif
+
     l6480_cmd_hardstop();
-
     *handled = TRUE;
     res = ERR_OK;
 

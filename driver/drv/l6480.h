@@ -606,12 +606,49 @@ typedef union {
     } raw;                                  /*!< raw data access */
     struct {
         uint16_t tcc    :  5;                   /*!< duration of constant current phase */
-        uint16_t igate  :  5;                   /*!< gate current */
-        uint16_t tboost :  5;                   /*!< duration of overboost phase */
-        uint16_t wd_en  :  5;                   /*!< enable clock source monitoring */
+        uint16_t igate  :  3;                   /*!< gate current */
+        uint16_t tboost :  3;                   /*!< duration of overboost phase */
+        uint16_t wd_en  :  1;                   /*!< enable clock source monitoring */
         uint16_t unused :  4;                   /*!< unused bits */
     } reg;                                  /*!< register access */
 } l6480_reg_gatecfg1_t;
+/*! \enum l6480_gatecfg1_tcc_t
+ *  \brief enum for TCC
+ */
+typedef enum {
+    L6480_GATECFG1_TCC_125      = 0x00, /*!< TCC  125 ns */
+    L6480_GATECFG1_TCC_250      = 0x01, /*!< TCC  250 ns */
+    L6480_GATECFG1_TCC_375      = 0x02, /*!< TCC  375 ns */
+    L6480_GATECFG1_TCC_500      = 0x03, /*!< TCC  500 ns */
+    L6480_GATECFG1_TCC_625      = 0x04, /*!< TCC  625 ns */
+    L6480_GATECFG1_TCC_750      = 0x05, /*!< TCC  750 ns */
+    L6480_GATECFG1_TCC_875      = 0x06, /*!< TCC  875 ns */
+    L6480_GATECFG1_TCC_1000     = 0x07, /*!< TCC 1000 ns */
+    L6480_GATECFG1_TCC_1125     = 0x08, /*!< TCC 1125 ns */
+    L6480_GATECFG1_TCC_1250     = 0x09, /*!< TCC 1250 ns */
+    L6480_GATECFG1_TCC_1375     = 0x0A, /*!< TCC 1375 ns */
+    L6480_GATECFG1_TCC_1500     = 0x0B, /*!< TCC 1500 ns */
+    L6480_GATECFG1_TCC_1625     = 0x0C, /*!< TCC 1625 ns */
+    L6480_GATECFG1_TCC_1750     = 0x0D, /*!< TCC 1750 ns */
+    L6480_GATECFG1_TCC_1875     = 0x0E, /*!< TCC 1875 ns */
+    L6480_GATECFG1_TCC_2000     = 0x0F, /*!< TCC 2000 ns */
+    L6480_GATECFG1_TCC_2125     = 0x10, /*!< TCC 2125 ns */
+    L6480_GATECFG1_TCC_2250     = 0x11, /*!< TCC 2250 ns */
+    L6480_GATECFG1_TCC_2375     = 0x12, /*!< TCC 2375 ns */
+    L6480_GATECFG1_TCC_2500     = 0x13, /*!< TCC 2500 ns */
+    L6480_GATECFG1_TCC_2625     = 0x14, /*!< TCC 2625 ns */
+    L6480_GATECFG1_TCC_2750     = 0x15, /*!< TCC 2750 ns */
+    L6480_GATECFG1_TCC_2875     = 0x16, /*!< TCC 3875 ns */
+    L6480_GATECFG1_TCC_3000     = 0x17, /*!< TCC 3000 ns */
+    L6480_GATECFG1_TCC_3125     = 0x18, /*!< TCC 3125 ns */
+    L6480_GATECFG1_TCC_3250     = 0x19, /*!< TCC 3250 ns */
+    L6480_GATECFG1_TCC_3375     = 0x1A, /*!< TCC 3375 ns */
+    L6480_GATECFG1_TCC_3500     = 0x1B, /*!< TCC 3500 ns */
+    L6480_GATECFG1_TCC_3625     = 0x1C, /*!< TCC 3625 ns */
+    L6480_GATECFG1_TCC_3750     = 0x1D, /*!< TCC 3750 ns */
+    L6480_GATECFG1_TCC_3750_1   = 0x1E, /*!< TCC 3750 ns */
+    L6480_GATECFG1_TCC_3750_2   = 0x1F, /*!< TCC 3750 ns */
+} l6480_gatecfg1_tcc_t;
 /*! \enum l6480_gatecfg1_igate_t
  *  \brief enum for IGATE
  */
@@ -664,6 +701,56 @@ typedef union {
         uint8_t tblank  :  3;                   /*!< blanking of current sensing comparators */
     } reg;                                  /*!< register access */
 } l6480_reg_gatecfg2_t;
+/*! \enum l6480_gatecfg2_tblank_t
+ *  \brief enum for TBLANK
+ */
+typedef enum {
+    L6480_GATECFG2_TBLANK_125   = 0x00, /*!< TBLANK  125 ns */
+    L6480_GATECFG2_TBLANK_250   = 0x01, /*!< TBLANK  250 ns */
+    L6480_GATECFG2_TBLANK_375   = 0x02, /*!< TBLANK  375 ns */
+    L6480_GATECFG2_TBLANK_500   = 0x03, /*!< TBLANK  500 ns */
+    L6480_GATECFG2_TBLANK_625   = 0x04, /*!< TBLANK  625 ns */
+    L6480_GATECFG2_TBLANK_750   = 0x05, /*!< TBLANK  750 ns */
+    L6480_GATECFG2_TBLANK_875   = 0x06, /*!< TBLANK  875 ns */
+    L6480_GATECFG2_TBLANK_1000  = 0x07, /*!< TBLANK 1000 ns */
+} l6480_gatecfg2_tblank_t;
+/*! \enum l6480_gatecfg2_tdt_t
+ *  \brief enum for TDT
+ */
+typedef enum {
+    L6480_GATECFG2_TDT_125      = 0x00, /*!< TDT  125 ns */
+    L6480_GATECFG2_TDT_250      = 0x01, /*!< TDT  250 ns */
+    L6480_GATECFG2_TDT_375      = 0x02, /*!< TDT  375 ns */
+    L6480_GATECFG2_TDT_500      = 0x03, /*!< TDT  500 ns */
+    L6480_GATECFG2_TDT_625      = 0x04, /*!< TDT  625 ns */
+    L6480_GATECFG2_TDT_750      = 0x05, /*!< TDT  750 ns */
+    L6480_GATECFG2_TDT_875      = 0x06, /*!< TDT  875 ns */
+    L6480_GATECFG2_TDT_1000     = 0x07, /*!< TDT 1000 ns */
+    L6480_GATECFG2_TDT_1125     = 0x08, /*!< TDT 1125 ns */
+    L6480_GATECFG2_TDT_1250     = 0x09, /*!< TDT 1250 ns */
+    L6480_GATECFG2_TDT_1375     = 0x0A, /*!< TDT 1375 ns */
+    L6480_GATECFG2_TDT_1500     = 0x0B, /*!< TDT 1500 ns */
+    L6480_GATECFG2_TDT_1625     = 0x0C, /*!< TDT 1625 ns */
+    L6480_GATECFG2_TDT_1750     = 0x0D, /*!< TDT 1750 ns */
+    L6480_GATECFG2_TDT_1875     = 0x0E, /*!< TDT 1875 ns */
+    L6480_GATECFG2_TDT_2000     = 0x0F, /*!< TDT 2000 ns */
+    L6480_GATECFG2_TDT_2125     = 0x10, /*!< TDT 2125 ns */
+    L6480_GATECFG2_TDT_2250     = 0x11, /*!< TDT 2250 ns */
+    L6480_GATECFG2_TDT_2375     = 0x12, /*!< TDT 2375 ns */
+    L6480_GATECFG2_TDT_2500     = 0x13, /*!< TDT 2500 ns */
+    L6480_GATECFG2_TDT_2625     = 0x14, /*!< TDT 2625 ns */
+    L6480_GATECFG2_TDT_2750     = 0x15, /*!< TDT 2750 ns */
+    L6480_GATECFG2_TDT_2875     = 0x16, /*!< TDT 3875 ns */
+    L6480_GATECFG2_TDT_3000     = 0x17, /*!< TDT 3000 ns */
+    L6480_GATECFG2_TDT_3125     = 0x18, /*!< TDT 3125 ns */
+    L6480_GATECFG2_TDT_3250     = 0x19, /*!< TDT 3250 ns */
+    L6480_GATECFG2_TDT_3375     = 0x1A, /*!< TDT 3375 ns */
+    L6480_GATECFG2_TDT_3500     = 0x1B, /*!< TDT 3500 ns */
+    L6480_GATECFG2_TDT_3625     = 0x1C, /*!< TDT 3625 ns */
+    L6480_GATECFG2_TDT_3750     = 0x1D, /*!< TDT 3750 ns */
+    L6480_GATECFG2_TDT_3875     = 0x1E, /*!< TDT 3875 ns */
+    L6480_GATECFG2_TDT_4000     = 0x1F, /*!< TDT 4000 ns */
+} l6480_gatecfg2_tdt_t;
 
 /*! \name config
  * @{

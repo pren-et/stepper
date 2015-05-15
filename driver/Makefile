@@ -10,7 +10,7 @@ run:
 	./main.out
 
 syntax: 
-	gcc -Wall -Wparentheses -c ../SW/StepperTest/Sources/l6480.c -fsyntax-only
+	gcc -Wall -Wparentheses -c drv/l6480.c -fsyntax-only
 
 doxygen:
 	doxygen l6480.doxyfile
